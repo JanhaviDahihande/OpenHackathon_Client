@@ -24,9 +24,8 @@ function HeaderLinks({ ...props }) {
     <List className={classes.list }>
     <ListItem className={classes.listItem}>
         <Button
-          href="https://www.creative-tim.com/product/material-kit-react"
+          href="/"
           color="transparent"
-          target="_blank"
           className={classes.navLink}
         >
            About
@@ -34,55 +33,40 @@ function HeaderLinks({ ...props }) {
       </ListItem>
       <ListItem className={classes.listItem}>
         <Button
-          href="https://www.creative-tim.com/product/material-kit-react"
+          href="/index"
           color="transparent"
-          target="_blank"
           className={classes.navLink}
         >
-           Past
+           Tickets
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
         <Button
-          href="https://www.creative-tim.com/product/material-kit-react"
+          href="/index"
           color="transparent"
-          target="_blank"
           className={classes.navLink}
         >
-           Testimonials
+           Actions
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
         <Button
-          href="https://www.creative-tim.com/product/material-kit-react"
+          href="/index"
           color="transparent"
-          target="_blank"
           className={classes.navLink}
         >
           {/* <CloudDownload className={classes.icons} />  */}
-          Teams
+          Team
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
         <Button
-          href="https://www.creative-tim.com/product/material-kit-react"
+          href="/index"
           color="transparent"
-          target="_blank"
           className={classes.navLink}
         >
           {/* <CloudDownload className={classes.icons} />  */}
-          Tickets
-        </Button>
-      </ListItem>
-      <ListItem className={classes.listItem}>
-        <Button
-          href="https://www.creative-tim.com/product/material-kit-react"
-          color="transparent"
-          target="_blank"
-          className={classes.navLink}
-        >
-          {/* <CloudDownload className={classes.icons} />  */}
-          Contact
+          Work with us
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
@@ -99,8 +83,7 @@ function HeaderLinks({ ...props }) {
             //   All components
             // </Link>,
             <a
-              href="https://creativetimofficial.github.io/material-kit-react/#/documentation"
-              target="_blank"
+              href="/index"
               className={classes.dropdownLink}
             >
               Blog
@@ -110,9 +93,8 @@ function HeaderLinks({ ...props }) {
       </ListItem>
       <ListItem className={classes.listItem}>
         <Button
-          href="https://www.creative-tim.com/product/material-kit-react"
+          href="http://localhost:3000/register"
           color="transparent"
-          target="_blank"
           className={classes.navLink}
         >
            Sign Up
@@ -120,9 +102,8 @@ function HeaderLinks({ ...props }) {
       </ListItem>
       <ListItem className={classes.listItem}>
         <Button
-          href="https://www.creative-tim.com/product/material-kit-react"
+          href="http://localhost:3000/login"
           color="transparent"
-          target="_blank"
           className={classes.navLink}
         >
            Sign In

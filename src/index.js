@@ -12,6 +12,11 @@ import ProfilePage from "views/ProfilePage/ProfilePage.jsx";
 import LoginPage from "views/LoginPage/LoginPage.jsx";
 import RegisterPage from "views/RegisterPage/RegisterPage.jsx";
 import ConfirmPage from "views/ConfirmPage/ConfirmPage.jsx";
+import CreateOrganization from "views/CreateOrganization/CreateOrganization.jsx";
+import UserOrganization from "views/UserOrganization/UserOrganization.jsx";
+import MyHackathon from "./views/MyHackathon/MyHackathon";
+
+import ProductSection from "./views/LandingPage/Sections/ProductSection";
 
 var hist = createBrowserHistory();
 
@@ -22,6 +27,11 @@ ReactDOM.render(
       <Route path="/profile" component={ProfilePage} />
       <Route path="/login" component={LoginPage} />
       <Route path="/register" component={RegisterPage} />
+      <Route path="/create_organization" component={CreateOrganization} />
+      <Route path="/user_organization" component={UserOrganization} />
+      <Route path="/my_hackathon" component={MyHackathon} />
+
+      <Route path="/about" component={ProductSection} />
       <Route path="/" component={Components} />
       <Route path="/confirm/:id" component={ConfirmPage} />
     </Switch>

@@ -6,6 +6,10 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Chat from "@material-ui/icons/Chat";
 import VerifiedUser from "@material-ui/icons/VerifiedUser";
 import Fingerprint from "@material-ui/icons/Fingerprint";
+import Group from "@material-ui/icons/Group";
+import AttachMoney from "@material-ui/icons/AttachMoney";
+import CalendarToday from "@material-ui/icons/CalendarToday";
+import AccessTime from "@material-ui/icons/AccessTime";
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
@@ -36,7 +40,7 @@ class ProductSection extends React.Component {
               <InfoArea
                 title="Participants"
                 description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
-                icon={Chat}
+                icon={Group}
                 iconColor="info"
                 vertical
               />
@@ -45,7 +49,7 @@ class ProductSection extends React.Component {
               <InfoArea
                 title="Annual"
                 description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
-                icon={VerifiedUser}
+                icon={CalendarToday}
                 iconColor="success"
                 vertical
               />
@@ -54,7 +58,7 @@ class ProductSection extends React.Component {
               <InfoArea
                 title="Schedule"
                 description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
-                icon={Fingerprint}
+                icon={AccessTime}
                 iconColor="danger"
                 vertical
               />
@@ -63,7 +67,7 @@ class ProductSection extends React.Component {
               <InfoArea
                 title="Tickets"
                 description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
-                icon={Fingerprint}
+                icon={AttachMoney}
                 iconColor="danger"
                 vertical
               />

@@ -26,7 +26,7 @@ function InfoArea({ ...props }) {
       </div>
       <div className={classes.descriptionWrapper}>
         <h4 className={classes.title}>{title}</h4>
-        <p className={classes.description}>{description}</p>
+        <h6 className={classes.description} style={{fontWeight: "bold"}}>{description}</h6>
       </div>
     </div>
   );

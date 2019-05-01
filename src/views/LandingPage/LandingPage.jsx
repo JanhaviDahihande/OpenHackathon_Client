@@ -26,6 +26,7 @@ import TeamSection from "./Sections/TeamSection.jsx";
 import WorkSection from "./Sections/WorkSection.jsx";
 import MenuSection from "./Sections/MenuSection.jsx";
 import CarousalSection from "./Sections/CarousalSection.jsx";
+import ActionsSection from "./Sections/ActionsSection.jsx";
 
 const dashboardRoutes = [];
 
@@ -58,12 +59,10 @@ class LandingPage extends React.Component {
                 <Button
                   color="danger"
                   size="lg"
-                  href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                  target="_blank"
+                  href="/register"
                   rel="noopener noreferrer"
                 >
-                  <i className="fas fa-play" />
-                  Watch video
+                  Register now
                 </Button>
               </GridItem>
             </GridContainer>
@@ -76,6 +75,7 @@ class LandingPage extends React.Component {
             <ProductSection />
             <CarousalSection/>
             <TicketSection />
+            <ActionsSection/>
             <TeamSection />
             <WorkSection />
           </div>
