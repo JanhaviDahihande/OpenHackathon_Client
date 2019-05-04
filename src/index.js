@@ -15,8 +15,10 @@ import ConfirmPage from "views/ConfirmPage/ConfirmPage.jsx";
 import CreateOrganization from "views/CreateOrganization/CreateOrganization.jsx";
 import UserOrganization from "views/UserOrganization/UserOrganization.jsx";
 import MyHackathon from "./views/MyHackathon/MyHackathon";
+import RegistrationConfirmation from "./views/RegistrationConfirmation/RegistrationConfirmation";
 
 import ProductSection from "./views/LandingPage/Sections/ProductSection";
+import CreateHackathon from "./views/CreateHackathon/CreateHackathon";
 
 var hist = createBrowserHistory();
 
@@ -30,6 +32,8 @@ ReactDOM.render(
       <Route path="/create_organization" component={CreateOrganization} />
       <Route path="/user_organization" component={UserOrganization} />
       <Route path="/my_hackathon" component={MyHackathon} />
+      <Route path="/registration-confirmation" component={RegistrationConfirmation} />
+      <Route path="/create_hackathon" component={CreateHackathon} />
 
       <Route path="/about" component={ProductSection} />
       <Route path="/" component={Components} />

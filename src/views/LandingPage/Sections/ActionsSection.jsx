@@ -101,6 +101,17 @@ class ActionsSection extends React.Component {
                 </CardBody>
               </Card>
             </GridItem>
+            <GridItem xs={12} sm={12} md={4}>
+            <Card style={{width: "20rem"}}>
+                <CardHeader color="warning"><h4><b> Create Hackathon</b></h4></CardHeader>
+                <CardBody>
+                  <h4 className={classes.cardTitle}>Create a new hackathon from here!</h4>
+                  <Button color="primary"
+                  component={Link} to="/create_hackathon"
+                  >Go</Button>
+                </CardBody>
+              </Card>
+            </GridItem>
           </GridContainer>
         </div>
       </div>

@@ -23,48 +23,55 @@ import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
 import image from "assets/img/bg7.jpg";
 
-
 class RegisterPage extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
       cardAnimaton: "cardHidden",
-      recipient: '',
-      sender: 'janhavidahihande@gmail.com',
-      subject: 'Hello',
-      text: 'Test email',
+      first_name:'',
+      last_name:'',
+      email_id:'',
+      password:'',
+      confirm_password:'',
     };
   }
   componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
     setTimeout(
       function() {
-        this.setState({ cardAnimaton: "" });
+        this.setState({ cardAnimaton: "", first_name:"", last_name:"", email_id:"", password:"" });
       }.bind(this),
       700
     );
   }
 
-  sendEmail = _ => {
-    const { recipient, sender, topic, text } = this.state;
-    fetch('http://localhost:4000/send-email', {
+  sendEmail = (event: SyntheticEvent<>) =>  {
+    const { first_name, last_name, email_id,  password} = this.state;
+    console.log(first_name +"__" + last_name +"__" +  email_id +"__" +  password);
+    fetch('http://localhost:5000/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        recipient: recipient,
-        sender: sender,
-        topic: "Test email",
-        text: "Hi!",
+        firstname: first_name,
+        lastname: last_name,
+        email: email_id,
+        password: password,
       }),
+      // body: JSON.stringify({
+      //   recipient: recipient,
+      //   sender: sender,
+      //   topic: "Test email",
+      //   text: "Hi!",
+      // }),
     })
-      // .then(res => res.json())
-      // .then(json => {
-      //   console.log('json', json);
+      .then(res => res.json())
+      .then(json => {
+        console.log('json', json);
        
-      // });
+      });
 
     // fetch(`http://127.0.0.1:4000/send-email?recipient=${email.recipient}&sender=${email.sender}&topic=${email.subject}&text=${email.text}`) //query string url
     //   .catch(err => console.error(err))
@@ -75,7 +82,7 @@ class RegisterPage extends React.Component {
       console.log(response);
     }
     const { classes, ...rest } = this.props;
-    const { recipient } = this.state;
+    const { first_name, last_name, email_id,  password, confirm_password} = this.state;
     return (
       <div>
         <Header
@@ -106,6 +113,8 @@ class RegisterPage extends React.Component {
                       <CustomInput
                         labelText="First Name"
                         id="first_name"
+                        onChange={this.handlesOnFirstNameChange}
+                        value={first_name}
                         formControlProps={{
                           fullWidth: true
                         }}
@@ -121,6 +130,8 @@ class RegisterPage extends React.Component {
                       <CustomInput
                         labelText="Last Name"
                         id="last_name"
+                        value={last_name}
+                        onChange={this.handlesOnLastNameChange}
                         formControlProps={{
                           fullWidth: true
                         }}
@@ -136,7 +147,8 @@ class RegisterPage extends React.Component {
                       <CustomInput
                         labelText="Email id"
                         id="email_id"
-                        value={recipient}
+                        value={email_id}
+                        onChange={this.handlesOnEmailChange}
                         formControlProps={{
                           fullWidth: true
                         }}
@@ -153,6 +165,8 @@ class RegisterPage extends React.Component {
                       <CustomInput
                         labelText="Password"
                         id="password"
+                        value={password}
+                        onChange={this.handlesOnPasswordChange}
                         formControlProps={{
                           fullWidth: true
                         }}
@@ -170,6 +184,8 @@ class RegisterPage extends React.Component {
                       <CustomInput
                         labelText="Confirm Password"
                         id="confirm_password"
+                        value={confirm_password}
+                        onChange={this.handlesOnConfirmPasswordChange}
                         formControlProps={{
                           fullWidth: true
                         }}
@@ -200,15 +216,44 @@ class RegisterPage extends React.Component {
       </div>
     );
   }
+  handlesOnFirstNameChange = (event: SyntheticEvent<>) => {
+    alert("Inside name");
+    if (event) {
+      //event.preventDefault();
+      // should add some validator before setState in real use cases
+      this.setState({ first_name: event.target.value.trim() });
+    }
+  };
+
+  handlesOnLastNameChange = (event: SyntheticEvent<>) => {
+    if (event) {
+      //event.preventDefault();
+      // should add some validator before setState in real use cases
+      this.setState({ last_name: event.target.value.trim() });
+    }
+  };
 
   handlesOnEmailChange = (event: SyntheticEvent<>) => {
-    console.log("june");
     if (event) {
-      event.preventDefault();
-     
+      //event.preventDefault();
       // should add some validator before setState in real use cases
-      this.setState({ recipient: event.target.value.trim() });
-      console.log(this.state.recipient);
+      this.setState({ email_id: event.target.value.trim() });
+    }
+  };
+
+  handlesOnPasswordChange = (event: SyntheticEvent<>) => {
+    if (event) {
+      //event.preventDefault();
+      // should add some validator before setState in real use cases
+      this.setState({ password: event.target.value.trim() });
+    }
+  };
+
+  handlesOnConfirmPasswordChange = (event: SyntheticEvent<>) => {
+    if (event) {
+      //event.preventDefault();
+      // should add some validator before setState in real use cases
+      this.setState({ confirm_password: event.target.value.trim() });
     }
   };
 }

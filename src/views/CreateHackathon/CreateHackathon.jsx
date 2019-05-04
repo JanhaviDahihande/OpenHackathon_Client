@@ -18,6 +18,7 @@ import CardBody from "components/Card/CardBody.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
+import TextField from '@material-ui/core/TextField';
 
 import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
@@ -25,7 +26,7 @@ import image from "assets/img/bg7.jpg";
 
 import { GoogleLogin } from 'react-google-login';
 
-class LoginPage extends React.Component {
+class CreateHackathon extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
@@ -61,13 +62,6 @@ class LoginPage extends React.Component {
     const { classes, ...rest } = this.props;
     return (
       <div>
-        <Header
-          absolute
-          color="transparent"
-          brand="Open Hackathon"
-          rightLinks={<HeaderLinks />}
-          {...rest}
-        />
         <div
           className={classes.pageHeader}
           style={{
@@ -77,61 +71,104 @@ class LoginPage extends React.Component {
           }}
         >
           <div className={classes.container}>
+          
             <GridContainer justify="center">
-              <GridItem xs={12} sm={12} md={4}>
+              <GridItem xs={12} sm={12} md={8}>
+              <h2>Create Hackathon</h2>
                 <Card className={classes[this.state.cardAnimaton]}>
                   <form className={classes.form}>
-                    <CardHeader color="primary" className={classes.cardHeader}>
-                      <h4>Login</h4>
-                      <div className={classes.socialLine}>
-                        
-                        <GoogleLogin
-                          clientId="579245443763-iu7neoh0t6pv3bni5ll7gvh6v24ngtrr.apps.googleusercontent.com"
-                          buttonText="Sign In with Google"
-                          onSuccess={responseGoogle}
-                          onFailure={responseGoogle}
-                          cookiePolicy={'single_host_origin'}
-                        />
-                      </div>
-                    </CardHeader>
-                    <p className={classes.divider}>Or</p>
+                    
                     <CardBody>
                       <CustomInput
-                        labelText="Email"
-                        id="email"
+                        labelText="Hackathon Name"
+                        id="hack_name"
                         formControlProps={{
                           fullWidth: true
                         }}
                         inputProps={{
-                          type: "email",
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <Email className={classes.inputIconsColor} />
-                            </InputAdornment>
-                          )
+                          type: "text",
+                        
                         }}
                       />
                       <CustomInput
-                        labelText="Password"
-                        id="password"
+                        labelText="Description"
+                        id="hack_description"
                         formControlProps={{
                           fullWidth: true
                         }}
                         inputProps={{
-                          type: "password",
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <Icon className={classes.inputIconsColor}>
-                                lock_outline
-                              </Icon>
-                            </InputAdornment>
-                          )
+                          type: "text",
+                        
                         }}
+                      />
+                      <CustomInput
+                        labelText="Fees"
+                        id="hack_fees"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          type: "text",
+                        
+                        }}
+                      />
+                      <TextField
+                        id="start_date"
+                        label="Start Date"
+                        className={classes.textField}
+                        // onChange={this.handleChange('name')}
+                        margin="normal"
+                        variant="outlined"
+                        type="date"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                      />
+                       <TextField
+                       style={{marginLeft: 10}}
+                        id="end_date"
+                        label="End Date"
+                        className={classes.textField}
+                        // onChange={this.handleChange('name')}
+                        margin="normal"
+                        variant="outlined"
+                        type="date"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                      />
+                      <br/>
+                      <TextField
+                        id="outlined-number"
+                        label="Min Team Size"
+                        // value={this.state.age}
+                        // onChange={this.handleChange('age')}
+                        type="number"
+                        className={classes.textField}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        margin="normal"
+                        variant="outlined"
+                      />
+                      <TextField
+                        style={{marginLeft: 10}}
+                        id="outlined-number"
+                        label="Max Team Size"
+                        // value={this.state.age}
+                        // onChange={this.handleChange('age')}
+                        type="number"
+                        className={classes.textField}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        margin="normal"
+                        variant="outlined"
                       />
                     </CardBody>
                     <CardFooter className={classes.cardFooter}>
-                      <Button simple color="primary" size="lg" onClick={this.handlesOnLogin}>
-                        Get started
+                      <Button simple color="primary" size="lg">
+                        Create
                       </Button>
                     </CardFooter>
                   </form>
@@ -139,31 +176,10 @@ class LoginPage extends React.Component {
               </GridItem>
             </GridContainer>
           </div>
-          <Footer whiteFont />
         </div>
       </div>
     );
   }
-
-  handlesOnLogin = (event: SyntheticEvent<>) => {
-    const { email, password } = this.state;
-    // Post request to backend
-    fetch('http://localhost:5000/signin', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: 'janhavidahihande@gmail.com',
-        password: 'q',
-      }),
-    })
-      .then(res => res.json())
-      .then(json => {
-        console.log('json', json);
-        
-      });
-  };
 }
 
-export default withStyles(loginPageStyle)(LoginPage);
+export default withStyles(loginPageStyle)(CreateHackathon);
