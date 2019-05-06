@@ -25,7 +25,7 @@ import image from "assets/img/bg7.jpg";
 
 import { GoogleLogin } from 'react-google-login';
 import queryString from 'query-string';
-class RegistrationConfirmation extends React.Component {
+class InvitationSent extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
@@ -99,14 +99,14 @@ class RegistrationConfirmation extends React.Component {
                 <Card className={classes[this.state.cardAnimaton]}>
                   <form className={classes.form}>
                     <CardBody>
-                    <h3><b>Registration is now confirmed.</b></h3>
-                     <p>Please login to proceed.</p>
+                     <h4><b>An email with an invitation link is sent to your registered email address.</b></h4>
+                    <p>Click on the link to login.</p>
                     </CardBody>
-                    <CardFooter className={classes.cardFooter}>
+                    {/* <CardFooter className={classes.cardFooter}>
                       <Button simple color="primary" size="lg" onClick={this.handlesOnLogin}>
                        Login
                       </Button>
-                    </CardFooter>
+                    </CardFooter> */}
                   </form>
                 </Card>
               </GridItem>
@@ -123,4 +123,4 @@ class RegistrationConfirmation extends React.Component {
   };
 }
 
-export default withStyles(loginPageStyle)(RegistrationConfirmation);
+export default withStyles(loginPageStyle)(InvitationSent);

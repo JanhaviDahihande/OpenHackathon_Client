@@ -19,6 +19,7 @@ import RegistrationConfirmation from "./views/RegistrationConfirmation/Registrat
 
 import ProductSection from "./views/LandingPage/Sections/ProductSection";
 import CreateHackathon from "./views/CreateHackathon/CreateHackathon";
+import InvitationSent from "./views/InvitationSent/InvitationSent";
 
 var hist = createBrowserHistory();
 
@@ -34,6 +35,7 @@ ReactDOM.render(
       <Route path="/my_hackathon" component={MyHackathon} />
       <Route path="/registration-confirmation" component={RegistrationConfirmation} />
       <Route path="/create_hackathon" component={CreateHackathon} />
+      <Route path="/invitation-sent" component={InvitationSent} />
 
       <Route path="/about" component={ProductSection} />
       <Route path="/" component={Components} />

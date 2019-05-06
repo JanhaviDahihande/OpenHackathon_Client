@@ -22,7 +22,7 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
 import image from "assets/img/bg7.jpg";
-
+import { Link } from 'react-router-dom';
 class RegisterPage extends React.Component {
   constructor(props) {
     super(props);
@@ -35,6 +35,11 @@ class RegisterPage extends React.Component {
       password:'',
       confirm_password:'',
     };
+    this.handlesOnFirstNameChange = this.handlesOnFirstNameChange.bind(this);
+    this.handlesOnLastNameChange = this.handlesOnLastNameChange.bind(this);
+    this.handlesOnEmailChange = this.handlesOnEmailChange.bind(this);
+    this.handlesOnPasswordChange = this.handlesOnPasswordChange.bind(this);
+    this.handlesOnConfirmPasswordChange = this.handlesOnConfirmPasswordChange.bind(this);
   }
   componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
@@ -55,10 +60,10 @@ class RegisterPage extends React.Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        firstname: "Thor",
-        lastname: "Thor",
-        email: "thor@sharklasers.com",
-        password: "q",
+        firstname: first_name,
+        lastname: last_name,
+        email: email_id,
+        password: password,
       }),
       // body: JSON.stringify({
       //   recipient: recipient,
@@ -113,12 +118,12 @@ class RegisterPage extends React.Component {
                       <CustomInput
                         labelText="First Name"
                         id="first_name"
-                        onChange={this.handlesOnFirstNameChange}
                         value={first_name}
                         formControlProps={{
                           fullWidth: true
                         }}
                         inputProps={{
+                          onChange:this.handlesOnFirstNameChange,
                           type: "text",
                           endAdornment: (
                             <InputAdornment position="end">
@@ -131,11 +136,12 @@ class RegisterPage extends React.Component {
                         labelText="Last Name"
                         id="last_name"
                         value={last_name}
-                        onChange={this.handlesOnLastNameChange}
+                        
                         formControlProps={{
                           fullWidth: true
                         }}
                         inputProps={{
+                          onChange:this.handlesOnLastNameChange,
                           type: "text",
                           endAdornment: (
                             <InputAdornment position="end">
@@ -148,11 +154,12 @@ class RegisterPage extends React.Component {
                         labelText="Email id"
                         id="email_id"
                         value={email_id}
-                        onChange={this.handlesOnEmailChange}
+                        
                         formControlProps={{
                           fullWidth: true
                         }}
                         inputProps={{
+                          onChange:this.handlesOnEmailChange,
                           type: "email",
                           endAdornment: (
                             <InputAdornment position="end">
@@ -166,11 +173,11 @@ class RegisterPage extends React.Component {
                         labelText="Password"
                         id="password"
                         value={password}
-                        onChange={this.handlesOnPasswordChange}
                         formControlProps={{
                           fullWidth: true
                         }}
                         inputProps={{
+                          onChange:this.handlesOnPasswordChange,
                           type: "password",
                           endAdornment: (
                             <InputAdornment position="end">
@@ -185,11 +192,11 @@ class RegisterPage extends React.Component {
                         labelText="Confirm Password"
                         id="confirm_password"
                         value={confirm_password}
-                        onChange={this.handlesOnConfirmPasswordChange}
                         formControlProps={{
                           fullWidth: true
                         }}
                         inputProps={{
+                          onChange:this.handlesOnConfirmPasswordChange,
                           type: "password",
                           endAdornment: (
                             <InputAdornment position="end">
@@ -202,7 +209,8 @@ class RegisterPage extends React.Component {
                       />
                     </CardBody>
                     <CardFooter className={classes.cardFooter}>
-                      <Button simple color="primary" size="lg"  onClick={this.sendEmail}>
+                      <Button simple color="primary" size="lg"  onClick={this.sendEmail}
+                      component={Link} to="/invitation-sent">
                         Register
                       </Button>
                     </CardFooter>
@@ -217,7 +225,7 @@ class RegisterPage extends React.Component {
     );
   }
   handlesOnFirstNameChange = (event: SyntheticEvent<>) => {
-    alert("Inside name");
+    //alert("Inside name");
     if (event) {
       //event.preventDefault();
       // should add some validator before setState in real use cases
