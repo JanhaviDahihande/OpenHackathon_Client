@@ -55,10 +55,10 @@ class RegisterPage extends React.Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        firstname: first_name,
-        lastname: last_name,
-        email: email_id,
-        password: password,
+        firstname: "Thor",
+        lastname: "Thor",
+        email: "thor@sharklasers.com",
+        password: "q",
       }),
       // body: JSON.stringify({
       //   recipient: recipient,

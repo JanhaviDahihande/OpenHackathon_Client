@@ -24,7 +24,7 @@ import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 import image from "assets/img/bg7.jpg";
 
 import { GoogleLogin } from 'react-google-login';
-
+import { Link } from 'react-router-dom';
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
@@ -130,7 +130,8 @@ class LoginPage extends React.Component {
                       />
                     </CardBody>
                     <CardFooter className={classes.cardFooter}>
-                      <Button simple color="primary" size="lg" onClick={this.handlesOnLogin}>
+                      <Button simple color="primary" size="lg" onClick={this.handlesOnLogin}
+                      component={Link} to="/index">
                         Get started
                       </Button>
                     </CardFooter>
@@ -154,14 +155,13 @@ class LoginPage extends React.Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: 'janhavidahihande@gmail.com',
+        username: 'thor@sharklasers.com',
         password: 'q',
       }),
     })
       .then(res => res.json())
       .then(json => {
         console.log('json', json);
-        
       });
   };
 }
