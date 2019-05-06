@@ -1,4 +1,5 @@
-import React from "react";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -25,12 +26,20 @@ import image from "assets/img/bg7.jpg";
 
 import { GoogleLogin } from 'react-google-login';
 import { Link } from 'react-router-dom';
+type Props = {
+  history: any,
+}
 class LoginPage extends React.Component {
+  static propTypes = {
+    history: PropTypes.object.isRequired,
+  }
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
-      cardAnimaton: "cardHidden"
+      cardAnimaton: "cardHidden",
+      email:'',
+      password:'',
     };
   }
   componentDidMount() {
@@ -103,6 +112,7 @@ class LoginPage extends React.Component {
                           fullWidth: true
                         }}
                         inputProps={{
+                          onChange:this.handlesOnEmailChange,
                           type: "email",
                           endAdornment: (
                             <InputAdornment position="end">
@@ -118,6 +128,7 @@ class LoginPage extends React.Component {
                           fullWidth: true
                         }}
                         inputProps={{
+                          onChange:this.handlesOnPasswordChange,
                           type: "password",
                           endAdornment: (
                             <InputAdornment position="end">
@@ -131,7 +142,8 @@ class LoginPage extends React.Component {
                     </CardBody>
                     <CardFooter className={classes.cardFooter}>
                       <Button simple color="primary" size="lg" onClick={this.handlesOnLogin}
-                      component={Link} to="/index">
+                      // component={Link} to="/index"
+                      >
                         Get started
                       </Button>
                     </CardFooter>
@@ -147,6 +159,7 @@ class LoginPage extends React.Component {
   }
 
   handlesOnLogin = (event: SyntheticEvent<>) => {
+    const { history } = this.props;
     const { email, password } = this.state;
     // Post request to backend
     fetch('http://localhost:5000/signin', {
@@ -155,14 +168,30 @@ class LoginPage extends React.Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: 'thor@sharklasers.com',
-        password: 'q',
+        username: email,
+        password: password,
       }),
     })
       .then(res => res.json())
       .then(json => {
         console.log('json', json);
+        history.push({ pathname: '/index' });
       });
+  };
+  handlesOnPasswordChange = (event: SyntheticEvent<>) => {
+    if (event) {
+      //event.preventDefault();
+      // should add some validator before setState in real use cases
+      this.setState({ password: event.target.value.trim() });
+    }
+  };
+
+  handlesOnEmailChange = (event: SyntheticEvent<>) => {
+    if (event) {
+      //event.preventDefault();
+      // should add some validator before setState in real use cases
+      this.setState({ email: event.target.value.trim() });
+    }
   };
 }
 
