@@ -36,7 +36,7 @@ class RegistrationConfirmation extends React.Component {
   componentDidMount() {
     const values = queryString.parse(this.props.location.search)
     console.log(values.token)
-    var url = 'http://localhost:4000/verify/'
+    var url = 'http://localhost:5000/verify/'
     fetch(url, {
       method: 'POST',
       headers: {
@@ -99,8 +99,8 @@ class RegistrationConfirmation extends React.Component {
                 <Card className={classes[this.state.cardAnimaton]}>
                   <form className={classes.form}>
                     <CardBody>
-                     <h1>Registration is now confirmed.</h1>
-                     <h3>Please login to proceed.</h3>
+                    <h3><b>Registration is now confirmed.</b></h3>
+                     <p>Please login to proceed.</p>
                     </CardBody>
                     <CardFooter className={classes.cardFooter}>
                       <Button simple color="primary" size="lg" onClick={this.handlesOnLogin}>
