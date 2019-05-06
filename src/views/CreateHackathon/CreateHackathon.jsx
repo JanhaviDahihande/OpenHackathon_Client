@@ -18,13 +18,13 @@ import CardBody from "components/Card/CardBody.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
-import TextField from '@material-ui/core/TextField';
+import TextField from "@material-ui/core/TextField";
 
 import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
 import image from "assets/img/bg7.jpg";
 
-import { GoogleLogin } from 'react-google-login';
+import { GoogleLogin } from "react-google-login";
 
 class CreateHackathon extends React.Component {
   constructor(props) {
@@ -33,6 +33,8 @@ class CreateHackathon extends React.Component {
     this.state = {
       cardAnimaton: "cardHidden"
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.postHackathon = this.postHackathon.bind(this);
   }
   componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
@@ -43,22 +45,34 @@ class CreateHackathon extends React.Component {
       700
     );
   }
-  
-  render() {
-    const responseGoogle = (response) => {
-      // var profile = response.getBasicProfile();
-      // console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-      // console.log('Full Name: ' + profile.getName());
-      // console.log('Given Name: ' + profile.getGivenName());
-      // console.log('Family Name: ' + profile.getFamilyName());
-      // console.log("Image URL: " + profile.getImageUrl());
-      // console.log("Email: " + profile.getEmail());
 
-      // // The ID token you need to pass to your backend:
-      // var id_token = response.getAuthResponse().id_token;
-      // console.log("ID Token: " + id_token);
-      console.log(response);
-    }
+  handleChange(evt) {
+    this.setState({ [evt.target.id]: evt.target.value });
+  }
+
+  postHackathon() {
+    fetch("http://localhost:5000/hackathon", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        eventName: this.state.eventName,
+        description: this.state.description,
+        fees: this.state.fees,
+        startDate: this.state.startDate,
+        endDate: this.state.endDate,
+        minTeamSize: this.state.minTeamSize,
+        maxTeamSize: this.state.maxTeamSize
+      })
+    })
+      .then(res => res.json())
+      .then(json => {
+        console.log("json", json);
+      });
+  }
+
+  render() {
     const { classes, ...rest } = this.props;
     return (
       <div>
@@ -71,103 +85,112 @@ class CreateHackathon extends React.Component {
           }}
         >
           <div className={classes.container}>
-          
             <GridContainer justify="center">
               <GridItem xs={12} sm={12} md={8}>
-              <h2>Create Hackathon</h2>
+                <h2>Create Hackathon</h2>
                 <Card className={classes[this.state.cardAnimaton]}>
                   <form className={classes.form}>
-                    
                     <CardBody>
                       <CustomInput
                         labelText="Hackathon Name"
-                        id="hack_name"
+                        id="eventName"
                         formControlProps={{
                           fullWidth: true
                         }}
                         inputProps={{
-                          type: "text",
-                        
+                          onChange: this.handleChange,
+                          type: "text"
                         }}
                       />
                       <CustomInput
                         labelText="Description"
-                        id="hack_description"
+                        id="description"
                         formControlProps={{
                           fullWidth: true
                         }}
                         inputProps={{
-                          type: "text",
-                        
+                          onChange: this.handleChange,
+                          type: "text"
                         }}
                       />
                       <CustomInput
                         labelText="Fees"
-                        id="hack_fees"
+                        id="fees"
                         formControlProps={{
                           fullWidth: true
                         }}
                         inputProps={{
-                          type: "text",
-                        
+                          onChange: this.handleChange,
+                          type: "text"
                         }}
                       />
                       <TextField
-                        id="start_date"
+                        id="startDate"
                         label="Start Date"
                         className={classes.textField}
-                        // onChange={this.handleChange('name')}
                         margin="normal"
                         variant="outlined"
                         type="date"
+                        inputProps={{
+                          onChange: this.handleChange
+                        }}
                         InputLabelProps={{
-                          shrink: true,
+                          shrink: true
                         }}
                       />
-                       <TextField
-                       style={{marginLeft: 10}}
-                        id="end_date"
+                      <TextField
+                        style={{ marginLeft: 10 }}
+                        id="endDate"
                         label="End Date"
                         className={classes.textField}
-                        // onChange={this.handleChange('name')}
                         margin="normal"
                         variant="outlined"
                         type="date"
+                        inputProps={{
+                          onChange: this.handleChange
+                        }}
                         InputLabelProps={{
-                          shrink: true,
+                          shrink: true
                         }}
                       />
-                      <br/>
+                      <br />
                       <TextField
-                        id="outlined-number"
+                        id="minTeamSize"
                         label="Min Team Size"
-                        // value={this.state.age}
-                        // onChange={this.handleChange('age')}
                         type="number"
                         className={classes.textField}
+                        inputProps={{
+                          onChange: this.handleChange
+                        }}
                         InputLabelProps={{
-                          shrink: true,
+                          shrink: true
                         }}
                         margin="normal"
                         variant="outlined"
                       />
                       <TextField
-                        style={{marginLeft: 10}}
-                        id="outlined-number"
+                        style={{ marginLeft: 10 }}
+                        id="maxTeamSize"
                         label="Max Team Size"
-                        // value={this.state.age}
-                        // onChange={this.handleChange('age')}
                         type="number"
                         className={classes.textField}
+                        inputProps={{
+                          onChange: this.handleChange
+                        }}
                         InputLabelProps={{
-                          shrink: true,
+                          shrink: true
                         }}
                         margin="normal"
                         variant="outlined"
                       />
                     </CardBody>
                     <CardFooter className={classes.cardFooter}>
-                      <Button simple color="primary" size="lg">
+                      <Button
+                        simple
+                        color="primary"
+                        size="lg"
+                        onClick={this.postHackathon}
+                      >
                         Create
                       </Button>
                     </CardFooter>
