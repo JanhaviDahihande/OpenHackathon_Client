@@ -40,7 +40,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
 import axios from "axios";
-class UserOrganization extends React.Component {
+class MyHackathon extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
@@ -115,21 +115,6 @@ class UserOrganization extends React.Component {
       createData("C", "DB Engineer", "Pending", "$240"),
       createData("D", "Designer", "Done", "$240")
     ];
-
-    const responseGoogle = response => {
-      // var profile = response.getBasicProfile();
-      // console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-      // console.log('Full Name: ' + profile.getName());
-      // console.log('Given Name: ' + profile.getGivenName());
-      // console.log('Family Name: ' + profile.getFamilyName());
-      // console.log("Image URL: " + profile.getImageUrl());
-      // console.log("Email: " + profile.getEmail());
-
-      // // The ID token you need to pass to your backend:
-      // var id_token = response.getAuthResponse().id_token;
-      // console.log("ID Token: " + id_token);
-      console.log(response);
-    };
     const { classes, ...rest } = this.props;
     return (
       <div>
@@ -160,22 +145,6 @@ class UserOrganization extends React.Component {
                   iconColor="rose"
                 />
               </GridItem>
-              {/* <GridItem  xs={12} sm={12} md={2}>
-                  <InfoArea
-                    title="Status"
-                    description="Pending"
-                    icon={Assessment}
-                    iconColor="rose"
-                  />
-                </GridItem> */}
-              {/* <GridItem  xs={12} sm={12} md={4}>
-                <InfoArea
-                  title="Status"
-                  description="Pending"
-                  icon={Assessment}
-                  iconColor="rose"
-                /></GridItem> */}
-
               <GridItem xs={12} sm={12} md={12}>
                 <hr />
               </GridItem>
@@ -223,4 +192,4 @@ class UserOrganization extends React.Component {
   }
 }
 
-export default withStyles(loginPageStyle)(UserOrganization);
+export default withStyles(loginPageStyle)(MyHackathon);
