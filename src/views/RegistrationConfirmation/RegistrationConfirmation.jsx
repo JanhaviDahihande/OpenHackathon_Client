@@ -24,7 +24,7 @@ import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 import image from "assets/img/bg7.jpg";
 
 import { GoogleLogin } from 'react-google-login';
-
+import queryString from 'query-string';
 class RegistrationConfirmation extends React.Component {
   constructor(props) {
     super(props);
@@ -34,6 +34,23 @@ class RegistrationConfirmation extends React.Component {
     };
   }
   componentDidMount() {
+    const values = queryString.parse(this.props.location.search)
+    console.log(values.token)
+    var url = 'http://localhost:4000/verify/'
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        authcode: values.token,
+      }),
+    })
+      .then(res => res.json())
+      .then(json => {
+        console.log('json', json);
+        
+      });
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
     setTimeout(
       function() {
