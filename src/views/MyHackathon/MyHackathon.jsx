@@ -1,35 +1,14 @@
 import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import Icon from "@material-ui/core/Icon";
-// @material-ui/icons
-import Email from "@material-ui/icons/Email";
-import People from "@material-ui/icons/People";
 import Code from "@material-ui/icons/Code";
 import Score from "@material-ui/icons/Score";
 // core components
-import Header from "components/Header/Header.jsx";
-import HeaderLinks from "components/Header/HeaderLinks.jsx";
-import Footer from "components/Footer/Footer.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
-import Button from "components/CustomButtons/Button.jsx";
-import Card from "components/Card/Card.jsx";
-import CardBody from "components/Card/CardBody.jsx";
-import CardHeader from "components/Card/CardHeader.jsx";
-import CardFooter from "components/Card/CardFooter.jsx";
-import CustomInput from "components/CustomInput/CustomInput.jsx";
-
 import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
 import image from "assets/img/bg7.jpg";
-
-import { GoogleLogin } from "react-google-login";
-// @material-ui/icons
-import Group from "@material-ui/icons/Group";
-import Assessment from "@material-ui/icons/Assessment";
-
 // core components
 import InfoArea from "components/InfoArea/InfoArea.jsx";
 import Table from "@material-ui/core/Table";
@@ -46,6 +25,8 @@ class MyHackathon extends React.Component {
     // we use this to make the card to appear after the page has been rendered
     this.state = {
       cardAnimaton: "cardHidden",
+      hackathonId: 0,
+      userId: 1,
       hackathon: {
         hackathonId: null,
         hackathonName: null,
@@ -60,19 +41,22 @@ class MyHackathon extends React.Component {
     };
   }
   componentDidMount() {
-    // we add a hidden class to the card and after 700 ms we delete it and the transition appears
-    setTimeout(
-      function() {
-        this.setState({ cardAnimaton: "" });
-      }.bind(this),
-      700
-    );
-    this.getMyHackathons();
+    const id = this.props.match.params.id;
+    console.log("Params::: ", id);
+    this.setState({ hackathonId: id }, () => {
+      this.getMyHackathons();
+    });
   }
 
   getMyHackathons() {
+    console.log("State:::", this.state);
     axios
-      .get("http://localhost:5000/participant/1/hackathon/1")
+      .get(
+        "http://localhost:5000/participant/" +
+          this.state.userId +
+          "/hackathon/" +
+          this.state.hackathonId
+      )
       .then(response => {
         console.log(response);
         var hackathon = {};
@@ -81,9 +65,6 @@ class MyHackathon extends React.Component {
         hackathon.teamId = response.data.teamId;
         hackathon.teamName = response.data.teamName;
         hackathon.participants = response.data.participants;
-        // for (var i = 0; i < response.data.participants; i++) {
-        //   hackathon.participants.push(response.data.participants[i]);
-        // }
         hackathon.paymentDone = response.data.paymentDone;
         hackathon.score = response.data.score;
         hackathon.submissionURL = response.data.submissionURL;
@@ -92,29 +73,6 @@ class MyHackathon extends React.Component {
       });
   }
   render() {
-    const styles = theme => ({
-      root: {
-        width: "100%",
-        marginTop: theme.spacing.unit * 3,
-        overflowX: "auto"
-      },
-      table: {
-        minWidth: 700
-      }
-    });
-
-    let id = 0;
-    function createData(name, role, payment_status, amount) {
-      id += 1;
-      return { id, name, role, payment_status, amount };
-    }
-
-    var rows = [
-      createData("A", "BackEnd Engineer", "Done", "$240"),
-      createData("B", "FE Engineer", "Done", "$240"),
-      createData("C", "DB Engineer", "Pending", "$240"),
-      createData("D", "Designer", "Done", "$240")
-    ];
     const { classes, ...rest } = this.props;
     return (
       <div>
@@ -148,11 +106,7 @@ class MyHackathon extends React.Component {
               <GridItem xs={12} sm={12} md={12}>
                 <hr />
               </GridItem>
-              {/* <GridItem >
-                  <input type="search" 
-                style={{marginTop: 10,  width: 500, height: 50}}
-                ></input>
-                </GridItem> */}
+
               <GridItem xs={12} sm={12} md={12}>
                 <h2 style={{ color: "black" }}>Team</h2>
               </GridItem>

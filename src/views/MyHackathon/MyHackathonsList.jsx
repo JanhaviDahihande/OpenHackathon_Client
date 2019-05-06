@@ -3,6 +3,7 @@ import React from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
+import { Link } from "react-router-dom";
 
 import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
@@ -27,13 +28,6 @@ class MyHackathonsList extends React.Component {
     };
   }
   componentDidMount() {
-    // we add a hidden class to the card and after 700 ms we delete it and the transition appears
-    setTimeout(
-      function() {
-        this.setState({ cardAnimaton: "" });
-      }.bind(this),
-      700
-    );
     this.getMyHackathons();
   }
 
@@ -95,7 +89,10 @@ class MyHackathonsList extends React.Component {
                     <TableBody>
                       {participatingList.map(row => (
                         <TableRow key={row.id}>
-                          <TableCell component="th" scope="row">
+                          <TableCell
+                            component="a"
+                            href={"/my_hackathon/" + row.id}
+                          >
                             {row.eventName}
                           </TableCell>
                           <TableCell align="left">{row.startDate}</TableCell>
@@ -124,7 +121,10 @@ class MyHackathonsList extends React.Component {
                     <TableBody>
                       {judgingList.map(row => (
                         <TableRow key={row.id}>
-                          <TableCell component="th" scope="row">
+                          <TableCell
+                            component="a"
+                            href={"/my_hackathon/" + row.id}
+                          >
                             {row.eventName}
                           </TableCell>
                           <TableCell align="left">{row.startDate}</TableCell>

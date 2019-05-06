@@ -19,7 +19,7 @@ import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import Button from "components/CustomButtons/Button.jsx";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 import productStyle from "assets/jss/material-kit-react/views/landingPageSections/productStyle.jsx";
 
@@ -47,68 +47,121 @@ class ActionsSection extends React.Component {
         <div>
           <GridContainer>
             <GridItem xs={12} sm={12} md={4}>
-              <Card style={{width: "20rem"}}>
-                <CardHeader color="warning"><h4><b>Team Registration</b></h4></CardHeader>
+              <Card style={{ width: "20rem" }}>
+                <CardHeader color="warning">
+                  <h4>
+                    <b>Team Registration</b>
+                  </h4>
+                </CardHeader>
                 <CardBody>
-                  <h4 className={classes.cardTitle}> Go ahead to Register tour team here!</h4>
-                  <Button color="primary"
-                  component={Link} to="/index"
-                  >Go</Button>
+                  <h4 className={classes.cardTitle}>
+                    {" "}
+                    Go ahead to Register tour team here!
+                  </h4>
+                  <Button color="primary" component={Link} to="/index">
+                    Go
+                  </Button>
                 </CardBody>
               </Card>
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
-            <Card style={{width: "20rem"}}>
-                <CardHeader color="warning"><h4><b>My Hackathon</b></h4></CardHeader>
+              <Card style={{ width: "20rem" }}>
+                <CardHeader color="warning">
+                  <h4>
+                    <b>My Hackathon</b>
+                  </h4>
+                </CardHeader>
                 <CardBody>
-                  <h4 className={classes.cardTitle}>Get the current hackathon information.</h4>
-                  <Button color="primary"
-                  component={Link} to="/my_hackathon"
-                  >Go</Button>
+                  <h4 className={classes.cardTitle}>
+                    Get the current hackathon information.
+                  </h4>
+                  <Button
+                    color="primary"
+                    component={Link}
+                    to="/my_hackathonlist"
+                  >
+                    Go
+                  </Button>
                 </CardBody>
               </Card>
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
-            <Card style={{width: "20rem"}}>
-                <CardHeader color="warning"><h4><b>Create Organization</b></h4></CardHeader>
+              <Card style={{ width: "20rem" }}>
+                <CardHeader color="warning">
+                  <h4>
+                    <b>Create Organization</b>
+                  </h4>
+                </CardHeader>
                 <CardBody>
-                  <h4 className={classes.cardTitle}>Go ahead to create your organization.</h4>
-                  <Button color="primary"
-                  component={Link} to="/create_organization"
-                  >Go</Button>
+                  <h4 className={classes.cardTitle}>
+                    Go ahead to create your organization.
+                  </h4>
+                  <Button
+                    color="primary"
+                    component={Link}
+                    to="/create_organization"
+                  >
+                    Go
+                  </Button>
                 </CardBody>
               </Card>
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
-            <Card style={{width: "20rem"}}>
-                <CardHeader color="warning"><h4><b>My Organization</b></h4></CardHeader>
+              <Card style={{ width: "20rem" }}>
+                <CardHeader color="warning">
+                  <h4>
+                    <b>My Organization</b>
+                  </h4>
+                </CardHeader>
                 <CardBody>
-                  <h4 className={classes.cardTitle}>Get the current Hackathon information.</h4>
-                  <Button color="primary"
-                  component={Link} to="/user_organization"
-                  >Go</Button>
+                  <h4 className={classes.cardTitle}>
+                    Get the current Hackathon information.
+                  </h4>
+                  <Button
+                    color="primary"
+                    component={Link}
+                    to="/user_organization"
+                  >
+                    Go
+                  </Button>
                 </CardBody>
               </Card>
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
-            <Card style={{width: "20rem"}}>
-                <CardHeader color="warning"><h4><b>My Profile</b></h4></CardHeader>
+              <Card style={{ width: "20rem" }}>
+                <CardHeader color="warning">
+                  <h4>
+                    <b>My Profile</b>
+                  </h4>
+                </CardHeader>
                 <CardBody>
-                  <h4 className={classes.cardTitle}>Get all your user details from here!</h4>
-                  <Button color="primary"
-                  component={Link} to="/profile"
-                  >Go</Button>
+                  <h4 className={classes.cardTitle}>
+                    Get all your user details from here!
+                  </h4>
+                  <Button color="primary" component={Link} to="/profile">
+                    Go
+                  </Button>
                 </CardBody>
               </Card>
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
-            <Card style={{width: "20rem"}}>
-                <CardHeader color="warning"><h4><b> Create Hackathon</b></h4></CardHeader>
+              <Card style={{ width: "20rem" }}>
+                <CardHeader color="warning">
+                  <h4>
+                    <b> Create Hackathon</b>
+                  </h4>
+                </CardHeader>
                 <CardBody>
-                  <h4 className={classes.cardTitle}>Create a new hackathon from here!</h4>
-                  <Button color="primary"
-                  component={Link} to="/create_hackathon"
-                  >Go</Button>
+                  <h4 className={classes.cardTitle}>
+                    Create a new hackathon from here!
+                  </h4>
+                  <Button
+                    color="primary"
+                    component={Link}
+                    to="/create_hackathon"
+                  >
+                    Go
+                  </Button>
                 </CardBody>
               </Card>
             </GridItem>
