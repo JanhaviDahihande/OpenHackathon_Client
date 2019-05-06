@@ -1,4 +1,5 @@
-import React from "react";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -23,7 +24,13 @@ import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
 import image from "assets/img/bg7.jpg";
 import { Link } from 'react-router-dom';
-class RegisterPage extends React.Component {
+type Props = {
+  history: any,
+}
+class RegisterPage extends PureComponent<Props, State> {
+  static propTypes = {
+    history: PropTypes.object.isRequired,
+  }
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
@@ -52,6 +59,7 @@ class RegisterPage extends React.Component {
   }
 
   sendEmail = (event: SyntheticEvent<>) =>  {
+    const { history } = this.props;
     const { first_name, last_name, email_id,  password} = this.state;
     console.log(first_name +"__" + last_name +"__" +  email_id +"__" +  password);
     fetch('http://localhost:5000/signup', {
@@ -75,7 +83,7 @@ class RegisterPage extends React.Component {
       .then(res => res.json())
       .then(json => {
         console.log('json', json);
-       
+        history.push({ pathname: '/invitation-sent' });
       });
 
     // fetch(`http://127.0.0.1:4000/send-email?recipient=${email.recipient}&sender=${email.sender}&topic=${email.subject}&text=${email.text}`) //query string url
@@ -210,7 +218,8 @@ class RegisterPage extends React.Component {
                     </CardBody>
                     <CardFooter className={classes.cardFooter}>
                       <Button simple color="primary" size="lg"  onClick={this.sendEmail}
-                      component={Link} to="/invitation-sent">
+                      // component={Link} to="/invitation-sent"
+                      >
                         Register
                       </Button>
                     </CardFooter>
