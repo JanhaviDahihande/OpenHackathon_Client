@@ -62,6 +62,25 @@ class RegisterPage extends PureComponent<Props, State> {
     const { history } = this.props;
     const { first_name, last_name, email_id,  password} = this.state;
     console.log(first_name +"__" + last_name +"__" +  email_id +"__" +  password);
+    if(document.getElementById('password').value != document.getElementById('confirm_password').value){
+      alert("Passwords don't match");
+    }
+    else if(document.getElementById('first_name').value == ""){
+      alert("First name cannot be blank");
+    }
+    else if(document.getElementById('last_name').value == ""){
+      alert("Last name cannot be blank");
+    }
+    else if(document.getElementById('email_id').value == ""){
+      alert("Email cannot be blank");
+    }
+    else if(document.getElementById('password').value == ""){
+      alert("Password cannot be blank");
+    }
+    else if(document.getElementById('confirm_password').value == ""){
+      alert("Password needs to be confirmed");
+    }
+    else{
     fetch('http://localhost:5000/signup', {
       method: 'POST',
       headers: {
@@ -85,7 +104,7 @@ class RegisterPage extends PureComponent<Props, State> {
         console.log('json', json);
         history.push({ pathname: '/invitation-sent' });
       });
-
+    }
     // fetch(`http://127.0.0.1:4000/send-email?recipient=${email.recipient}&sender=${email.sender}&topic=${email.subject}&text=${email.text}`) //query string url
     //   .catch(err => console.error(err))
   }
@@ -124,6 +143,7 @@ class RegisterPage extends PureComponent<Props, State> {
                     </CardHeader>
                     <CardBody>
                       <CustomInput
+                        
                         labelText="First Name"
                         id="first_name"
                         value={first_name}
@@ -270,7 +290,8 @@ class RegisterPage extends PureComponent<Props, State> {
     if (event) {
       //event.preventDefault();
       // should add some validator before setState in real use cases
-      this.setState({ confirm_password: event.target.value.trim() });
+     
+          this.setState({ confirm_password: event.target.value.trim() }); 
     }
   };
 }
