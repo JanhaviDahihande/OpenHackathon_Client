@@ -92,7 +92,7 @@ class LoginPage extends React.Component {
                   <form className={classes.form}>
                     <CardHeader color="primary" className={classes.cardHeader}>
                       <h4>Login</h4>
-                      <div className={classes.socialLine}>
+                      {/* <div className={classes.socialLine}>
                         
                         <GoogleLogin
                           clientId="579245443763-iu7neoh0t6pv3bni5ll7gvh6v24ngtrr.apps.googleusercontent.com"
@@ -101,9 +101,9 @@ class LoginPage extends React.Component {
                           onFailure={responseGoogle}
                           cookiePolicy={'single_host_origin'}
                         />
-                      </div>
+                      </div> */}
                     </CardHeader>
-                    <p className={classes.divider}>Or</p>
+                    {/* <p className={classes.divider}>Or</p> */}
                     <CardBody>
                       <CustomInput
                         labelText="Email"
