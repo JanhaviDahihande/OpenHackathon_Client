@@ -30,9 +30,12 @@ class HackathonDetails extends React.Component {
   componentDidMount() {
     const id = this.props.match.params.id;
     console.log("Params::: ", id);
-    this.setState({ hackathonId: id }, () => {
-      this.getMyHackathons();
-    });
+    this.setState(
+      { hackathonId: id, userId: localStorage.getItem("userId") },
+      () => {
+        this.getMyHackathons();
+      }
+    );
   }
 
   getMyHackathons() {
@@ -105,6 +108,7 @@ class HackathonDetails extends React.Component {
       ) : (
         ""
       );
+    if (localStorage.getItem("role") == "Admin") comp = "";
     return (
       <div>
         <div

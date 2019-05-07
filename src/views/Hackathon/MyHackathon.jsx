@@ -43,9 +43,12 @@ class MyHackathon extends React.Component {
   componentDidMount() {
     const id = this.props.match.params.id;
     console.log("Params::: ", id);
-    this.setState({ hackathonId: id }, () => {
-      this.getMyHackathons();
-    });
+    this.setState(
+      { hackathonId: id, userId: localStorage.getItem("userId") },
+      () => {
+        this.getMyHackathons();
+      }
+    );
   }
 
   getMyHackathons() {
