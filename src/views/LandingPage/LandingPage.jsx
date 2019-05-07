@@ -53,7 +53,10 @@ class LandingPage extends React.Component {
               <GridItem xs={12} sm={12} md={6}>
                 <h1 className={classes.title}>Annual Hackathon For Devs</h1>
                 <h4>
-                For the last 20 years the Codathon hackathon’s been the main staple for coders from across the niches and different parts of the US. This year, with more than 2500 tickets sold out already, it looks to be the biggest one!
+                  For the last 20 years the Open hackathon’s been the main
+                  staple for coders from across the niches and different parts
+                  of the US. This year, with more than 2500 tickets sold out
+                  already, it looks to be the biggest one!
                 </h4>
                 <br />
                 <Button
@@ -67,17 +70,16 @@ class LandingPage extends React.Component {
               </GridItem>
             </GridContainer>
           </div>
-          {/* <Fab/> */}
         </Parallax>
-        
+
         <div className={classNames(classes.main, classes.mainRaised)}>
           <div className={classes.container}>
-            <ProductSection />
+            {/* <ProductSection />
             <CarousalSection/>
-            <TicketSection />
-            <ActionsSection/>
-            <TeamSection />
-            <WorkSection />
+            <TicketSection /> */}
+            <ActionsSection />
+            {/* <TeamSection />
+            <WorkSection /> */}
           </div>
         </div>
         <Footer />

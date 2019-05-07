@@ -14,8 +14,10 @@ import RegisterPage from "views/RegisterPage/RegisterPage.jsx";
 import ConfirmPage from "views/ConfirmPage/ConfirmPage.jsx";
 import CreateOrganization from "views/CreateOrganization/CreateOrganization.jsx";
 import UserOrganization from "views/UserOrganization/UserOrganization.jsx";
-import MyHackathonsList from "./views/MyHackathon/MyHackathonsList";
-import MyHackathon from "./views/MyHackathon/MyHackathon";
+import AllHackathonList from "./views/Hackathon/AllHackathonList";
+import HackathonDetails from "./views/Hackathon/HackathonDetails";
+import MyHackathonsList from "./views/Hackathon/MyHackathonsList";
+import MyHackathon from "./views/Hackathon/MyHackathon";
 import RegistrationConfirmation from "./views/RegistrationConfirmation/RegistrationConfirmation";
 
 import ProductSection from "./views/LandingPage/Sections/ProductSection";
@@ -31,10 +33,12 @@ ReactDOM.render(
       <Route path="/profile" component={ProfilePage} />
       <Route path="/login" component={LoginPage} />
       <Route path="/register" component={RegisterPage} />
+      <Route path="/all_hackathons" component={AllHackathonList} />
       <Route path="/create_organization" component={CreateOrganization} />
       <Route path="/user_organization" component={UserOrganization} />
       <Route path="/my_hackathonlist" component={MyHackathonsList} />
       <Route path="/my_hackathon/:id" component={MyHackathon} />
+      <Route path="/hackathon_details/:id" component={HackathonDetails} />
       <Route
         path="/registration-confirmation"
         component={RegistrationConfirmation}

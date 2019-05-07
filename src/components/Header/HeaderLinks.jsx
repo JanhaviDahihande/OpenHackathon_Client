@@ -21,17 +21,13 @@ import headerLinksStyle from "assets/jss/material-kit-react/components/headerLin
 function HeaderLinks({ ...props }) {
   const { classes } = props;
   return (
-    <List className={classes.list }>
-    <ListItem className={classes.listItem}>
-        <Button
-          href="/"
-          color="transparent"
-          className={classes.navLink}
-        >
-           About
+    <List className={classes.list}>
+      <ListItem className={classes.listItem}>
+        <Button href="/" color="transparent" className={classes.navLink}>
+          About
         </Button>
       </ListItem>
-      <ListItem className={classes.listItem}>
+      {/* <ListItem className={classes.listItem}>
         <Button
           href="/index"
           color="transparent"
@@ -39,37 +35,31 @@ function HeaderLinks({ ...props }) {
         >
            Tickets
         </Button>
-      </ListItem>
+      </ListItem> */}
       <ListItem className={classes.listItem}>
-        <Button
-          href="/index"
-          color="transparent"
-          className={classes.navLink}
-        >
-           Actions
+        <Button href="/index" color="transparent" className={classes.navLink}>
+          Actions
         </Button>
       </ListItem>
-      <ListItem className={classes.listItem}>
+      {/* <ListItem className={classes.listItem}>
         <Button
           href="/index"
           color="transparent"
           className={classes.navLink}
         >
-          {/* <CloudDownload className={classes.icons} />  */}
           Team
         </Button>
-      </ListItem>
-      <ListItem className={classes.listItem}>
+      </ListItem> */}
+      {/* <ListItem className={classes.listItem}>
         <Button
           href="/index"
           color="transparent"
           className={classes.navLink}
         >
-          {/* <CloudDownload className={classes.icons} />  */}
           Work with us
         </Button>
-      </ListItem>
-      <ListItem className={classes.listItem}>
+      </ListItem> */}
+      {/* <ListItem className={classes.listItem}>
         <CustomDropdown
           noLiPadding
           buttonText="More"
@@ -82,22 +72,19 @@ function HeaderLinks({ ...props }) {
             // <Link to="/" className={classes.dropdownLink}>
             //   All components
             // </Link>,
-            <a
-              href="/index"
-              className={classes.dropdownLink}
-            >
+            <a href="/index" className={classes.dropdownLink}>
               Blog
             </a>
           ]}
         />
-      </ListItem>
+      </ListItem> */}
       <ListItem className={classes.listItem}>
         <Button
           href="http://localhost:3000/register"
           color="transparent"
           className={classes.navLink}
         >
-           Sign Up
+          Sign Up
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
@@ -106,7 +93,7 @@ function HeaderLinks({ ...props }) {
           color="transparent"
           className={classes.navLink}
         >
-           Sign In
+          Sign In
         </Button>
       </ListItem>
       {/* <ListItem className={classes.listItem}>
