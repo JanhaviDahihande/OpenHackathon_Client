@@ -12,27 +12,23 @@ import Footer from "components/Footer/Footer.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 import Button from "components/CustomButtons/Button.jsx";
-import Fab from "components/FloatingActionButton/Fab.jsx";
 import HeaderLinks from "components/Header/HeaderLinks.jsx";
 import Parallax from "components/Parallax/Parallax.jsx";
-import InfoArea from "components/InfoArea/InfoArea.jsx";
 
 import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.jsx";
 
-// Sections for this page
-import ProductSection from "./Sections/ProductSection.jsx";
-import TicketSection from "./Sections/TicketSection.jsx";
-import TeamSection from "./Sections/TeamSection.jsx";
-import WorkSection from "./Sections/WorkSection.jsx";
-import MenuSection from "./Sections/MenuSection.jsx";
-import CarousalSection from "./Sections/CarousalSection.jsx";
-import ActionsSection from "./Sections/ActionsSection.jsx";
+import HackerMenu from "./HackerMenu";
+import AdminMenu from "./AdminMenu";
 
 const dashboardRoutes = [];
 
 class LandingPage extends React.Component {
   render() {
     const { classes, ...rest } = this.props;
+    const role = localStorage.getItem("role");
+    var viewType;
+    if (role === "Hacker") viewType = <HackerMenu />;
+    else if (role === "Admin") viewType = <AdminMenu />;
     return (
       <div>
         <Header
@@ -73,14 +69,7 @@ class LandingPage extends React.Component {
         </Parallax>
 
         <div className={classNames(classes.main, classes.mainRaised)}>
-          <div className={classes.container}>
-            {/* <ProductSection />
-            <CarousalSection/>
-            <TicketSection /> */}
-            <ActionsSection />
-            {/* <TeamSection />
-            <WorkSection /> */}
-          </div>
+          <div className={classes.container}>{viewType}</div>
         </div>
         <Footer />
       </div>

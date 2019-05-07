@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -24,22 +24,22 @@ import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
 import image from "assets/img/bg7.jpg";
 
-import { GoogleLogin } from 'react-google-login';
-import { Link } from 'react-router-dom';
+import { GoogleLogin } from "react-google-login";
+import { Link } from "react-router-dom";
 type Props = {
-  history: any,
-}
+  history: any
+};
 class LoginPage extends React.Component {
   static propTypes = {
-    history: PropTypes.object.isRequired,
-  }
+    history: PropTypes.object.isRequired
+  };
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
       cardAnimaton: "cardHidden",
-      email:'',
-      password:'',
+      email: "",
+      password: ""
     };
   }
   componentDidMount() {
@@ -51,9 +51,9 @@ class LoginPage extends React.Component {
       700
     );
   }
-  
+
   render() {
-    const responseGoogle = (response) => {
+    const responseGoogle = response => {
       // var profile = response.getBasicProfile();
       // console.log("ID: " + profile.getId()); // Don't send this directly to your server!
       // console.log('Full Name: ' + profile.getName());
@@ -66,7 +66,7 @@ class LoginPage extends React.Component {
       // var id_token = response.getAuthResponse().id_token;
       // console.log("ID Token: " + id_token);
       console.log(response);
-    }
+    };
     const { classes, ...rest } = this.props;
     return (
       <div>
@@ -112,7 +112,7 @@ class LoginPage extends React.Component {
                           fullWidth: true
                         }}
                         inputProps={{
-                          onChange:this.handlesOnEmailChange,
+                          onChange: this.handlesOnEmailChange,
                           type: "email",
                           endAdornment: (
                             <InputAdornment position="end">
@@ -128,7 +128,7 @@ class LoginPage extends React.Component {
                           fullWidth: true
                         }}
                         inputProps={{
-                          onChange:this.handlesOnPasswordChange,
+                          onChange: this.handlesOnPasswordChange,
                           type: "password",
                           endAdornment: (
                             <InputAdornment position="end">
@@ -141,8 +141,12 @@ class LoginPage extends React.Component {
                       />
                     </CardBody>
                     <CardFooter className={classes.cardFooter}>
-                      <Button simple color="primary" size="lg" onClick={this.handlesOnLogin}
-                      // component={Link} to="/index"
+                      <Button
+                        simple
+                        color="primary"
+                        size="lg"
+                        onClick={this.handlesOnLogin}
+                        // component={Link} to="/index"
                       >
                         Get started
                       </Button>
@@ -162,27 +166,30 @@ class LoginPage extends React.Component {
     const { history } = this.props;
     const { email, password } = this.state;
     // Post request to backend
-    fetch('http://localhost:5000/signin', {
-      method: 'POST',
+    fetch("http://localhost:5000/signin", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         username: email,
-        password: password,
-      }),
+        password: password
+      })
     })
       .then(res => res.json())
       .then(json => {
-        console.log('json', json.statusCode);
-        if(json.statusCode!=400){
-          history.push({ pathname: '/index' });
-        }
-        else{
-          alert("Invalid username or password!");
-          document.getElementById('email').value = "";
-          document.getElementById('password').value = "";
-        }
+        console.log("json", json.statusCode);
+        //if (res.statusCode == 200) {
+        localStorage.setItem("userId", json.id);
+        localStorage.setItem("role", json.role);
+        localStorage.setItem("authToken", json.authToken);
+        history.push({ pathname: "/index" });
+        // } else
+      })
+      .catch(() => {
+        alert("Invalid username or password!");
+        document.getElementById("email").value = "";
+        document.getElementById("password").value = "";
       });
   };
   handlesOnPasswordChange = (event: SyntheticEvent<>) => {
