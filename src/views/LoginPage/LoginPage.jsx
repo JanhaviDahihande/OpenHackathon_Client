@@ -174,8 +174,15 @@ class LoginPage extends React.Component {
     })
       .then(res => res.json())
       .then(json => {
-        console.log('json', json);
-        history.push({ pathname: '/index' });
+        console.log('json', json.statusCode);
+        if(json.statusCode!=400){
+          history.push({ pathname: '/index' });
+        }
+        else{
+          alert("Invalid username or password!");
+          document.getElementById('email').value = "";
+          document.getElementById('password').value = "";
+        }
       });
   };
   handlesOnPasswordChange = (event: SyntheticEvent<>) => {
