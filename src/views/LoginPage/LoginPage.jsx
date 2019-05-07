@@ -183,6 +183,7 @@ class LoginPage extends React.Component {
         localStorage.setItem("userId", json.id);
         localStorage.setItem("role", json.role);
         localStorage.setItem("authToken", json.authToken);
+        localStorage.setItem("username", json.firstname + " " + json.lastname);
         history.push({ pathname: "/index" });
         // } else
       })
