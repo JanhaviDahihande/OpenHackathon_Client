@@ -66,7 +66,14 @@ class CreateHackathon extends React.Component {
     this.postHackathon = this.postHackathon.bind(this);
     this.handleChangeMultiple = this.handleChangeMultiple.bind(this);
   }
-  async componentDidMount() {
+  componentDidMount() {
+    const id = this.props.match.params.id;
+    console.log("Params::: ", id);
+    if(id){
+    this.setState(
+      { hackathon_id: 1 }
+    );
+    }
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
     setTimeout(
       function() {
@@ -77,7 +84,7 @@ class CreateHackathon extends React.Component {
 
     try {
       var url = 'http://localhost:5000/organization';
-      await fetch(url)
+      fetch(url)
         .then(res => res.json())
         .then(json => {
           console.log("json", json);
@@ -93,7 +100,7 @@ class CreateHackathon extends React.Component {
 
     try {
       var url = 'http://localhost:5000/user/list';
-      await fetch(url)
+      fetch(url)
         .then(res => res.json())
         .then(json => {
           console.log("json", json);
@@ -155,6 +162,31 @@ class CreateHackathon extends React.Component {
 
   render() {
     const { classes, ...rest } = this.props;
+
+    var comp = this.state.hackathon_id == 0 ? (<CardFooter className={classes.cardFooter}>
+      <Button
+        simple
+        color="primary"
+        size="lg"
+        onClick={this.postHackathon}
+      >
+        Create
+      </Button>
+    </CardFooter>
+    ) : this.state.hackathon_id == 1 ? (
+      <CardFooter className={classes.cardFooter}>
+                      <Button
+                        simple
+                        color="primary"
+                        size="lg"
+                        onClick={this.postHackathon}
+                      >
+                        Update
+                      </Button>
+                    </CardFooter>
+    ): (
+      ""
+    );
     return (
       <div>
         <Header
@@ -327,16 +359,7 @@ class CreateHackathon extends React.Component {
                         variant="outlined"
                       />
                     </CardBody>
-                    <CardFooter className={classes.cardFooter}>
-                      <Button
-                        simple
-                        color="primary"
-                        size="lg"
-                        onClick={this.postHackathon}
-                      >
-                        Create
-                      </Button>
-                    </CardFooter>
+                    {comp}
                   </form>
                 </Card>
               </GridItem>
