@@ -25,15 +25,15 @@ import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 import image from "assets/img/bg7.jpg";
 
 import { GoogleLogin } from "react-google-login";
-import ChipInput from 'material-ui-chip-input';
-import AutoComplete from 'material-ui/AutoComplete';
+import ChipInput from "material-ui-chip-input";
+import AutoComplete from "material-ui/AutoComplete";
 class CreateHackathon extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
       cardAnimaton: "cardHidden",
-      sponsors: [],
+      sponsors: []
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSponsorChange = this.handleSponsorChange.bind(this);
@@ -55,7 +55,7 @@ class CreateHackathon extends React.Component {
 
   async handleSponsorChange(chip) {
     console.log("Here");
-    await this.setState({sponsors: chip });
+    await this.setState({ sponsors: chip });
   }
 
   postHackathon() {
@@ -92,7 +92,7 @@ class CreateHackathon extends React.Component {
             backgroundPosition: "top center"
           }}
         >
-          <div className={classes.container}>
+          <div className={classes.container} style={{ paddingTop: 100 }}>
             <GridContainer justify="center">
               <GridItem xs={12} sm={12} md={8}>
                 <h2>Create Hackathon</h2>
@@ -121,7 +121,7 @@ class CreateHackathon extends React.Component {
                           type: "text"
                         }}
                       />
-                       <CustomInput
+                      <CustomInput
                         labelText="Judges"
                         id="judges"
                         formControlProps={{
@@ -132,14 +132,14 @@ class CreateHackathon extends React.Component {
                           type: "text"
                         }}
                       />
-                     <ChipInput
-                      id="sponsors"
-                      allowDuplicates={false}
-                      floatingLabelText="Sponsors"
-                      fullWidth={true}
-                      onChange={(chip) => this.handleSponsorChange(chip)}
-                    />
-                    <br/>
+                      <ChipInput
+                        id="sponsors"
+                        allowDuplicates={false}
+                        floatingLabelText="Sponsors"
+                        fullWidth={true}
+                        onChange={chip => this.handleSponsorChange(chip)}
+                      />
+                      <br />
                       <TextField
                         id="fees"
                         label="Fees"
@@ -169,7 +169,7 @@ class CreateHackathon extends React.Component {
                         margin="normal"
                         variant="outlined"
                       />
-                      <br/>
+                      <br />
                       <TextField
                         id="startDate"
                         label="Start Date"
