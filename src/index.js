@@ -23,10 +23,12 @@ import RegistrationConfirmation from "./views/RegistrationConfirmation/Registrat
 import ProductSection from "./views/LandingPage/Sections/ProductSection";
 import CreateHackathon from "./views/CreateHackathon/CreateHackathon";
 import InvitationSent from "./views/InvitationSent/InvitationSent";
-
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import PaymentConfirmation from "./views/PaymentConfirmation/PaymentConfirmation";
 var hist = createBrowserHistory();
 
 ReactDOM.render(
+  <MuiThemeProvider>
   <Router history={hist}>
     <Switch>
       <Route path="/index" component={LandingPage} />
@@ -51,6 +53,7 @@ ReactDOM.render(
       <Route path="/" component={Components} />
       <Route path="/confirm/:id" component={ConfirmPage} />
     </Switch>
-  </Router>,
+  </Router>
+  </MuiThemeProvider>,
   document.getElementById("root")
 );
