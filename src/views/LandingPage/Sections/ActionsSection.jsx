@@ -61,24 +61,7 @@ class ActionsSection extends React.Component {
                 </CardBody>
               </Card>
             </GridItem>
-            {/* <GridItem xs={12} sm={12} md={4}>
-              <Card style={{ width: "20rem" }}>
-                <CardHeader color="warning">
-                  <h4>
-                    <b>Team Registration</b>
-                  </h4>
-                </CardHeader>
-                <CardBody>
-                  <h4 className={classes.cardTitle}>
-                    {" "}
-                    Go ahead to Register your team here!
-                  </h4>
-                  <Button color="primary" component={Link} to="/index">
-                    Go
-                  </Button>
-                </CardBody>
-              </Card>
-            </GridItem> */}
+
             <GridItem xs={12} sm={12} md={4}>
               <Card style={{ width: "20rem" }}>
                 <CardHeader color="warning">

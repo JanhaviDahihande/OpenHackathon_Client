@@ -21,6 +21,10 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import HeaderLinks from "components/Header/HeaderLinks.jsx";
+import Header from "components/Header/Header.jsx";
+import Footer from "components/Footer/Footer.jsx";
+const dashboardRoutes = [];
 class HackathonDetails extends React.Component {
   constructor(props) {
     super(props);
@@ -127,6 +131,20 @@ class HackathonDetails extends React.Component {
 
     return (
       <div>
+        <div>
+          <Header
+            color="primary"
+            routes={dashboardRoutes}
+            brand="Open Hackathon"
+            rightLinks={<HeaderLinks />}
+            fixed
+            changeColorOnScroll={{
+              height: 400,
+              color: "white"
+            }}
+            {...rest}
+          />
+        </div>
         <div
           className={classes.pageHeader}
           style={{
@@ -219,6 +237,7 @@ class HackathonDetails extends React.Component {
             </GridContainer>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }

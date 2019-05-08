@@ -18,22 +18,31 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
 import axios from "axios";
+import HeaderLinks from "components/Header/HeaderLinks.jsx";
+import Header from "components/Header/Header.jsx";
+import Footer from "components/Footer/Footer.jsx";
+const dashboardRoutes = [];
 class MyHackathonsList extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
       cardAnimaton: "cardHidden",
-      hackathon: []
+      hackathon: [],
+      userId: 1
     };
   }
   componentDidMount() {
-    this.getMyHackathons();
+    this.setState({ userId: localStorage.getItem("userId") }, () => {
+      this.getMyHackathons();
+    });
   }
 
   getMyHackathons() {
     axios
-      .get("http://localhost:5000/participant/1/hackathon")
+      .get(
+        "http://localhost:5000/participant/" + this.state.userId + "/hackathon"
+      )
       .then(response => {
         console.log(response);
         var hackathon = [];
@@ -60,6 +69,18 @@ class MyHackathonsList extends React.Component {
     });
     return (
       <div>
+        <Header
+          color="primary"
+          routes={dashboardRoutes}
+          brand="Open Hackathon"
+          rightLinks={<HeaderLinks />}
+          fixed
+          changeColorOnScroll={{
+            height: 400,
+            color: "white"
+          }}
+          {...rest}
+        />
         <div
           className={classes.pageHeader}
           style={{
@@ -139,6 +160,7 @@ class MyHackathonsList extends React.Component {
             </GridContainer>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }

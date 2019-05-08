@@ -1,15 +1,7 @@
 import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import Icon from "@material-ui/core/Icon";
-// @material-ui/icons
-import Email from "@material-ui/icons/Email";
-import People from "@material-ui/icons/People";
 // core components
-import Header from "components/Header/Header.jsx";
-import HeaderLinks from "components/Header/HeaderLinks.jsx";
-import Footer from "components/Footer/Footer.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 import Button from "components/CustomButtons/Button.jsx";
@@ -27,6 +19,10 @@ import image from "assets/img/bg7.jpg";
 import { GoogleLogin } from "react-google-login";
 import ChipInput from "material-ui-chip-input";
 import AutoComplete from "material-ui/AutoComplete";
+import HeaderLinks from "components/Header/HeaderLinks.jsx";
+import Header from "components/Header/Header.jsx";
+import Footer from "components/Footer/Footer.jsx";
+const dashboardRoutes = [];
 class CreateHackathon extends React.Component {
   constructor(props) {
     super(props);
@@ -84,6 +80,18 @@ class CreateHackathon extends React.Component {
     const { classes, ...rest } = this.props;
     return (
       <div>
+        <Header
+          color="primary"
+          routes={dashboardRoutes}
+          brand="Open Hackathon"
+          rightLinks={<HeaderLinks />}
+          fixed
+          changeColorOnScroll={{
+            height: 400,
+            color: "white"
+          }}
+          {...rest}
+        />
         <div
           className={classes.pageHeader}
           style={{
@@ -246,6 +254,7 @@ class CreateHackathon extends React.Component {
             </GridContainer>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }

@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -23,98 +23,105 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
 import image from "assets/img/bg7.jpg";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 type Props = {
-  history: any,
-}
+  history: any
+};
 class RegisterPage extends PureComponent<Props, State> {
   static propTypes = {
-    history: PropTypes.object.isRequired,
-  }
+    history: PropTypes.object.isRequired
+  };
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
       cardAnimaton: "cardHidden",
-      first_name:'',
-      last_name:'',
-      email_id:'',
-      password:'',
-      confirm_password:'',
+      first_name: "",
+      last_name: "",
+      email_id: "",
+      password: "",
+      confirm_password: ""
     };
     this.handlesOnFirstNameChange = this.handlesOnFirstNameChange.bind(this);
     this.handlesOnLastNameChange = this.handlesOnLastNameChange.bind(this);
     this.handlesOnEmailChange = this.handlesOnEmailChange.bind(this);
     this.handlesOnPasswordChange = this.handlesOnPasswordChange.bind(this);
-    this.handlesOnConfirmPasswordChange = this.handlesOnConfirmPasswordChange.bind(this);
+    this.handlesOnConfirmPasswordChange = this.handlesOnConfirmPasswordChange.bind(
+      this
+    );
   }
   componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
     setTimeout(
       function() {
-        this.setState({ cardAnimaton: "", first_name:"", last_name:"", email_id:"", password:"" });
+        this.setState({
+          cardAnimaton: "",
+          first_name: "",
+          last_name: "",
+          email_id: "",
+          password: ""
+        });
       }.bind(this),
       700
     );
   }
 
-  sendEmail = (event: SyntheticEvent<>) =>  {
+  sendEmail = (event: SyntheticEvent<>) => {
     const { history } = this.props;
-    const { first_name, last_name, email_id,  password} = this.state;
-    console.log(first_name +"__" + last_name +"__" +  email_id +"__" +  password);
-    if(document.getElementById('password').value != document.getElementById('confirm_password').value){
+    const { first_name, last_name, email_id, password } = this.state;
+    console.log(
+      first_name + "__" + last_name + "__" + email_id + "__" + password
+    );
+    if (
+      document.getElementById("password").value !=
+      document.getElementById("confirm_password").value
+    ) {
       alert("Passwords don't match");
-    }
-    else if(document.getElementById('first_name').value == ""){
+      document.getElementById("password").value = "";
+      document.getElementById("confirm_password").value = "";
+    } else if (document.getElementById("first_name").value == "") {
       alert("First name cannot be blank");
-    }
-    else if(document.getElementById('last_name').value == ""){
+    } else if (document.getElementById("last_name").value == "") {
       alert("Last name cannot be blank");
-    }
-    else if(document.getElementById('email_id').value == ""){
+    } else if (document.getElementById("email_id").value == "") {
       alert("Email cannot be blank");
-    }
-    else if(document.getElementById('password').value == ""){
+    } else if (document.getElementById("password").value == "") {
       alert("Password cannot be blank");
-    }
-    else if(document.getElementById('confirm_password').value == ""){
+    } else if (document.getElementById("confirm_password").value == "") {
       alert("Password needs to be confirmed");
+    } else {
+      fetch("http://localhost:5000/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          firstname: first_name,
+          lastname: last_name,
+          email: email_id,
+          password: password
+        })
+      })
+        .then(res => res.json())
+        .then(json => {
+          console.log("json", json);
+          history.push({ pathname: "/invitation-sent" });
+        });
     }
-    else{
-    fetch('http://localhost:5000/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        firstname: first_name,
-        lastname: last_name,
-        email: email_id,
-        password: password,
-      }),
-      // body: JSON.stringify({
-      //   recipient: recipient,
-      //   sender: sender,
-      //   topic: "Test email",
-      //   text: "Hi!",
-      // }),
-    })
-      .then(res => res.json())
-      .then(json => {
-        console.log('json', json);
-        history.push({ pathname: '/invitation-sent' });
-      });
-    }
-    // fetch(`http://127.0.0.1:4000/send-email?recipient=${email.recipient}&sender=${email.sender}&topic=${email.subject}&text=${email.text}`) //query string url
-    //   .catch(err => console.error(err))
-  }
-  
+  };
+
   render() {
-    const responseGoogle = (response) => {
+    const responseGoogle = response => {
       console.log(response);
-    }
+    };
     const { classes, ...rest } = this.props;
-    const { first_name, last_name, email_id,  password, confirm_password} = this.state;
+    const {
+      first_name,
+      last_name,
+      email_id,
+      password,
+      confirm_password
+    } = this.state;
     return (
       <div>
         <Header
@@ -139,11 +146,9 @@ class RegisterPage extends PureComponent<Props, State> {
                   <form className={classes.form}>
                     <CardHeader color="primary" className={classes.cardHeader}>
                       <h4>Register</h4>
-                      
                     </CardHeader>
                     <CardBody>
                       <CustomInput
-                        
                         labelText="First Name"
                         id="first_name"
                         value={first_name}
@@ -151,7 +156,7 @@ class RegisterPage extends PureComponent<Props, State> {
                           fullWidth: true
                         }}
                         inputProps={{
-                          onChange:this.handlesOnFirstNameChange,
+                          onChange: this.handlesOnFirstNameChange,
                           type: "text",
                           endAdornment: (
                             <InputAdornment position="end">
@@ -164,12 +169,11 @@ class RegisterPage extends PureComponent<Props, State> {
                         labelText="Last Name"
                         id="last_name"
                         value={last_name}
-                        
                         formControlProps={{
                           fullWidth: true
                         }}
                         inputProps={{
-                          onChange:this.handlesOnLastNameChange,
+                          onChange: this.handlesOnLastNameChange,
                           type: "text",
                           endAdornment: (
                             <InputAdornment position="end">
@@ -182,12 +186,11 @@ class RegisterPage extends PureComponent<Props, State> {
                         labelText="Email id"
                         id="email_id"
                         value={email_id}
-                        
                         formControlProps={{
                           fullWidth: true
                         }}
                         inputProps={{
-                          onChange:this.handlesOnEmailChange,
+                          onChange: this.handlesOnEmailChange,
                           type: "email",
                           endAdornment: (
                             <InputAdornment position="end">
@@ -205,7 +208,7 @@ class RegisterPage extends PureComponent<Props, State> {
                           fullWidth: true
                         }}
                         inputProps={{
-                          onChange:this.handlesOnPasswordChange,
+                          onChange: this.handlesOnPasswordChange,
                           type: "password",
                           endAdornment: (
                             <InputAdornment position="end">
@@ -224,7 +227,7 @@ class RegisterPage extends PureComponent<Props, State> {
                           fullWidth: true
                         }}
                         inputProps={{
-                          onChange:this.handlesOnConfirmPasswordChange,
+                          onChange: this.handlesOnConfirmPasswordChange,
                           type: "password",
                           endAdornment: (
                             <InputAdornment position="end">
@@ -237,8 +240,12 @@ class RegisterPage extends PureComponent<Props, State> {
                       />
                     </CardBody>
                     <CardFooter className={classes.cardFooter}>
-                      <Button simple color="primary" size="lg"  onClick={this.sendEmail}
-                      // component={Link} to="/invitation-sent"
+                      <Button
+                        simple
+                        color="primary"
+                        size="lg"
+                        onClick={this.sendEmail}
+                        // component={Link} to="/invitation-sent"
                       >
                         Register
                       </Button>
@@ -290,8 +297,8 @@ class RegisterPage extends PureComponent<Props, State> {
     if (event) {
       //event.preventDefault();
       // should add some validator before setState in real use cases
-     
-          this.setState({ confirm_password: event.target.value.trim() }); 
+
+      this.setState({ confirm_password: event.target.value.trim() });
     }
   };
 }

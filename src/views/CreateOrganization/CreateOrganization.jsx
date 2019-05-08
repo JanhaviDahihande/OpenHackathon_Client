@@ -23,8 +23,8 @@ import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
 import image from "assets/img/bg7.jpg";
 
-import { GoogleLogin } from 'react-google-login';
-
+import { GoogleLogin } from "react-google-login";
+const dashboardRoutes = [];
 class CreateOrganization extends React.Component {
   constructor(props) {
     super(props);
@@ -42,9 +42,9 @@ class CreateOrganization extends React.Component {
       700
     );
   }
-  
+
   render() {
-    const responseGoogle = (response) => {
+    const responseGoogle = response => {
       // var profile = response.getBasicProfile();
       // console.log("ID: " + profile.getId()); // Don't send this directly to your server!
       // console.log('Full Name: ' + profile.getName());
@@ -57,10 +57,22 @@ class CreateOrganization extends React.Component {
       // var id_token = response.getAuthResponse().id_token;
       // console.log("ID Token: " + id_token);
       console.log(response);
-    }
+    };
     const { classes, ...rest } = this.props;
     return (
       <div>
+        <Header
+          color="primary"
+          routes={dashboardRoutes}
+          brand="Open Hackathon"
+          rightLinks={<HeaderLinks />}
+          fixed
+          changeColorOnScroll={{
+            height: 400,
+            color: "white"
+          }}
+          {...rest}
+        />
         <div
           className={classes.pageHeader}
           style={{
@@ -70,13 +82,11 @@ class CreateOrganization extends React.Component {
           }}
         >
           <div className={classes.container}>
-          
             <GridContainer justify="center">
               <GridItem xs={12} sm={12} md={8}>
-              <h2>Create Organization</h2>
+                <h2>Create Organization</h2>
                 <Card className={classes[this.state.cardAnimaton]}>
                   <form className={classes.form}>
-                    
                     <CardBody>
                       <CustomInput
                         labelText="Organization Name"
@@ -85,8 +95,7 @@ class CreateOrganization extends React.Component {
                           fullWidth: true
                         }}
                         inputProps={{
-                          type: "text",
-                        
+                          type: "text"
                         }}
                       />
                       <CustomInput
@@ -96,8 +105,7 @@ class CreateOrganization extends React.Component {
                           fullWidth: true
                         }}
                         inputProps={{
-                          type: "text",
-                        
+                          type: "text"
                         }}
                       />
                       <CustomInput
@@ -107,8 +115,7 @@ class CreateOrganization extends React.Component {
                           fullWidth: true
                         }}
                         inputProps={{
-                          type: "text",
-                        
+                          type: "text"
                         }}
                       />
                     </CardBody>
@@ -123,6 +130,7 @@ class CreateOrganization extends React.Component {
             </GridContainer>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }

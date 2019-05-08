@@ -23,13 +23,14 @@ import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
 import image from "assets/img/bg7.jpg";
 
-import { GoogleLogin } from 'react-google-login';
+import { GoogleLogin } from "react-google-login";
 // @material-ui/icons
 import Group from "@material-ui/icons/Group";
 import Assessment from "@material-ui/icons/Assessment";
 
 // core components
 import InfoArea from "components/InfoArea/InfoArea.jsx";
+const dashboardRoutes = [];
 class UserOrganization extends React.Component {
   constructor(props) {
     super(props);
@@ -47,9 +48,9 @@ class UserOrganization extends React.Component {
       700
     );
   }
-  
+
   render() {
-    const responseGoogle = (response) => {
+    const responseGoogle = response => {
       // var profile = response.getBasicProfile();
       // console.log("ID: " + profile.getId()); // Don't send this directly to your server!
       // console.log('Full Name: ' + profile.getName());
@@ -62,10 +63,22 @@ class UserOrganization extends React.Component {
       // var id_token = response.getAuthResponse().id_token;
       // console.log("ID Token: " + id_token);
       console.log(response);
-    }
+    };
     const { classes, ...rest } = this.props;
     return (
       <div>
+        <Header
+          color="primary"
+          routes={dashboardRoutes}
+          brand="Open Hackathon"
+          rightLinks={<HeaderLinks />}
+          fixed
+          changeColorOnScroll={{
+            height: 400,
+            color: "white"
+          }}
+          {...rest}
+        />
         <div
           className={classes.pageHeader}
           style={{
@@ -75,35 +88,33 @@ class UserOrganization extends React.Component {
           }}
         >
           <div className={classes.container}>
-          
-            <GridContainer style={{backgroundColor: "white"}}>
-            
-             <GridItem  xs={4} sm={2} md={3}>
-                  <InfoArea 
-                    title="Current Organization"
-                    description="We've created the marketing campaign of the website. It was a very interesting collaboration."
-                    icon={Group}
-                    iconColor="rose"
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}></GridItem>
-                <GridItem  xs={12} sm={12} md={2}>
-                  <InfoArea
-                    title="Status"
-                    description="Pending"
-                    icon={Assessment}
-                    iconColor="rose"
-                  />
-                </GridItem>
-                <GridItem  xs={12} sm={12} md={2}>
-                  <InfoArea
-                    title="Create"
-                    description=""
-                    icon={Assessment}
-                    iconColor="rose"
-                  />
-                </GridItem>
-                {/* <GridItem  xs={12} sm={12} md={2}>
+            <GridContainer style={{ backgroundColor: "white" }}>
+              <GridItem xs={4} sm={2} md={3}>
+                <InfoArea
+                  title="Current Organization"
+                  description="We've created the marketing campaign of the website. It was a very interesting collaboration."
+                  icon={Group}
+                  iconColor="rose"
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={4} />
+              <GridItem xs={12} sm={12} md={2}>
+                <InfoArea
+                  title="Status"
+                  description="Pending"
+                  icon={Assessment}
+                  iconColor="rose"
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={2}>
+                <InfoArea
+                  title="Create"
+                  description=""
+                  icon={Assessment}
+                  iconColor="rose"
+                />
+              </GridItem>
+              {/* <GridItem  xs={12} sm={12} md={2}>
                   <InfoArea
                     title="Status"
                     description="Pending"
@@ -111,56 +122,57 @@ class UserOrganization extends React.Component {
                     iconColor="rose"
                   />
                 </GridItem> */}
-                {/* <GridItem  xs={12} sm={12} md={4}>
+              {/* <GridItem  xs={12} sm={12} md={4}>
                 <InfoArea
                   title="Status"
                   description="Pending"
                   icon={Assessment}
                   iconColor="rose"
                 /></GridItem> */}
-                <GridItem  xs={12} sm={12} md={12}>
-                  <hr/>
-                </GridItem>
-                {/* <GridItem >
+              <GridItem xs={12} sm={12} md={12}>
+                <hr />
+              </GridItem>
+              {/* <GridItem >
                   <input type="search" 
                 style={{marginTop: 10,  width: 500, height: 50}}
                 ></input>
                 </GridItem> */}
-                <GridItem  xs={12} sm={12} md={3}>
-                  <Card style={{width: "15rem"}}>
-                    <CardBody>
-                      <h4 className={classes.cardTitle}>Organization 2</h4>
-                      <Button color="primary">Join</Button>
-                    </CardBody>
-                  </Card>
-                </GridItem>
-                <GridItem  xs={12} sm={12} md={3}>
-                  <Card style={{width: "15rem"}}>
-                    <CardBody>
-                      <h4 className={classes.cardTitle}>Organization 3</h4>
-                      <Button color="primary">Join</Button>
-                    </CardBody>
-                  </Card>
-                </GridItem>
-                <GridItem  xs={12} sm={12} md={3}>
-                  <Card style={{width: "15rem"}}>
-                    <CardBody>
-                      <h4 className={classes.cardTitle}>Organization 4</h4>
-                      <Button color="primary">Join</Button>
-                    </CardBody>
-                  </Card>
-                </GridItem>
-                <GridItem  xs={12} sm={12} md={3}>
-                  <Card style={{width: "15rem"}}>
-                    <CardBody>
-                      <h4 className={classes.cardTitle}>Organization 5</h4>
-                      <Button color="primary">Join</Button>
-                    </CardBody>
-                  </Card>
-                </GridItem>
+              <GridItem xs={12} sm={12} md={3}>
+                <Card style={{ width: "15rem" }}>
+                  <CardBody>
+                    <h4 className={classes.cardTitle}>Organization 2</h4>
+                    <Button color="primary">Join</Button>
+                  </CardBody>
+                </Card>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={3}>
+                <Card style={{ width: "15rem" }}>
+                  <CardBody>
+                    <h4 className={classes.cardTitle}>Organization 3</h4>
+                    <Button color="primary">Join</Button>
+                  </CardBody>
+                </Card>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={3}>
+                <Card style={{ width: "15rem" }}>
+                  <CardBody>
+                    <h4 className={classes.cardTitle}>Organization 4</h4>
+                    <Button color="primary">Join</Button>
+                  </CardBody>
+                </Card>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={3}>
+                <Card style={{ width: "15rem" }}>
+                  <CardBody>
+                    <h4 className={classes.cardTitle}>Organization 5</h4>
+                    <Button color="primary">Join</Button>
+                  </CardBody>
+                </Card>
+              </GridItem>
             </GridContainer>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }
