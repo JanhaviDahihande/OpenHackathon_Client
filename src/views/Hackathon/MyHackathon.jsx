@@ -219,7 +219,7 @@ class MyHackathon extends React.Component {
               <GridItem xs={12} sm={12} md={4}>
               <Button
                 color="primary"
-                onClick={this.addMember}
+                onClick={this.submitCode}
               >
                 Submit Code
               </Button>      
