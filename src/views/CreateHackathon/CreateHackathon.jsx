@@ -58,6 +58,7 @@ class CreateHackathon extends React.Component {
       hackathon_id: 0
     };
     this.handleChange = this.handleChange.bind(this);
+    this.cancelAction = this.cancelAction.bind(this);
     this.postHackathon = this.postHackathon.bind(this);
     this.updateHackathon = this.updateHackathon.bind(this);
     this.handleChangeMultiple = this.handleChangeMultiple.bind(this);
@@ -127,6 +128,9 @@ class CreateHackathon extends React.Component {
     this.setState({ changedHackathon: changedHackathon });
   }
 
+  cancelAction() {
+    window.location.href = "http://localhost:3000/index";
+  }
   handleChangeMultiple = event => {
     const { options } = event.target;
     const value = [];
@@ -156,7 +160,7 @@ class CreateHackathon extends React.Component {
         }
       })
       .then(response => {
-        console.log(response);
+        console.log("GET RESPONSE:::: ", response);
         var hackathon = {};
         var changedHackathon = {};
 
@@ -176,8 +180,9 @@ class CreateHackathon extends React.Component {
         for (let i = 0; i < response.data.sponsors.length; i++) {
           changedHackathon.sponsors.push(response.data.sponsors[i].id);
         }
+
         for (let i = 0; i < response.data.judges.length; i++) {
-          changedHackathon.judges.push(response.data.judges[i].id);
+          changedHackathon.judges.push(response.data.judges[i].userId);
         }
         this.setState({
           hackathon: hackathon,
@@ -191,18 +196,7 @@ class CreateHackathon extends React.Component {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(
-        this.state.changedHackathon
-        // eventName: this.state.eventName,
-        // description: this.state.description,
-        // fees: this.state.fees,
-        // startDate: this.state.startDate,
-        // endDate: this.state.endDate,
-        // minTeamSize: this.state.minTeamSize,
-        // maxTeamSize: this.state.maxTeamSize,
-        // sponsors: this.state.sponsors,
-        // judges: this.state.judges
-      )
+      body: JSON.stringify(this.state.changedHackathon)
     })
       .then(res => res.json())
       .then(json => {
@@ -217,6 +211,7 @@ class CreateHackathon extends React.Component {
   }
 
   updateHackathon() {
+    console.log("Updating: ", this.state.changedHackathon);
     fetch("http://localhost:5000/hackathon/" + this.state.hackathon_id, {
       method: "PUT",
       headers: {
@@ -241,25 +236,82 @@ class CreateHackathon extends React.Component {
     console.log("STATE::", this.state);
     var comp =
       this.state.hackathon_id == 0 ? (
-        <CardFooter className={classes.cardFooter}>
-          <Button simple color="primary" size="lg" onClick={this.postHackathon}>
-            Create
-          </Button>
-        </CardFooter>
+        // <CardFooter className={classes.cardFooter}>
+        <Button simple color="primary" size="lg" onClick={this.postHackathon}>
+          Create
+        </Button>
       ) : (
-        <CardFooter className={classes.cardFooter}>
-          <Button
-            simple
-            color="primary"
-            size="lg"
-            onClick={this.updateHackathon}
-          >
-            Update
-          </Button>
-        </CardFooter>
+        // </CardFooter>
+        // <CardFooter className={classes.cardFooter}>
+        <Button simple color="primary" size="lg" onClick={this.updateHackathon}>
+          Update
+        </Button>
+        // </CardFooter>
       );
     var title =
       this.state.hackathon_id == 0 ? "Create Hackathon" : "Update Hackathon";
+
+    var sponsors = [];
+    for (let i = 0; i < this.state.sponsors_list.length; i++) {
+      if (
+        this.state.changedHackathon.sponsors.includes(
+          this.state.sponsors_list[i].id
+        )
+      ) {
+        sponsors.push(
+          <option
+            key={this.state.sponsors_list[i].id}
+            value={this.state.sponsors_list[i].id}
+            selected
+          >
+            {this.state.sponsors_list[i].name}
+          </option>
+        );
+      } else {
+        sponsors.push(
+          <option
+            key={this.state.sponsors_list[i].id}
+            value={this.state.sponsors_list[i].id}
+          >
+            {this.state.sponsors_list[i].name}
+          </option>
+        );
+      }
+    }
+
+    var judges = [];
+    for (let i = 0; i < this.state.judges_list.length; i++) {
+      if (
+        this.state.changedHackathon.judges.includes(
+          this.state.judges_list[i].id
+        )
+      ) {
+        judges.push(
+          <option
+            key={this.state.judges_list[i].id}
+            value={this.state.judges_list[i].id}
+            selected
+          >
+            {this.state.judges_list[i].firstname +
+              " " +
+              this.state.judges_list[i].lastname}
+          </option>
+        );
+      } else {
+        judges.push(
+          <option
+            key={this.state.judges_list[i].id}
+            value={this.state.judges_list[i].id}
+          >
+            {this.state.judges_list[i].firstname +
+              " " +
+              this.state.judges_list[i].lastname}
+          </option>
+        );
+      }
+    }
+    console.log("Judges: ", this.state.judges_list);
+
     return (
       <div>
         <Header
@@ -331,26 +383,17 @@ class CreateHackathon extends React.Component {
                           id: "judges"
                         }}
                       >
-                        {this.state.judges_list.map(judge => (
-                          <option key={judge.id} value={judge.id}>
-                            {judge.firstname + " " + judge.lastname}
-                          </option>
-                        ))}
+                        {judges}
                       </Select>
                       <Select
                         multiple
                         native
-                        // value={this.state.sponsors_list}
                         onChange={this.handleChangeMultiple}
                         inputProps={{
                           id: "sponsors"
                         }}
                       >
-                        {this.state.sponsors_list.map(sponsor => (
-                          <option key={sponsor.id} value={sponsor.id}>
-                            {sponsor.name}
-                          </option>
-                        ))}
+                        {sponsors}
                       </Select>
                       <br />
                       <TextField
@@ -450,6 +493,16 @@ class CreateHackathon extends React.Component {
                       />
                     </CardBody>
                     {comp}
+                    {/* <CardFooter className={classes.cardFooter}> */}
+                    <Button
+                      simple
+                      color="primary"
+                      size="lg"
+                      onClick={this.cancelAction}
+                    >
+                      Cancel
+                    </Button>
+                    {/* </CardFooter> */}
                   </form>
                 </Card>
               </GridItem>
