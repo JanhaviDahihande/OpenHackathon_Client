@@ -48,6 +48,21 @@ function HeaderLinks({ ...props }) {
     </ListItem>
   );
 
+  const signout = (
+    <ListItem className={classes.listItem}>
+      <Button
+        onClick={() => {
+          localStorage.clear();
+        }}
+        href="http://localhost:3000/logout"
+        color="transparent"
+        className={classes.navLink}
+      >
+        Sign Out
+      </Button>
+    </ListItem>
+  );
+
   return (
     <List className={classes.list}>
       <ListItem className={classes.listItem}>
@@ -61,7 +76,7 @@ function HeaderLinks({ ...props }) {
         </Button>
       </ListItem>
       {localStorage.getItem("userId") != null ? welcome : signup}
-      {localStorage.getItem("userId") == null ? signin : ""}
+      {localStorage.getItem("userId") != null ? signout : signin}
     </List>
   );
 }

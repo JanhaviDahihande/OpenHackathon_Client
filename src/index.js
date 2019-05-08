@@ -32,6 +32,7 @@ ReactDOM.render(
       <Route path="/index" component={LandingPage} />
       <Route path="/profile" component={ProfilePage} />
       <Route path="/login" component={LoginPage} />
+      <Route path="/logout" component={LandingPage} />
       <Route path="/register" component={RegisterPage} />
       <Route path="/all_hackathons" component={AllHackathonList} />
       <Route path="/create_organization" component={CreateOrganization} />

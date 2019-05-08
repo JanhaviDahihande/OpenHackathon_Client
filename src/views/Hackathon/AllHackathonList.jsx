@@ -41,7 +41,10 @@ class AllHackathonsList extends React.Component {
           eventName: response.data[i].eventName,
           description: response.data[i].description,
           startDate: response.data[i].startDate,
-          endDate: response.data[i].endDate
+          endDate: response.data[i].endDate,
+          minTeamSize: response.data[i].minTeamSize,
+          maxTeamSize: response.data[i].maxTeamSize,
+          fees: response.data[i].fees
         });
       }
       this.setState({ hackathon: hackathon });
@@ -74,6 +77,8 @@ class AllHackathonsList extends React.Component {
                         <TableCell>EventName</TableCell>
                         <TableCell align="left">Start Date</TableCell>
                         <TableCell align="left">End Date</TableCell>
+                        <TableCell align="left">Team Size</TableCell>
+                        <TableCell align="left">Fees</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -85,9 +90,19 @@ class AllHackathonsList extends React.Component {
                           >
                             {row.eventName}
                           </TableCell>
-                          <TableCell align="left">{row.startDate}</TableCell>
+                          <TableCell align="left">
+                            {row.startDate.substring(0, 10)}
+                          </TableCell>
 
-                          <TableCell align="left">{row.endDate}</TableCell>
+                          <TableCell align="left">
+                            {row.endDate.substring(0, 10)}
+                          </TableCell>
+
+                          <TableCell align="left">
+                            {row.minTeamSize} - {row.maxTeamSize}
+                          </TableCell>
+
+                          <TableCell align="left">{row.fees}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>

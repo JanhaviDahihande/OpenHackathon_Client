@@ -27,22 +27,11 @@ class LandingPage extends React.Component {
     const { classes, ...rest } = this.props;
     const role = localStorage.getItem("role");
     var viewType;
+    var banner = "";
     if (role === "Hacker") viewType = <HackerMenu />;
     else if (role === "Admin") viewType = <AdminMenu />;
-    return (
-      <div>
-        <Header
-          color="transparent"
-          routes={dashboardRoutes}
-          brand="Open Hackathon"
-          rightLinks={<HeaderLinks />}
-          fixed
-          changeColorOnScroll={{
-            height: 400,
-            color: "white"
-          }}
-          {...rest}
-        />
+    else
+      banner = (
         <Parallax filter image={require("assets/img/landing-bg.jpg")}>
           <div className={classes.container}>
             <GridContainer>
@@ -67,8 +56,24 @@ class LandingPage extends React.Component {
             </GridContainer>
           </div>
         </Parallax>
+      );
+    return (
+      <div>
+        <Header
+          color="primary"
+          routes={dashboardRoutes}
+          brand="Open Hackathon"
+          rightLinks={<HeaderLinks />}
+          fixed
+          changeColorOnScroll={{
+            height: 400,
+            color: "white"
+          }}
+          {...rest}
+        />
+        {banner}
 
-        <div className={classNames(classes.main, classes.mainRaised)}>
+        <div className={classNames(classes.main)}>
           <div className={classes.container}>{viewType}</div>
         </div>
         <Footer />
