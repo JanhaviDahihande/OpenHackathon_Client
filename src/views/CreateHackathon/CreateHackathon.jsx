@@ -22,20 +22,51 @@ import AutoComplete from "material-ui/AutoComplete";
 import HeaderLinks from "components/Header/HeaderLinks.jsx";
 import Header from "components/Header/Header.jsx";
 import Footer from "components/Footer/Footer.jsx";
+
+import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import Input from '@material-ui/core/Input';
 const dashboardRoutes = [];
+
+const names = [
+  'Oliver Hansen',
+  'Van Henry',
+  'April Tucker',
+  'Ralph Hubbard',
+  'Omar Alexander',
+  'Carlos Abbott',
+  'Miriam Wagner',
+  'Bradley Wilkerson',
+  'Virginia Andrews',
+  'Kelly Snyder',
+];
 class CreateHackathon extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
       cardAnimaton: "cardHidden",
-      sponsors: []
+      sponsors: [],
+      sponsors_list: [],
+      eventName:'',
+      startDate:'',
+      endDate:'',
+      description:'',
+      fees:0,
+      judges:[],
+      judges_list:[],
+      minTeamSize: 0,
+      maxTeamSize:0,
+      discount: 0,
+      hackathon_id: 0
     };
     this.handleChange = this.handleChange.bind(this);
-    this.handleSponsorChange = this.handleSponsorChange.bind(this);
     this.postHackathon = this.postHackathon.bind(this);
+    this.handleChangeMultiple = this.handleChangeMultiple.bind(this);
   }
-  componentDidMount() {
+  async componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
     setTimeout(
       function() {
@@ -43,18 +74,62 @@ class CreateHackathon extends React.Component {
       }.bind(this),
       700
     );
+
+    try {
+      var url = 'http://localhost:5000/organization';
+      await fetch(url)
+        .then(res => res.json())
+        .then(json => {
+          console.log("json", json);
+          var sponsors = [];
+          for(var i=0;i<json.length;i++){
+            sponsors.push({name: json[i].name, id: json[i].id});
+          }
+          console.log(sponsors);
+          
+          this.setState({sponsors_list: sponsors})
+        });
+    } catch (error) {}
+
+    try {
+      var url = 'http://localhost:5000/user/list';
+      await fetch(url)
+        .then(res => res.json())
+        .then(json => {
+          console.log("json", json);
+          var judges = [];
+          for(var i=0;i<json.length;i++){
+            judges.push({firstname: json[i].firstname==null?"":json[i].firstname,
+            lastname: json[i].lastname==null?"":json[i].lastname, id: json[i].id});
+          }
+          console.log(judges);
+          
+          this.setState({judges_list: judges}, () => {console.log(this.state.judges_list)})
+        });
+    } catch (error) {}
+
   }
 
   handleChange(evt) {
     this.setState({ [evt.target.id]: evt.target.value });
   }
 
-  async handleSponsorChange(chip) {
-    console.log("Here");
-    await this.setState({ sponsors: chip });
-  }
+  handleChangeMultiple = event => {
+    const { options } = event.target;
+    const value = [];
+    for (let i = 0, l = options.length; i < l; i += 1) {
+      if (options[i].selected) {
+        value.push(options[i].value);
+      }
+    }
+    console.log([event.target.id]);
+    this.setState({
+      [event.target.id]: value,
+    }, ()=>{console.log(this.state.judges)});
+  };
 
-  postHackathon() {
+  postHackathon = event =>{
+    console.log(this.state.discount + "_" + this.state.startDate + "_" + this.state.endDate);
     fetch("http://localhost:5000/hackathon", {
       method: "POST",
       headers: {
@@ -67,7 +142,9 @@ class CreateHackathon extends React.Component {
         startDate: this.state.startDate,
         endDate: this.state.endDate,
         minTeamSize: this.state.minTeamSize,
-        maxTeamSize: this.state.maxTeamSize
+        maxTeamSize: this.state.maxTeamSize,
+        sponsors: this.state.sponsors,
+        judges: this.state.judges
       })
     })
       .then(res => res.json())
@@ -129,24 +206,36 @@ class CreateHackathon extends React.Component {
                           type: "text"
                         }}
                       />
-                      <CustomInput
-                        labelText="Judges"
-                        id="judges"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
+                     <Select
+                        multiple
+                        native
+                        // value={this.state.sponsors_list}
+                        onChange={this.handleChangeMultiple}
                         inputProps={{
-                          onChange: this.handleChange,
-                          type: "text"
+                          id: 'judges',
                         }}
-                      />
-                      <ChipInput
-                        id="sponsors"
-                        allowDuplicates={false}
-                        floatingLabelText="Sponsors"
-                        fullWidth={true}
-                        onChange={chip => this.handleSponsorChange(chip)}
-                      />
+                      >
+                        {this.state.judges_list.map(judge => (
+                          <option key={judge.id} value={judge.id}>
+                            {judge.firstname + " " + judge.lastname}
+                          </option>
+                        ))}
+                      </Select>
+                      <Select
+                        multiple
+                        native
+                        // value={this.state.sponsors_list}
+                        onChange={this.handleChangeMultiple}
+                        inputProps={{
+                          id: 'sponsors',
+                        }}
+                      >
+                        {this.state.sponsors_list.map(sponsor => (
+                          <option key={sponsor.id} value={sponsor.id}>
+                            {sponsor.name}
+                          </option>
+                        ))}
+                      </Select>
                       <br />
                       <TextField
                         id="fees"
