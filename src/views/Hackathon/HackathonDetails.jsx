@@ -58,7 +58,7 @@ class HackathonDetails extends React.Component {
       .then(response => {
         console.log(response);
         var hackathon = {};
-        hackathon.hackathonId = response.data.hackathonId;
+        hackathon.hackathonId = response.data.id;
         hackathon.hackathonName = response.data.eventName;
         hackathon.startDate = response.data.startDate.substring(0, 10);
         hackathon.endDate = response.data.endDate.substring(0, 10);
@@ -117,7 +117,16 @@ class HackathonDetails extends React.Component {
       ) : (
         ""
       );
-    if (localStorage.getItem("role") == "Admin") comp = "";
+    if (localStorage.getItem("role") == "Admin")
+      comp = (
+        <Button
+          color="primary"
+          component={Link}
+          to={"/create_hackathon/" + this.state.hackathonId}
+        >
+          Edit
+        </Button>
+      );
 
     const CustomTableCell = withStyles(theme => ({
       head: {
@@ -215,13 +224,19 @@ class HackathonDetails extends React.Component {
                     <TableRow className={classes.row}>
                       <CustomTableCell>Sponsors</CustomTableCell>
                       <CustomTableCell>
-                        {this.state.hackathon.sponsors}
+                        {this.state.hackathon.sponsors &&
+                          this.state.hackathon.sponsors.map(sponsor => (
+                            <dd key={sponsor.id}> {sponsor.name} </dd>
+                          ))}
                       </CustomTableCell>
                     </TableRow>
                     <TableRow className={classes.row}>
                       <CustomTableCell>Judges</CustomTableCell>
                       <CustomTableCell>
-                        {this.state.hackathon.judges}
+                        {this.state.hackathon.judges &&
+                          this.state.hackathon.judges.map(judge => (
+                            <dd key={judge.id}> {judge.name} </dd>
+                          ))}
                       </CustomTableCell>
                     </TableRow>
                   </TableBody>

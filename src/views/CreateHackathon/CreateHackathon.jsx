@@ -23,25 +23,14 @@ import HeaderLinks from "components/Header/HeaderLinks.jsx";
 import Header from "components/Header/Header.jsx";
 import Footer from "components/Footer/Footer.jsx";
 
-import InputLabel from '@material-ui/core/InputLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import Input from '@material-ui/core/Input';
+import InputLabel from "@material-ui/core/InputLabel";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import Input from "@material-ui/core/Input";
+import axios from "axios";
 const dashboardRoutes = [];
 
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-];
 class CreateHackathon extends React.Component {
   constructor(props) {
     super(props);
@@ -50,29 +39,31 @@ class CreateHackathon extends React.Component {
       cardAnimaton: "cardHidden",
       sponsors: [],
       sponsors_list: [],
-      eventName:'',
-      startDate:'',
-      endDate:'',
-      description:'',
-      fees:0,
-      judges:[],
-      judges_list:[],
+      hackathon: {},
+      eventName: "",
+      startDate: "",
+      endDate: "",
+      description: "",
+      fees: 0,
+      judges: [],
+      judges_list: [],
       minTeamSize: 0,
-      maxTeamSize:0,
+      maxTeamSize: 0,
       discount: 0,
       hackathon_id: 0
     };
     this.handleChange = this.handleChange.bind(this);
     this.postHackathon = this.postHackathon.bind(this);
+    this.updateHackathon = this.updateHackathon.bind(this);
     this.handleChangeMultiple = this.handleChangeMultiple.bind(this);
   }
   componentDidMount() {
     const id = this.props.match.params.id;
     console.log("Params::: ", id);
-    if(id){
-    this.setState(
-      { hackathon_id: 1 }
-    );
+    if (id) {
+      this.setState({ hackathon_id: Number(id) }, () => {
+        this.getHackathon();
+      });
     }
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
     setTimeout(
@@ -83,38 +74,42 @@ class CreateHackathon extends React.Component {
     );
 
     try {
-      var url = 'http://localhost:5000/organization';
+      var url = "http://localhost:5000/organization";
       fetch(url)
         .then(res => res.json())
         .then(json => {
           console.log("json", json);
           var sponsors = [];
-          for(var i=0;i<json.length;i++){
-            sponsors.push({name: json[i].name, id: json[i].id});
+          for (var i = 0; i < json.length; i++) {
+            sponsors.push({ name: json[i].name, id: json[i].id });
           }
           console.log(sponsors);
-          
-          this.setState({sponsors_list: sponsors})
+
+          this.setState({ sponsors_list: sponsors });
         });
     } catch (error) {}
 
     try {
-      var url = 'http://localhost:5000/user/list';
+      var url = "http://localhost:5000/user/list";
       fetch(url)
         .then(res => res.json())
         .then(json => {
           console.log("json", json);
           var judges = [];
-          for(var i=0;i<json.length;i++){
-            judges.push({firstname: json[i].firstname==null?"":json[i].firstname,
-            lastname: json[i].lastname==null?"":json[i].lastname, id: json[i].id});
+          for (var i = 0; i < json.length; i++) {
+            judges.push({
+              firstname: json[i].firstname == null ? "" : json[i].firstname,
+              lastname: json[i].lastname == null ? "" : json[i].lastname,
+              id: json[i].id
+            });
           }
           console.log(judges);
-          
-          this.setState({judges_list: judges}, () => {console.log(this.state.judges_list)})
+
+          this.setState({ judges_list: judges }, () => {
+            console.log(this.state.judges_list);
+          });
         });
     } catch (error) {}
-
   }
 
   handleChange(evt) {
@@ -130,13 +125,39 @@ class CreateHackathon extends React.Component {
       }
     }
     console.log([event.target.id]);
-    this.setState({
-      [event.target.id]: value,
-    }, ()=>{console.log(this.state.judges)});
+    this.setState(
+      {
+        [event.target.id]: value
+      },
+      () => {
+        console.log(this.state.judges);
+      }
+    );
   };
 
-  postHackathon = event =>{
-    console.log(this.state.discount + "_" + this.state.startDate + "_" + this.state.endDate);
+  getHackathon() {
+    axios
+      .get("http://localhost:5000/hackathon/" + this.state.hackathon_id, {
+        params: {
+          userId: localStorage.getItem("userId")
+        }
+      })
+      .then(response => {
+        console.log(response);
+        var hackathon = {};
+        hackathon.eventName = response.data.eventName;
+        hackathon.description = response.data.description;
+        hackathon.fees = response.data.fees;
+        hackathon.startDate = response.data.startDate.substring(0, 10);
+        hackathon.endDate = response.data.endDate.substring(0, 10);
+        hackathon.minTeamSize = response.data.minTeamSize;
+        hackathon.maxTeamSize = response.data.maxTeamSize;
+        hackathon.sponsors = response.data.sponsors;
+        hackathon.judges = response.data.judges;
+        this.setState({ hackathon: hackathon });
+      });
+  }
+  postHackathon() {
     fetch("http://localhost:5000/hackathon", {
       method: "POST",
       headers: {
@@ -156,37 +177,68 @@ class CreateHackathon extends React.Component {
     })
       .then(res => res.json())
       .then(json => {
-        console.log("json", json);
+        if (json.status != "BadRequest") {
+          window.location.href =
+            "http://localhost:3000/hackathon_details/" + json.id;
+        } else alert("Request failed with error: " + json.message);
+      })
+      .catch(error => {
+        alert("Invalid Request");
+      });
+  }
+
+  updateHackathon() {
+    fetch("http://localhost:5000/hackathon/" + this.state.hackathon_id, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        eventName: this.state.eventName,
+        description: this.state.description,
+        fees: this.state.fees,
+        startDate: this.state.startDate,
+        endDate: this.state.endDate,
+        minTeamSize: this.state.minTeamSize,
+        maxTeamSize: this.state.maxTeamSize,
+        sponsors: this.state.sponsors,
+        judges: this.state.judges
+      })
+    })
+      .then(res => res.json())
+      .then(json => {
+        if (json.status != "BadRequest") {
+          window.location.href =
+            "http://localhost:3000/hackathon_details/" + json.id;
+        } else alert("Request failed with error: " + json.message);
+      })
+      .catch(error => {
+        alert("Invalid Request");
       });
   }
 
   render() {
     const { classes, ...rest } = this.props;
-
-    var comp = this.state.hackathon_id == 0 ? (<CardFooter className={classes.cardFooter}>
-      <Button
-        simple
-        color="primary"
-        size="lg"
-        onClick={this.postHackathon}
-      >
-        Create
-      </Button>
-    </CardFooter>
-    ) : this.state.hackathon_id == 1 ? (
-      <CardFooter className={classes.cardFooter}>
-                      <Button
-                        simple
-                        color="primary"
-                        size="lg"
-                        onClick={this.postHackathon}
-                      >
-                        Update
-                      </Button>
-                    </CardFooter>
-    ): (
-      ""
-    );
+    console.log("STATE::", this.state);
+    var comp =
+      this.state.hackathon_id == 0 ? (
+        <CardFooter className={classes.cardFooter}>
+          <Button simple color="primary" size="lg" onClick={this.postHackathon}>
+            Create
+          </Button>
+        </CardFooter>
+      ) : (
+        <CardFooter className={classes.cardFooter}>
+          <Button
+            simple
+            color="primary"
+            size="lg"
+            onClick={this.updateHackathon}
+          >
+            Update
+          </Button>
+        </CardFooter>
+      );
     return (
       <div>
         <Header
@@ -216,35 +268,46 @@ class CreateHackathon extends React.Component {
                 <Card className={classes[this.state.cardAnimaton]}>
                   <form className={classes.form}>
                     <CardBody>
-                      <CustomInput
-                        labelText="Hackathon Name"
+                      <TextField
+                        style={{ marginLeft: 10 }}
                         id="eventName"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
+                        label="Hackathon Name"
+                        value={this.state.hackathon.eventName}
+                        type="text"
+                        className={classes.textField}
                         inputProps={{
-                          onChange: this.handleChange,
-                          type: "text"
+                          onChange: this.handleChange
                         }}
+                        InputLabelProps={{
+                          shrink: true
+                        }}
+                        margin="normal"
+                        variant="outlined"
                       />
-                      <CustomInput
-                        labelText="Description"
+                      <br />
+                      <TextField
+                        style={{ marginLeft: 10 }}
                         id="description"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
+                        label="Description"
+                        value={this.state.hackathon.description}
+                        type="text"
+                        className={classes.textField}
                         inputProps={{
-                          onChange: this.handleChange,
-                          type: "text"
+                          onChange: this.handleChange
                         }}
+                        InputLabelProps={{
+                          shrink: true
+                        }}
+                        margin="normal"
+                        variant="outlined"
                       />
-                     <Select
+                      <br />
+                      <Select
                         multiple
                         native
-                        // value={this.state.sponsors_list}
                         onChange={this.handleChangeMultiple}
                         inputProps={{
-                          id: 'judges',
+                          id: "judges"
                         }}
                       >
                         {this.state.judges_list.map(judge => (
@@ -259,7 +322,7 @@ class CreateHackathon extends React.Component {
                         // value={this.state.sponsors_list}
                         onChange={this.handleChangeMultiple}
                         inputProps={{
-                          id: 'sponsors',
+                          id: "sponsors"
                         }}
                       >
                         {this.state.sponsors_list.map(sponsor => (
@@ -273,6 +336,7 @@ class CreateHackathon extends React.Component {
                         id="fees"
                         label="Fees"
                         type="number"
+                        value={this.state.hackathon.fees}
                         className={classes.textField}
                         inputProps={{
                           onChange: this.handleChange
@@ -288,6 +352,7 @@ class CreateHackathon extends React.Component {
                         id="discount"
                         label="Discount %"
                         type="number"
+                        value={this.state.hackathon.discount}
                         className={classes.textField}
                         inputProps={{
                           onChange: this.handleChange
@@ -302,6 +367,7 @@ class CreateHackathon extends React.Component {
                       <TextField
                         id="startDate"
                         label="Start Date"
+                        value={this.state.hackathon.startDate}
                         className={classes.textField}
                         margin="normal"
                         variant="outlined"
@@ -317,6 +383,7 @@ class CreateHackathon extends React.Component {
                         style={{ marginLeft: 10 }}
                         id="endDate"
                         label="End Date"
+                        value={this.state.hackathon.endDate}
                         className={classes.textField}
                         margin="normal"
                         variant="outlined"
@@ -332,6 +399,7 @@ class CreateHackathon extends React.Component {
                       <TextField
                         id="minTeamSize"
                         label="Min Team Size"
+                        value={this.state.hackathon.minTeamSize}
                         type="number"
                         className={classes.textField}
                         inputProps={{
@@ -347,6 +415,7 @@ class CreateHackathon extends React.Component {
                         style={{ marginLeft: 10 }}
                         id="maxTeamSize"
                         label="Max Team Size"
+                        value={this.state.hackathon.maxTeamSize}
                         type="number"
                         className={classes.textField}
                         inputProps={{
