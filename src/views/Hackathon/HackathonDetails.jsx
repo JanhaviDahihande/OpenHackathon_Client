@@ -16,6 +16,11 @@ import axios from "axios";
 import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 class HackathonDetails extends React.Component {
   constructor(props) {
     super(props);
@@ -51,8 +56,8 @@ class HackathonDetails extends React.Component {
         var hackathon = {};
         hackathon.hackathonId = response.data.hackathonId;
         hackathon.hackathonName = response.data.eventName;
-        hackathon.startDate = response.data.startDate;
-        hackathon.endDate = response.data.endDate;
+        hackathon.startDate = response.data.startDate.substring(0, 10);
+        hackathon.endDate = response.data.endDate.substring(0, 10);
         hackathon.description = response.data.description;
         hackathon.fees = response.data.fees;
         hackathon.minTeamSize = response.data.minTeamSize;
@@ -109,6 +114,17 @@ class HackathonDetails extends React.Component {
         ""
       );
     if (localStorage.getItem("role") == "Admin") comp = "";
+
+    const CustomTableCell = withStyles(theme => ({
+      head: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white
+      },
+      body: {
+        fontSize: 14
+      }
+    }))(TableCell);
+
     return (
       <div>
         <div
@@ -119,9 +135,12 @@ class HackathonDetails extends React.Component {
             backgroundPosition: "top center"
           }}
         >
-          <div className={classes.container}>
+          <div
+            className={classes.container}
+            style={{ backgroundSize: 100, paddingTop: 100 }}
+          >
             <GridContainer style={{ backgroundColor: "white" }}>
-              <GridItem xs={4} sm={2} md={3}>
+              <GridItem xs={12} sm={12} md={12}>
                 <InfoArea
                   title={this.state.hackathon.hackathonName}
                   description={this.state.hackathon.description}
@@ -129,52 +148,73 @@ class HackathonDetails extends React.Component {
                   iconColor="rose"
                 />
               </GridItem>
+
               <GridItem xs={12} sm={12} md={2} />
-              <GridItem xs={12} sm={12} md={2}>
-                <InfoArea
-                  title="Start Date"
-                  description={this.state.hackathon.startDate}
-                  icon={Score}
-                  iconColor="white"
-                />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={2}>
-                <InfoArea
-                  title="End Date"
-                  description={this.state.hackathon.endDate}
-                  icon={Score}
-                  iconColor="white"
-                />
-              </GridItem>
+
               <GridItem xs={12} sm={12} md={12}>
                 <hr />
               </GridItem>
-              <GridItem xs={12} sm={12} md={3}>
-                <InfoArea
-                  title="Min Team Size"
-                  description={this.state.hackathon.minTeamSize}
-                  icon={Score}
-                  iconColor="white"
-                />
+
+              <GridItem xs={12} sm={12} md={12}>
+                <Table className={classes.table} style={{ marginBottom: 30 }}>
+                  <TableBody>
+                    <TableRow className={classes.row}>
+                      <CustomTableCell>Start Date</CustomTableCell>
+                      <CustomTableCell>
+                        {this.state.hackathon.startDate}
+                      </CustomTableCell>
+                    </TableRow>
+                    <TableRow className={classes.row}>
+                      <CustomTableCell>End Date</CustomTableCell>
+                      <CustomTableCell>
+                        {this.state.hackathon.endDate}
+                      </CustomTableCell>
+                    </TableRow>
+                    <TableRow className={classes.row}>
+                      <CustomTableCell>Min Team Size</CustomTableCell>
+                      <CustomTableCell>
+                        {this.state.hackathon.minTeamSize}
+                      </CustomTableCell>
+                    </TableRow>
+                    <TableRow className={classes.row}>
+                      <CustomTableCell>Max Team Size</CustomTableCell>
+                      <CustomTableCell>
+                        {this.state.hackathon.maxTeamSize}
+                      </CustomTableCell>
+                    </TableRow>
+                    <TableRow className={classes.row}>
+                      <CustomTableCell>Fees</CustomTableCell>
+                      <CustomTableCell>
+                        {this.state.hackathon.fees}
+                      </CustomTableCell>
+                    </TableRow>
+                    <TableRow className={classes.row}>
+                      <CustomTableCell>Sponsor Discount</CustomTableCell>
+                      <CustomTableCell>
+                        {this.state.hackathon.discount}
+                      </CustomTableCell>
+                    </TableRow>
+                    <TableRow className={classes.row}>
+                      <CustomTableCell>Sponsors</CustomTableCell>
+                      <CustomTableCell>
+                        {this.state.hackathon.sponsors}
+                      </CustomTableCell>
+                    </TableRow>
+                    <TableRow className={classes.row}>
+                      <CustomTableCell>Judges</CustomTableCell>
+                      <CustomTableCell>
+                        {this.state.hackathon.judges}
+                      </CustomTableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
               </GridItem>
-              <GridItem xs={12} sm={12} md={3}>
-                <InfoArea
-                  title="Max Team Size"
-                  description={this.state.hackathon.maxTeamSize}
-                  icon={Score}
-                  iconColor="white"
-                />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={2}>
-                <InfoArea
-                  title="Fees"
-                  description={this.state.hackathon.fees}
-                  icon={Score}
-                  iconColor="white"
-                />
-              </GridItem>
+              {/* <GridItem xs={12} sm={12} md={12}>
+                <hr />
+              </GridItem> */}
+
               <GridItem xs={12} sm={12} md={4}>
-                <CardBody style={{ width: "20rem" }}>{comp}</CardBody>
+                <CardBody style={{ width: "30rem" }}>{comp}</CardBody>
               </GridItem>
             </GridContainer>
           </div>
