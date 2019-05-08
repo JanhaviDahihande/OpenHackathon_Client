@@ -37,19 +37,24 @@ class CreateHackathon extends React.Component {
     // we use this to make the card to appear after the page has been rendered
     this.state = {
       cardAnimaton: "cardHidden",
-      sponsors: [],
+
       sponsors_list: [],
       hackathon: {},
-      eventName: "",
-      startDate: "",
-      endDate: "",
-      description: "",
-      fees: 0,
-      judges: [],
+      changedHackathon: {
+        eventName: "",
+        startDate: "",
+        endDate: "",
+        description: "",
+        fees: 0,
+        judges: [],
+        minTeamSize: 0,
+        maxTeamSize: 0,
+        discount: 0,
+        sponsors: []
+      },
+
       judges_list: [],
-      minTeamSize: 0,
-      maxTeamSize: 0,
-      discount: 0,
+
       hackathon_id: 0
     };
     this.handleChange = this.handleChange.bind(this);
@@ -61,34 +66,21 @@ class CreateHackathon extends React.Component {
     const id = this.props.match.params.id;
     console.log("Params::: ", id);
     if (id) {
-      this.setState({ hackathon_id: Number(id) }, () => {
+      this.setState({ hackathon_id: id }, () => {
         this.getHackathon();
       });
     }
-    // we add a hidden class to the card and after 700 ms we delete it and the transition appears
     setTimeout(
       function() {
         this.setState({ cardAnimaton: "" });
       }.bind(this),
       700
     );
+    this.getSponsors();
+    this.getJudges();
+  }
 
-    try {
-      var url = "http://localhost:5000/organization";
-      fetch(url)
-        .then(res => res.json())
-        .then(json => {
-          console.log("json", json);
-          var sponsors = [];
-          for (var i = 0; i < json.length; i++) {
-            sponsors.push({ name: json[i].name, id: json[i].id });
-          }
-          console.log(sponsors);
-
-          this.setState({ sponsors_list: sponsors });
-        });
-    } catch (error) {}
-
+  getJudges() {
     try {
       var url = "http://localhost:5000/user/list";
       fetch(url)
@@ -111,9 +103,28 @@ class CreateHackathon extends React.Component {
         });
     } catch (error) {}
   }
+  getSponsors() {
+    try {
+      var url = "http://localhost:5000/organization";
+      fetch(url)
+        .then(res => res.json())
+        .then(json => {
+          console.log("json", json);
+          var sponsors = [];
+          for (var i = 0; i < json.length; i++) {
+            sponsors.push({ name: json[i].name, id: json[i].id });
+          }
+          console.log(sponsors);
+
+          this.setState({ sponsors_list: sponsors });
+        });
+    } catch (error) {}
+  }
 
   handleChange(evt) {
-    this.setState({ [evt.target.id]: evt.target.value });
+    var changedHackathon = this.state.changedHackathon;
+    changedHackathon[evt.target.id] = evt.target.value;
+    this.setState({ changedHackathon: changedHackathon });
   }
 
   handleChangeMultiple = event => {
@@ -125,9 +136,11 @@ class CreateHackathon extends React.Component {
       }
     }
     console.log([event.target.id]);
+    var changedHackathon = this.state.changedHackathon;
+    changedHackathon[event.target.id] = value;
     this.setState(
       {
-        [event.target.id]: value
+        changedHackathon: changedHackathon
       },
       () => {
         console.log(this.state.judges);
@@ -145,6 +158,8 @@ class CreateHackathon extends React.Component {
       .then(response => {
         console.log(response);
         var hackathon = {};
+        var changedHackathon = {};
+
         hackathon.eventName = response.data.eventName;
         hackathon.description = response.data.description;
         hackathon.fees = response.data.fees;
@@ -154,7 +169,20 @@ class CreateHackathon extends React.Component {
         hackathon.maxTeamSize = response.data.maxTeamSize;
         hackathon.sponsors = response.data.sponsors;
         hackathon.judges = response.data.judges;
-        this.setState({ hackathon: hackathon });
+
+        changedHackathon = hackathon;
+        changedHackathon.sponsors = [];
+        changedHackathon.judges = [];
+        for (let i = 0; i < response.data.sponsors.length; i++) {
+          changedHackathon.sponsors.push(response.data.sponsors[i].id);
+        }
+        for (let i = 0; i < response.data.judges.length; i++) {
+          changedHackathon.judges.push(response.data.judges[i].id);
+        }
+        this.setState({
+          hackathon: hackathon,
+          changedHackathon: changedHackathon
+        });
       });
   }
   postHackathon() {
@@ -163,17 +191,18 @@ class CreateHackathon extends React.Component {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        eventName: this.state.eventName,
-        description: this.state.description,
-        fees: this.state.fees,
-        startDate: this.state.startDate,
-        endDate: this.state.endDate,
-        minTeamSize: this.state.minTeamSize,
-        maxTeamSize: this.state.maxTeamSize,
-        sponsors: this.state.sponsors,
-        judges: this.state.judges
-      })
+      body: JSON.stringify(
+        this.state.changedHackathon
+        // eventName: this.state.eventName,
+        // description: this.state.description,
+        // fees: this.state.fees,
+        // startDate: this.state.startDate,
+        // endDate: this.state.endDate,
+        // minTeamSize: this.state.minTeamSize,
+        // maxTeamSize: this.state.maxTeamSize,
+        // sponsors: this.state.sponsors,
+        // judges: this.state.judges
+      )
     })
       .then(res => res.json())
       .then(json => {
@@ -193,17 +222,7 @@ class CreateHackathon extends React.Component {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        eventName: this.state.eventName,
-        description: this.state.description,
-        fees: this.state.fees,
-        startDate: this.state.startDate,
-        endDate: this.state.endDate,
-        minTeamSize: this.state.minTeamSize,
-        maxTeamSize: this.state.maxTeamSize,
-        sponsors: this.state.sponsors,
-        judges: this.state.judges
-      })
+      body: JSON.stringify(this.state.changedHackathon)
     })
       .then(res => res.json())
       .then(json => {
@@ -239,6 +258,8 @@ class CreateHackathon extends React.Component {
           </Button>
         </CardFooter>
       );
+    var title =
+      this.state.hackathon_id == 0 ? "Create Hackathon" : "Update Hackathon";
     return (
       <div>
         <Header
@@ -264,7 +285,7 @@ class CreateHackathon extends React.Component {
           <div className={classes.container} style={{ paddingTop: 100 }}>
             <GridContainer justify="center">
               <GridItem xs={12} sm={12} md={8}>
-                <h2>Create Hackathon</h2>
+                <h2>{title}</h2>
                 <Card className={classes[this.state.cardAnimaton]}>
                   <form className={classes.form}>
                     <CardBody>
@@ -272,7 +293,7 @@ class CreateHackathon extends React.Component {
                         style={{ marginLeft: 10 }}
                         id="eventName"
                         label="Hackathon Name"
-                        value={this.state.hackathon.eventName}
+                        value={this.state.changedHackathon.eventName}
                         type="text"
                         className={classes.textField}
                         inputProps={{
@@ -289,7 +310,7 @@ class CreateHackathon extends React.Component {
                         style={{ marginLeft: 10 }}
                         id="description"
                         label="Description"
-                        value={this.state.hackathon.description}
+                        value={this.state.changedHackathon.description}
                         type="text"
                         className={classes.textField}
                         inputProps={{
@@ -336,7 +357,7 @@ class CreateHackathon extends React.Component {
                         id="fees"
                         label="Fees"
                         type="number"
-                        value={this.state.hackathon.fees}
+                        value={this.state.changedHackathon.fees}
                         className={classes.textField}
                         inputProps={{
                           onChange: this.handleChange
@@ -352,7 +373,7 @@ class CreateHackathon extends React.Component {
                         id="discount"
                         label="Discount %"
                         type="number"
-                        value={this.state.hackathon.discount}
+                        value={this.state.changedHackathon.discount}
                         className={classes.textField}
                         inputProps={{
                           onChange: this.handleChange
@@ -367,7 +388,7 @@ class CreateHackathon extends React.Component {
                       <TextField
                         id="startDate"
                         label="Start Date"
-                        value={this.state.hackathon.startDate}
+                        value={this.state.changedHackathon.startDate}
                         className={classes.textField}
                         margin="normal"
                         variant="outlined"
@@ -383,7 +404,7 @@ class CreateHackathon extends React.Component {
                         style={{ marginLeft: 10 }}
                         id="endDate"
                         label="End Date"
-                        value={this.state.hackathon.endDate}
+                        value={this.state.changedHackathon.endDate}
                         className={classes.textField}
                         margin="normal"
                         variant="outlined"
@@ -399,7 +420,7 @@ class CreateHackathon extends React.Component {
                       <TextField
                         id="minTeamSize"
                         label="Min Team Size"
-                        value={this.state.hackathon.minTeamSize}
+                        value={this.state.changedHackathon.minTeamSize}
                         type="number"
                         className={classes.textField}
                         inputProps={{
@@ -415,7 +436,7 @@ class CreateHackathon extends React.Component {
                         style={{ marginLeft: 10 }}
                         id="maxTeamSize"
                         label="Max Team Size"
-                        value={this.state.hackathon.maxTeamSize}
+                        value={this.state.changedHackathon.maxTeamSize}
                         type="number"
                         className={classes.textField}
                         inputProps={{
