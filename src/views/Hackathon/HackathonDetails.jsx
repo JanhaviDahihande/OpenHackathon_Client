@@ -35,6 +35,8 @@ class HackathonDetails extends React.Component {
       userId: 1,
       hackathon: {}
     };
+    this.updateHackathonStatus = this.updateHackathonStatus.bind(this);
+    this.finaliseStatus = this.finaliseStatus.bind(this);
   }
   componentDidMount() {
     const id = this.props.match.params.id;
@@ -45,6 +47,66 @@ class HackathonDetails extends React.Component {
         this.getMyHackathons();
       }
     );
+  }
+
+  updateHackathonStatus() {
+    const status = 2;
+    fetch(
+      "http://localhost:5000/hackathon/" +
+        this.state.hackathonId +
+        "?status=" +
+        status,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    )
+      .then(res => res.json())
+      .then(json => {
+        if (json.status != "BadRequest") {
+          alert("Hackathon status changed successfully");
+          var hackathon = this.state.hackathon;
+          hackathon.status = status;
+          this.setState({ hackathon: hackathon });
+          // window.location.href =
+          //   "http://localhost:3000/hackathon_details/" + json.id;
+        } else alert("Request failed with error: " + json.message);
+      })
+      .catch(error => {
+        alert("Invalid Request");
+      });
+  }
+
+  finaliseStatus() {
+    const status = 3;
+    fetch(
+      "http://localhost:5000/hackathon/" +
+        this.state.hackathonId +
+        "?status=" +
+        status,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    )
+      .then(res => res.json())
+      .then(json => {
+        if (json.status != "BadRequest") {
+          alert("Hackathon status changed successfully");
+          var hackathon = this.state.hackathon;
+          hackathon.status = status;
+          this.setState({ hackathon: hackathon });
+          // window.location.href =
+          //   "http://localhost:3000/hackathon_details/" + json.id;
+        } else alert("Request failed with error: " + json.message);
+      })
+      .catch(error => {
+        alert("Invalid Request");
+      });
   }
 
   getMyHackathons() {
@@ -87,7 +149,14 @@ class HackathonDetails extends React.Component {
         <Button
           color="primary"
           component={Link}
-          to={"/team_registration/" + this.state.hackathonId + "/" + this.state.hackathon.minTeamSize + "/" + this.state.hackathon.maxTeamSize}
+          to={
+            "/team_registration/" +
+            this.state.hackathonId +
+            "/" +
+            this.state.hackathon.minTeamSize +
+            "/" +
+            this.state.hackathon.maxTeamSize
+          }
         >
           Register
         </Button>
@@ -117,16 +186,53 @@ class HackathonDetails extends React.Component {
       ) : (
         ""
       );
-    if (localStorage.getItem("role") == "Admin")
-      comp = (
-        <Button
-          color="primary"
-          component={Link}
-          to={"/create_hackathon/" + this.state.hackathonId}
-        >
-          Edit
-        </Button>
-      );
+    if (localStorage.getItem("role") == "Admin") {
+      comp =
+        this.state.hackathon.status == 1 ? (
+          <div>
+            <Button
+              color="primary"
+              component={Link}
+              to={"/create_hackathon/" + this.state.hackathonId}
+            >
+              Edit
+            </Button>
+            <Button color="primary" onClick={this.updateHackathonStatus}>
+              Close Hackathon
+            </Button>
+            <Button color="primary" onClick={this.finaliseStatus}>
+              Finalise Hackathon
+            </Button>
+          </div>
+        ) : this.state.hackathon.status == 2 ? (
+          <div>
+            <Button
+              color="primary"
+              component={Link}
+              to={"/create_hackathon/" + this.state.hackathonId}
+            >
+              Edit
+            </Button>
+            <Button id="finalise" color="primary" onClick={this.finaliseStatus}>
+              Finalise Hackathon
+            </Button>
+          </div>
+        ) : (
+          <div>Hackathon is finalised</div>
+        );
+      //   comp = (
+      //     <div>
+      //       <Button
+      //         color="primary"
+      //         component={Link}
+      //         to={"/create_hackathon/" + this.state.hackathonId}
+      //       >
+      //         Edit
+      //       </Button>
+      //       {{ statusButton }}
+      //     </div>
+      //   );
+    }
 
     const CustomTableCell = withStyles(theme => ({
       head: {
