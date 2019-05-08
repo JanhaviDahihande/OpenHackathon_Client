@@ -25,15 +25,18 @@ import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 import image from "assets/img/bg7.jpg";
 
 import { GoogleLogin } from "react-google-login";
-
+import ChipInput from 'material-ui-chip-input';
+import AutoComplete from 'material-ui/AutoComplete';
 class CreateHackathon extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
-      cardAnimaton: "cardHidden"
+      cardAnimaton: "cardHidden",
+      sponsors: [],
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleSponsorChange = this.handleSponsorChange.bind(this);
     this.postHackathon = this.postHackathon.bind(this);
   }
   componentDidMount() {
@@ -48,6 +51,11 @@ class CreateHackathon extends React.Component {
 
   handleChange(evt) {
     this.setState({ [evt.target.id]: evt.target.value });
+  }
+
+  async handleSponsorChange(chip) {
+    console.log("Here");
+    await this.setState({sponsors: chip });
   }
 
   postHackathon() {
@@ -113,9 +121,9 @@ class CreateHackathon extends React.Component {
                           type: "text"
                         }}
                       />
-                      <CustomInput
-                        labelText="Fees"
-                        id="fees"
+                       <CustomInput
+                        labelText="Judges"
+                        id="judges"
                         formControlProps={{
                           fullWidth: true
                         }}
@@ -124,6 +132,44 @@ class CreateHackathon extends React.Component {
                           type: "text"
                         }}
                       />
+                     <ChipInput
+                      id="sponsors"
+                      allowDuplicates={false}
+                      floatingLabelText="Sponsors"
+                      fullWidth={true}
+                      onChange={(chip) => this.handleSponsorChange(chip)}
+                    />
+                    <br/>
+                      <TextField
+                        id="fees"
+                        label="Fees"
+                        type="number"
+                        className={classes.textField}
+                        inputProps={{
+                          onChange: this.handleChange
+                        }}
+                        InputLabelProps={{
+                          shrink: true
+                        }}
+                        margin="normal"
+                        variant="outlined"
+                      />
+                      <TextField
+                        style={{ marginLeft: 10 }}
+                        id="discount"
+                        label="Discount %"
+                        type="number"
+                        className={classes.textField}
+                        inputProps={{
+                          onChange: this.handleChange
+                        }}
+                        InputLabelProps={{
+                          shrink: true
+                        }}
+                        margin="normal"
+                        variant="outlined"
+                      />
+                      <br/>
                       <TextField
                         id="startDate"
                         label="Start Date"
