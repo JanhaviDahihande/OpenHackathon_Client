@@ -87,7 +87,7 @@ class HackathonDetails extends React.Component {
         <Button
           color="primary"
           component={Link}
-          to={"/team_register/" + this.state.hackathonId}
+          to={"/team_registration/" + this.state.hackathonId + "/" + this.state.hackathon.minTeamSize + "/" + this.state.hackathon.maxTeamSize}
         >
           Register
         </Button>

@@ -25,6 +25,7 @@ import CreateHackathon from "./views/CreateHackathon/CreateHackathon";
 import InvitationSent from "./views/InvitationSent/InvitationSent";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import PaymentConfirmation from "./views/PaymentConfirmation/PaymentConfirmation";
+import TeamRegistration from "./views/TeamRegistration/TeamRegistration";
 var hist = createBrowserHistory();
 
 ReactDOM.render(
@@ -38,6 +39,7 @@ ReactDOM.render(
       <Route path="/register" component={RegisterPage} />
       <Route path="/all_hackathons" component={AllHackathonList} />
       <Route path="/create_organization" component={CreateOrganization} />
+      <Route path="/team_registration/:id/:minsize/:maxsize" component={TeamRegistration} />
       <Route path="/user_organization" component={UserOrganization} />
       <Route path="/my_hackathonlist" component={MyHackathonsList} />
       <Route path="/my_hackathon/:id" component={MyHackathon} />
