@@ -53,7 +53,7 @@ ReactDOM.render(
       <Route path="/invitation-sent" component={InvitationSent} />
 
       <Route path="/about" component={ProductSection} />
-      <Route path="/" component={Components} />
+      <Route path="/" component={LandingPage} />
       <Route path="/confirm/:id" component={ConfirmPage} />
     </Switch>
   </Router>
