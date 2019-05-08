@@ -178,14 +178,21 @@ class LoginPage extends React.Component {
     })
       .then(res => res.json())
       .then(json => {
-        console.log("json", json.statusCode);
-        //if (res.statusCode == 200) {
-        localStorage.setItem("userId", json.id);
-        localStorage.setItem("role", json.role);
-        localStorage.setItem("authToken", json.authToken);
-        localStorage.setItem("username", json.firstname + " " + json.lastname);
-        history.push({ pathname: "/index" });
-        // } else
+        console.log("json", json.status);
+        if (json.status != "BadRequest") {
+          localStorage.setItem("userId", json.id);
+          localStorage.setItem("role", json.role);
+          localStorage.setItem("authToken", json.authToken);
+          localStorage.setItem(
+            "username",
+            json.firstname + " " + json.lastname
+          );
+          history.push({ pathname: "/index" });
+        } else {
+          alert("Invalid username or password!");
+          document.getElementById("email").value = "";
+          document.getElementById("password").value = "";
+        }
       })
       .catch(() => {
         alert("Invalid username or password!");
