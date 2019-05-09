@@ -36,7 +36,7 @@ class PaymentConfirmation extends React.Component {
   componentDidMount() {
     const values = queryString.parse(this.props.location.search)
     console.log(values.token)
-    var url = 'http://localhost:5000/pay/'
+    var url = 'http://localhost:5000/participant/pay'
     fetch(url, {
       method: 'POST',
       headers: {
