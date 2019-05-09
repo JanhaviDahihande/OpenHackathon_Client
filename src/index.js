@@ -48,6 +48,10 @@ ReactDOM.render(
         path="/registration-confirmation"
         component={RegistrationConfirmation}
       />
+      <Route
+        path="/payment-confirmation"
+        component={PaymentConfirmation}
+      />
       <Route path="/create_hackathon/:id" component={CreateHackathon} />
       <Route path="/create_hackathon" component={CreateHackathon} />
       <Route path="/invitation-sent" component={InvitationSent} />
