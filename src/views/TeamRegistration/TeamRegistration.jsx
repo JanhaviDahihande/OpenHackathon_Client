@@ -45,14 +45,14 @@ class TeamRegistration extends React.Component {
     // we use this to make the card to appear after the page has been rendered
     this.state = {
       cardAnimaton: "cardHidden",
-      team_members:[],
-      team_member:'',
-      role:'',
-      hackathon_id:0,
+      team_members: [],
+      team_member: "",
+      role: "",
+      hackathon_id: 0,
       min_team_size: 0,
       max_team_size: 0,
-      participants:[],
-      team_name:''
+      participants: [],
+      team_name: ""
     };
   }
   componentDidMount() {
@@ -61,9 +61,12 @@ class TeamRegistration extends React.Component {
     const maxsize = this.props.match.params.maxsize;
     console.log("Params::: ", id);
     if (id) {
-      this.setState({ hackathon_id: id, min_team_size: minsize, max_team_size: maxsize }, () => {
-        this.getTeamMembers();
-      });
+      this.setState(
+        { hackathon_id: id, min_team_size: minsize, max_team_size: maxsize },
+        () => {
+          this.getTeamMembers();
+        }
+      );
       setTimeout(
         function() {
           this.setState({ cardAnimaton: "" });
@@ -90,11 +93,10 @@ class TeamRegistration extends React.Component {
               lastname: json[i].lastname == null ? "" : json[i].lastname,
               id: json[i].id
             });
-
           }
           console.log(team_members);
 
-          this.setState({ team_members: team_members}, () => {
+          this.setState({ team_members: team_members }, () => {
             console.log(this.state.team_members);
           });
         });
@@ -104,30 +106,43 @@ class TeamRegistration extends React.Component {
   handleChange(evt) {
     console.log(evt.target.id + "_" + evt.target.value);
     this.setState({
-      [evt.target.id] : evt.target.value
+      [evt.target.id]: evt.target.value
     });
   }
-  
-  addMember(evt){
+
+  addMember(evt) {
     var participants = this.state.participants;
-    participants.push({id:this.state.team_member, role:this.state.role});
-    this.setState({
-      participants : participants
-    }, () => {console.log(this.state.participants)});
+    participants.push({ id: this.state.team_member, role: this.state.role });
+    this.setState(
+      {
+        participants: participants
+      },
+      () => {
+        console.log(this.state.participants);
+      }
+    );
   }
 
-  register(evt){
-    if(this.state.min_team_size <= this.state.participants.length <= this.state.max_team_size){
-      var url = "http://localhost:5000/participants/" + localStorage.getItem("userId") + "/hackathon/" + this.state.hackathon_id;
+  register(evt) {
+    if (
+      this.state.min_team_size <=
+      this.state.participants.length <=
+      this.state.max_team_size
+    ) {
+      var url =
+        "http://localhost:5000/participant/" +
+        localStorage.getItem("userId") +
+        "/hackathon/" +
+        this.state.hackathon_id;
       fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(
-          this.state.team_name,
-          this.state.participants
-        )
+        body: JSON.stringify({
+          teamName: this.state.team_name,
+          participants: this.state.participants
+        })
       })
         .then(res => res.json())
         .then(json => {
@@ -139,8 +154,7 @@ class TeamRegistration extends React.Component {
         .catch(error => {
           alert("Invalid Request");
         });
-    }
-    else{
+    } else {
       alert("Invalid team size");
     }
   }
@@ -149,7 +163,13 @@ class TeamRegistration extends React.Component {
     const { classes, ...rest } = this.props;
     // console.log("STATE::", this.state);
     let rows = this.state.participants.map(request => {
-      return <RequestRow key={request.id} participants={request} team_members={this.state.team_members}/>;
+      return (
+        <RequestRow
+          key={request.id}
+          participants={request}
+          team_members={this.state.team_members}
+        />
+      );
     });
     return (
       <div>
@@ -178,91 +198,77 @@ class TeamRegistration extends React.Component {
               <GridItem xs={12} sm={12} md={8}>
                 <h2>Team Registration</h2>
                 <Card className={classes[this.state.cardAnimaton]}>
-          <form className={classes.form}>
-            <CardBody>
-              <TextField
-                style={{ marginLeft: 10, paddingBottom:20}}
-                id="team_name"
-                label="Team Name"
-                value={this.state.teamName}
-                type="text"
-                className={classes.textField}
-                inputProps={{
-                  onChange: this.handleChange
-                }}
-                InputLabelProps={{
-                  shrink: true
-                }}
-                margin="normal"
-                variant="outlined"
-              />
-              <br />
+                  <form className={classes.form}>
+                    <CardBody>
+                      <TextField
+                        style={{ marginLeft: 10, paddingBottom: 20 }}
+                        id="team_name"
+                        label="Team Name"
+                        value={this.state.teamName}
+                        type="text"
+                        className={classes.textField}
+                        inputProps={{
+                          onChange: this.handleChange
+                        }}
+                        InputLabelProps={{
+                          shrink: true
+                        }}
+                        margin="normal"
+                        variant="outlined"
+                      />
+                      <br />
 
-              <Select
-                native
-                onChange={this.handleChange}
-                inputProps={{
-                  id: "team_member"
-                }}
-              >
-                <option >
-                    --Select user--
-                  </option>
-                {this.state.team_members.map(user => (
-                  <option key={user.id} value={user.id}>
-                    {user.firstname + " " + user.lastname}
-                  </option>
-                ))}
-              </Select>
+                      <Select
+                        native
+                        onChange={this.handleChange}
+                        inputProps={{
+                          id: "team_member"
+                        }}
+                      >
+                        <option>--Select user--</option>
+                        {this.state.team_members.map(user => (
+                          <option key={user.id} value={user.id}>
+                            {user.firstname + " " + user.lastname}
+                          </option>
+                        ))}
+                      </Select>
 
-              <Select
-              style={{ marginLeft: 10 }}
-                native
-                // value={this.state.sponsors_list}
-                onChange={this.handleChange}
-                inputProps={{
-                  id: "role"
-                }}
-              >
-                  <option >
-                    --Select role--
-                  </option>
-                  <option value="Product Manager">
-                    Product Manager
-                  </option>
-                  <option value="Engineer">
-                    Engineer
-                  </option>
-                  <option value="FullStack">
-                    FullStack
-                  </option>
-                  <option value="Designer">
-                    Designer
-                  </option>
-                  <option value="Other">
-                    Other
-                  </option>
-              </Select>
-              <Button
-                color="primary"
-                onClick={this.addMember}
-                style={{ left: 20 }}
-              >
-                Add
-              </Button>
-              <br />
-              <h3>Team Members</h3>
-              <hr/>
-              {rows}
-              
-              <Button
-                color="primary"
-                onClick={this.register}
-                style={{ top: 15 }}
-              >
-                Register
-              </Button>
-              {/* <List>
+                      <Select
+                        style={{ marginLeft: 10 }}
+                        native
+                        // value={this.state.sponsors_list}
+                        onChange={this.handleChange}
+                        inputProps={{
+                          id: "role"
+                        }}
+                      >
+                        <option>--Select role--</option>
+                        <option value="Product Manager">Product Manager</option>
+                        <option value="Engineer">Engineer</option>
+                        <option value="FullStack">FullStack</option>
+                        <option value="Designer">Designer</option>
+                        <option value="Other">Other</option>
+                      </Select>
+                      <Button
+                        color="primary"
+                        onClick={this.addMember}
+                        style={{ left: 20 }}
+                      >
+                        Add
+                      </Button>
+                      <br />
+                      <h3>Team Members</h3>
+                      <hr />
+                      {rows}
+
+                      <Button
+                        color="primary"
+                        onClick={this.register}
+                        style={{ top: 15 }}
+                      >
+                        Register
+                      </Button>
+                      {/* <List>
               <ListItem>
                 <Avatar>
                   <BeachAccessIcon />
@@ -282,9 +288,9 @@ class TeamRegistration extends React.Component {
                 />
               </ListItem>
               </List> */}
-            </CardBody>
-          </form>
-        </Card>
+                    </CardBody>
+                  </form>
+                </Card>
               </GridItem>
             </GridContainer>
           </div>
@@ -300,15 +306,15 @@ const RequestRow = props => {
   console.log("Here");
   console.log(props.participants.id);
   console.log(team_members);
-  for(var i=0; i< team_members.length;i++){
-    if(team_members[i].id == props.participants.id){
+  for (var i = 0; i < team_members.length; i++) {
+    if (team_members[i].id == props.participants.id) {
       name = team_members[i].firstname + " " + team_members[i].lastname;
     }
   }
   return (
-    <h4>{name} : {props.participants.role}</h4>
-    
+    <h4>
+      {name} : {props.participants.role}
+    </h4>
   );
-}
+};
 export default withStyles(loginPageStyle)(TeamRegistration);
-
