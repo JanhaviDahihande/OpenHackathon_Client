@@ -216,6 +216,7 @@ class TeamRegistration extends React.Component {
                         margin="normal"
                         variant="outlined"
                       />
+                      <h3>Team Size: {this.state.max_team_size-this.state.min_team_size}</h3>
                       <br />
 
                       <Select
