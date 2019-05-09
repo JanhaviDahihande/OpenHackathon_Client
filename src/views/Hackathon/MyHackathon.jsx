@@ -22,6 +22,8 @@ import axios from "axios";
 import HeaderLinks from "components/Header/HeaderLinks.jsx";
 import Header from "components/Header/Header.jsx";
 import Footer from "components/Footer/Footer.jsx";
+import TextField from "@material-ui/core/TextField";
+import Button from "components/CustomButtons/Button.jsx";
 const dashboardRoutes = [];
 class MyHackathon extends React.Component {
   constructor(props) {
@@ -41,7 +43,8 @@ class MyHackathon extends React.Component {
         score: 0,
         submissionURL: null,
         teamLeadId: null
-      }
+      },
+      code_url: ''
     };
   }
   componentDidMount() {
@@ -53,6 +56,9 @@ class MyHackathon extends React.Component {
         this.getMyHackathons();
       }
     );
+    this.submitCode = this.submitCode.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    
   }
 
   getMyHackathons() {
@@ -79,6 +85,35 @@ class MyHackathon extends React.Component {
         this.setState({ hackathon: hackathon });
       });
   }
+
+  handleChange(evt) {
+    console.log(evt.target.id + "_" + evt.target.value);
+    this.setState({
+      [evt.target.id] : evt.target.value
+    });
+  }
+
+  submitCode(evt){
+    var submission_url = this.state.code_url;
+    var url = "http://localhost:5000/" + localStorage.getItem("userId") +"/hackathon/" + this.state.hackathonId + "?submission_url=" + submission_url;
+    fetch(url, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })
+      .then(res => res.json())
+      .then(json => {
+        if (json.status != "BadRequest") {
+          window.location.href =
+            "http://localhost:3000/my_hackathonlist";
+        } else alert("Request failed with error: " + json.message);
+      })
+      .catch(error => {
+        alert("Invalid Request");
+      });
+  }
+
   render() {
     const { classes, ...rest } = this.props;
     return (
@@ -158,6 +193,36 @@ class MyHackathon extends React.Component {
                     </TableBody>
                   </Table>
                 </Paper>
+              </GridItem>
+
+              <GridItem xs={12} sm={12} md={8}>
+                <h2 style={{ color: "black" }}>Code Submission</h2>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={12}>
+                <TextField
+                        id="code_url"
+                        label="Code URL"
+                        fullWidth={true}
+                        // value={this.state.changedHackathon.description}
+                        type="text"
+                        className={classes.textField}
+                        inputProps={{
+                          onChange: this.handleChange
+                        }}
+                        InputLabelProps={{
+                          shrink: true
+                        }}
+                        margin="normal"
+                        variant="outlined"
+                  />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+              <Button
+                color="primary"
+                onClick={this.submitCode}
+              >
+                Submit Code
+              </Button>      
               </GridItem>
             </GridContainer>
           </div>
