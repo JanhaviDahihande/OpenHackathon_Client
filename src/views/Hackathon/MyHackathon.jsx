@@ -95,7 +95,7 @@ class MyHackathon extends React.Component {
 
   submitCode(evt){
     var submission_url = this.state.code_url;
-    var url = "http://localhost:5000/" + localStorage.getItem("userId") +"/hackathon/" + this.state.hackathonId + "?submission_url=" + submission_url;
+    var url = "http://localhost:5000/participant/" + localStorage.getItem("userId") +"/hackathon/" + this.state.hackathonId + "?submission_url=" + submission_url;
     fetch(url, {
       method: "PATCH",
       headers: {
