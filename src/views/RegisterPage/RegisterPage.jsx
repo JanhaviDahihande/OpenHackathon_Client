@@ -166,7 +166,7 @@ class RegisterPage extends PureComponent<Props, State> {
                         }}
                       />
                       <CustomInput
-                        labelText="Last Name"
+                        labelText="Screen Name"
                         id="last_name"
                         value={last_name}
                         formControlProps={{
