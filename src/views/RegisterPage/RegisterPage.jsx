@@ -90,7 +90,7 @@ class RegisterPage extends PureComponent<Props, State> {
     } else if (document.getElementById("confirm_password").value == "") {
       alert("Password needs to be confirmed");
     } else {
-      fetch("http://localhost:5000/signup", {
+      fetch("http://localhost:5000/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

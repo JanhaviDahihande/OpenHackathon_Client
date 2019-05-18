@@ -166,7 +166,7 @@ class LoginPage extends React.Component {
     const { history } = this.props;
     const { email, password } = this.state;
     // Post request to backend
-    fetch("http://localhost:5000/signin", {
+    fetch("http://localhost:5000/auth/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -178,11 +178,14 @@ class LoginPage extends React.Component {
     })
       .then(res => res.json())
       .then(json => {
-        console.log("json", json.status);
+        console.log("json", json);
         if (json.status != "BadRequest") {
           localStorage.setItem("userId", json.id);
           localStorage.setItem("role", json.role);
-          localStorage.setItem("authToken", json.authToken);
+          localStorage.setItem(
+            "accessToken",
+            json.tokenType + " " + json.accessToken
+          );
           localStorage.setItem(
             "username",
             json.firstname + " " + json.lastname

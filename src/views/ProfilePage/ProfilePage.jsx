@@ -68,8 +68,11 @@ class ProfilePage extends React.Component {
   }
 
   getUserProfile() {
+    const authHeader = localStorage.getItem("accessToken");
     axios
-      .get("http://localhost:5000/user/" + this.state.userId)
+      .get("http://localhost:5000/user/" + this.state.userId, {
+        headers: { Authorization: authHeader }
+      })
       .then(response => {
         var user = {};
         user.aboutMe = response.data.aboutMe;
@@ -91,9 +94,11 @@ class ProfilePage extends React.Component {
 
   updateProfile() {
     console.log("Sending:::", JSON.stringify(this.state.changedProfile));
+    const authHeader = localStorage.getItem("accessToken");
     fetch("http://localhost:5000/user/" + this.state.userId, {
       method: "PUT",
       headers: {
+        Authorization: authHeader,
         "Content-Type": "application/json"
       },
       body: JSON.stringify(this.state.changedProfile)

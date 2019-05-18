@@ -36,23 +36,28 @@ class AllHackathonsList extends React.Component {
   }
 
   getMyHackathons() {
-    axios.get("http://localhost:5000/hackathon").then(response => {
-      console.log(response);
-      var hackathon = [];
-      for (let i = 0; i < response.data.length; i++) {
-        hackathon.push({
-          id: response.data[i].id,
-          eventName: response.data[i].eventName,
-          description: response.data[i].description,
-          startDate: response.data[i].startDate,
-          endDate: response.data[i].endDate,
-          minTeamSize: response.data[i].minTeamSize,
-          maxTeamSize: response.data[i].maxTeamSize,
-          fees: response.data[i].fees
-        });
-      }
-      this.setState({ hackathon: hackathon });
-    });
+    const authHeader = localStorage.getItem("accessToken");
+    axios
+      .get("http://localhost:5000/hackathon", {
+        headers: { Authorization: authHeader }
+      })
+      .then(response => {
+        console.log(response);
+        var hackathon = [];
+        for (let i = 0; i < response.data.length; i++) {
+          hackathon.push({
+            id: response.data[i].id,
+            eventName: response.data[i].eventName,
+            description: response.data[i].description,
+            startDate: response.data[i].startDate,
+            endDate: response.data[i].endDate,
+            minTeamSize: response.data[i].minTeamSize,
+            maxTeamSize: response.data[i].maxTeamSize,
+            fees: response.data[i].fees
+          });
+        }
+        this.setState({ hackathon: hackathon });
+      });
   }
   render() {
     const { classes, ...rest } = this.props;

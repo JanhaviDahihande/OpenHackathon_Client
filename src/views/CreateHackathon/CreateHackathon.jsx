@@ -191,9 +191,11 @@ class CreateHackathon extends React.Component {
       });
   }
   postHackathon() {
+    const authHeader = localStorage.getItem("accessToken");
     fetch("http://localhost:5000/hackathon", {
       method: "POST",
       headers: {
+        Authorization: authHeader,
         "Content-Type": "application/json"
       },
       body: JSON.stringify(this.state.changedHackathon)
@@ -211,10 +213,12 @@ class CreateHackathon extends React.Component {
   }
 
   updateHackathon() {
+    const authHeader = localStorage.getItem("accessToken");
     console.log("Updating: ", this.state.changedHackathon);
     fetch("http://localhost:5000/hackathon/" + this.state.hackathon_id, {
       method: "PUT",
       headers: {
+        Authorization: authHeader,
         "Content-Type": "application/json"
       },
       body: JSON.stringify(this.state.changedHackathon)
