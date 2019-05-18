@@ -43,7 +43,8 @@ class JudgeHackathon extends React.Component {
         paymentDone: null,
         score: 0,
         submissionURL: null,
-        teamLeadId: null
+        teamLeadId: null,
+        status:0
       },
       code_url: '',
       score_toggle: true
@@ -85,6 +86,7 @@ class JudgeHackathon extends React.Component {
         hackathon.score = response.data.score;
         hackathon.submissionURL = response.data.submissionURL;
         hackathon.teamLeadId = response.data.teamLeadId;
+        hackathon.status = response.data.status;
         this.setState({ hackathon: hackathon });
       });
   }
@@ -122,6 +124,11 @@ class JudgeHackathon extends React.Component {
 
   render() {
     const { classes, ...rest } = this.props;
+    var comp = this.state.hackathon.status == 3?(
+      ""
+    ):(
+      <Edit style={{color: "black"}} onClick= {this.handleEdit}/>
+    );
     return (
       <div>
         <div>
@@ -176,7 +183,7 @@ class JudgeHackathon extends React.Component {
               </GridItem>
 
               <GridItem xs={12} sm={12} md={3} style={{top:30}}>
-                    <Edit style={{color: "black"}} onClick= {this.handleEdit}/>
+                    {comp}
               </GridItem>
               <GridItem xs={12} sm={12} md={12}>
                 <hr />
