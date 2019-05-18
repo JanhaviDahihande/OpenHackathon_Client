@@ -26,6 +26,7 @@ import InvitationSent from "./views/InvitationSent/InvitationSent";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import PaymentConfirmation from "./views/PaymentConfirmation/PaymentConfirmation";
 import TeamRegistration from "./views/TeamRegistration/TeamRegistration";
+import JudgeHackathon from "./views/Hackathon/JudgeHackathon";
 var hist = createBrowserHistory();
 
 ReactDOM.render(
@@ -43,6 +44,7 @@ ReactDOM.render(
       <Route path="/user_organization" component={UserOrganization} />
       <Route path="/my_hackathonlist" component={MyHackathonsList} />
       <Route path="/my_hackathon/:id" component={MyHackathon} />
+      <Route path="/judge_hackathon/:id" component={JudgeHackathon} />
       <Route path="/hackathon_details/:id" component={HackathonDetails} />
       <Route
         path="/registration-confirmation"

@@ -3,6 +3,7 @@ import React from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Code from "@material-ui/icons/Code";
 import Score from "@material-ui/icons/Score";
+import Edit from '@material-ui/icons/Edit';
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
@@ -25,7 +26,7 @@ import Footer from "components/Footer/Footer.jsx";
 import TextField from "@material-ui/core/TextField";
 import Button from "components/CustomButtons/Button.jsx";
 const dashboardRoutes = [];
-class MyHackathon extends React.Component {
+class JudgeHackathon extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
@@ -40,12 +41,12 @@ class MyHackathon extends React.Component {
         teamName: null,
         participants: [],
         paymentDone: null,
-        fees:0,
         score: 0,
         submissionURL: null,
         teamLeadId: null
       },
-      code_url: ''
+      code_url: '',
+      score_toggle: true
     };
   }
   componentDidMount() {
@@ -59,6 +60,7 @@ class MyHackathon extends React.Component {
     );
     this.submitCode = this.submitCode.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
     
   }
 
@@ -80,7 +82,6 @@ class MyHackathon extends React.Component {
         hackathon.teamName = response.data.teamName;
         hackathon.participants = response.data.participants;
         hackathon.paymentDone = response.data.paymentDone;
-        hackathon.fees = response.data.fees;
         hackathon.score = response.data.score;
         hackathon.submissionURL = response.data.submissionURL;
         hackathon.teamLeadId = response.data.teamLeadId;
@@ -89,15 +90,14 @@ class MyHackathon extends React.Component {
   }
 
   handleChange(evt) {
-    console.log(evt.target.id + "_" + evt.target.value);
-    this.setState({
-      [evt.target.id] : evt.target.value
-    });
+    var hackathon = this.state.hackathon;
+    hackathon[evt.target.id] = evt.target.value;
+    this.setState({ hackathon: hackathon });
   }
 
   submitCode(evt){
-    var submission_url = this.state.code_url;
-    var url = "http://localhost:5000/participant/" + localStorage.getItem("userId") +"/hackathon/" + this.state.hackathonId + "?submission_url=" + submission_url;
+    var judge_score = this.state.hackathon.score;
+    var url = "http://localhost:5000/participant/" + localStorage.getItem("userId") +"/hackathon/" + this.state.hackathonId + "?judgeScore=" + judge_score;
     fetch(url, {
       method: "PATCH",
       headers: {
@@ -114,6 +114,10 @@ class MyHackathon extends React.Component {
       .catch(error => {
         alert("Invalid Request");
       });
+  }
+
+  handleEdit(evt){
+    this.setState({score_toggle: false})
   }
 
   render() {
@@ -154,12 +158,25 @@ class MyHackathon extends React.Component {
               </GridItem>
               <GridItem xs={12} sm={12} md={4} />
               <GridItem xs={12} sm={12} md={2}>
-                <InfoArea
-                  title="Score"
-                  description={this.state.hackathon.score}
-                  icon={Score}
-                  iconColor="rose"
-                />
+              <TextField
+                        id="score"
+                        label="Score"
+                        value= {this.state.hackathon.score}
+                        // value={this.state.changedHackathon.description}
+                        className={classes.textField}
+                        inputProps={{
+                          onChange: this.handleChange,
+                          disabled: this.state.score_toggle,
+                          type: "text"
+                        }}
+                        margin="normal"
+                        variant="outlined"
+                        
+                  />
+              </GridItem>
+
+              <GridItem xs={12} sm={12} md={3} style={{top:30}}>
+                    <Edit style={{color: "black"}} onClick= {this.handleEdit}/>
               </GridItem>
               <GridItem xs={12} sm={12} md={12}>
                 <hr />
@@ -189,7 +206,7 @@ class MyHackathon extends React.Component {
                           <TableCell align="left">
                             {row.paymentDone ? "Done" : "Pending"}
                           </TableCell>
-                          <TableCell align="left">{row.fees}</TableCell>
+                          <TableCell align="left">{0}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
@@ -209,7 +226,8 @@ class MyHackathon extends React.Component {
                         type="text"
                         className={classes.textField}
                         inputProps={{
-                          onChange: this.handleChange
+                          onChange: this.handleChange,
+                          disabled: true
                         }}
                         InputLabelProps={{
                           shrink: true
@@ -235,4 +253,4 @@ class MyHackathon extends React.Component {
   }
 }
 
-export default withStyles(loginPageStyle)(MyHackathon);
+export default withStyles(loginPageStyle)(JudgeHackathon);
