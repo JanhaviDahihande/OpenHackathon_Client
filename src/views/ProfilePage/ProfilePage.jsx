@@ -82,7 +82,7 @@ class ProfilePage extends React.Component {
         user.lastname = response.data.lastname;
         user.membershipStatus = response.data.membershipStatus;
         user.organizationName = response.data.organizationName;
-        user.potraitURL = response.data.potraitURL;
+        user.potrait_url = response.data.potraitURL;
         user.screenName = response.data.screenName;
         user.state = response.data.state;
         user.street = response.data.street;
@@ -268,10 +268,10 @@ class ProfilePage extends React.Component {
                       }}
                     /> */}
                     <TextField
-                      id="potraitURL"
+                      id="potrait_url"
                       label="Portrait URL"
                       className={classes.textField}
-                      value={this.state.profile.potraitURL}
+                      value={this.state.profile.potrait_url}
                       inputProps={{
                         onChange: this.handleChange,
                         type: "text"
@@ -405,7 +405,7 @@ class ProfilePage extends React.Component {
                       </Avatar>
                       <ListItemText
                         primary="Portrait URL"
-                        secondary={this.state.profile.potraitURL}
+                        secondary={this.state.profile.potrait_url}
                       />
                     </ListItem>
                     <ListItem>
@@ -449,6 +449,7 @@ class ProfilePage extends React.Component {
           }}
           {...rest}
         />
+        {/* <Parallax small filter image={require("assets/img/profile-bg.jpg")} /> */}
         <Parallax small filter image={require("assets/img/profile-bg.jpg")} />
         <div className={classNames(classes.main, classes.mainRaised)}>
           <div className={classes.container}>
@@ -456,7 +457,15 @@ class ProfilePage extends React.Component {
               <GridItem xs={12} sm={12} md={6}>
                 <div className={classes.profile}>
                   <div>
-                    <img src={profile} alt="..." className={imageClasses} />
+                    <img
+                      src={
+                        this.state.profile.potrait_url == ""
+                          ? profile
+                          : this.state.profile.potrait_url
+                      }
+                      alt="..."
+                      className={imageClasses}
+                    />
                   </div>
                 </div>
               </GridItem>
