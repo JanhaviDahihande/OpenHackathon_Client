@@ -83,8 +83,9 @@ class CreateHackathon extends React.Component {
 
   getJudges() {
     try {
+      const authHeader = localStorage.getItem("accessToken");
       var url = "http://localhost:5000/user/list";
-      fetch(url)
+      fetch(url, { headers: { Authorization: authHeader } })
         .then(res => res.json())
         .then(json => {
           console.log("json", json);
@@ -106,8 +107,9 @@ class CreateHackathon extends React.Component {
   }
   getSponsors() {
     try {
+      const authHeader = localStorage.getItem("accessToken");
       var url = "http://localhost:5000/organization";
-      fetch(url)
+      fetch(url, { headers: { Authorization: authHeader } })
         .then(res => res.json())
         .then(json => {
           console.log("json", json);
@@ -153,11 +155,13 @@ class CreateHackathon extends React.Component {
   };
 
   getHackathon() {
+    const authHeader = localStorage.getItem("accessToken");
     axios
       .get("http://localhost:5000/hackathon/" + this.state.hackathon_id, {
         params: {
           userId: localStorage.getItem("userId")
-        }
+        },
+        headers: { Authorization: authHeader }
       })
       .then(response => {
         console.log("GET RESPONSE:::: ", response);

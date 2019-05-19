@@ -81,8 +81,9 @@ class TeamRegistration extends React.Component {
 
   getTeamMembers() {
     try {
+      const authHeader = localStorage.getItem("accessToken");
       var url = "http://localhost:5000/user/list";
-      fetch(url)
+      fetch(url, { headers: { Authorization: authHeader } })
         .then(res => res.json())
         .then(json => {
           console.log("json", json);
@@ -129,6 +130,7 @@ class TeamRegistration extends React.Component {
       this.state.participants.length <=
       this.state.max_team_size
     ) {
+      const authHeader = localStorage.getItem("accessToken");
       var url =
         "http://localhost:5000/participant/" +
         localStorage.getItem("userId") +
@@ -137,6 +139,7 @@ class TeamRegistration extends React.Component {
       fetch(url, {
         method: "POST",
         headers: {
+          Authorization: authHeader,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
@@ -148,7 +151,8 @@ class TeamRegistration extends React.Component {
         .then(json => {
           if (json.status != "BadRequest") {
             window.location.href =
-              "http://localhost:3000/hackathon_details/" + this.state.hackathon_id;
+              "http://localhost:3000/hackathon_details/" +
+              this.state.hackathon_id;
           } else alert("Request failed with error: " + json.message);
         })
         .catch(error => {

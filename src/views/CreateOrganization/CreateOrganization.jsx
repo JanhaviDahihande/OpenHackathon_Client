@@ -77,11 +77,13 @@ class CreateOrganization extends React.Component {
   }
 
   getOrganization() {
+    const authHeader = localStorage.getItem("accessToken");
     axios
       .get("http://localhost:5000/organization/" + this.state.organization_id, {
         params: {
           userId: localStorage.getItem("userId")
-        }
+        },
+        headers: { Authorization: authHeader }
       })
       .then(response => {
         console.log(response);
@@ -138,9 +140,11 @@ class CreateOrganization extends React.Component {
     // this.state.changedOrganization.address.state = this.state.state;
     // this.state.changedOrganization.address.zip = this.state.zip;
     this.state.changedOrganization.owner.id = localStorage.getItem("userId");
+    const authHeader = localStorage.getItem("accessToken");
     fetch("http://localhost:5000/organization/create", {
       method: "POST",
       headers: {
+        Authorization: authHeader,
         "Content-Type": "application/json"
       },
       body: JSON.stringify(

@@ -40,12 +40,12 @@ class MyHackathon extends React.Component {
         teamName: null,
         participants: [],
         paymentDone: null,
-        fees:0,
+        fees: 0,
         score: 0,
         submissionURL: null,
         teamLeadId: null
       },
-      code_url: ''
+      code_url: ""
     };
   }
   componentDidMount() {
@@ -59,17 +59,18 @@ class MyHackathon extends React.Component {
     );
     this.submitCode = this.submitCode.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    
   }
 
   getMyHackathons() {
     console.log("State:::", this.state);
+    const authHeader = localStorage.getItem("accessToken");
     axios
       .get(
         "http://localhost:5000/participant/" +
           this.state.userId +
           "/hackathon/" +
-          this.state.hackathonId
+          this.state.hackathonId,
+        { headers: { Authorization: authHeader } }
       )
       .then(response => {
         console.log(response);
@@ -91,24 +92,33 @@ class MyHackathon extends React.Component {
   handleChange(evt) {
     console.log(evt.target.id + "_" + evt.target.value);
     this.setState({
-      [evt.target.id] : evt.target.value
+      [evt.target.id]: evt.target.value
     });
   }
 
-  submitCode(evt){
+  submitCode(evt) {
     var submission_url = this.state.code_url;
-    var url = "http://localhost:5000/participant/" + localStorage.getItem("userId") +"/hackathon/" + this.state.hackathonId + "?submission_url=" + submission_url;
+    var url =
+      "http://localhost:5000/participant/" +
+      localStorage.getItem("userId") +
+      "/hackathon/" +
+      this.state.hackathonId +
+      "?submission_url=" +
+      submission_url;
+
+    const authHeader = localStorage.getItem("accessToken");
+
     fetch(url, {
       method: "PATCH",
       headers: {
+        Authorization: authHeader,
         "Content-Type": "application/json"
-      },
+      }
     })
       .then(res => res.json())
       .then(json => {
         if (json.status != "BadRequest") {
-          window.location.href =
-            "http://localhost:3000/my_hackathonlist";
+          window.location.href = "http://localhost:3000/my_hackathonlist";
         } else alert("Request failed with error: " + json.message);
       })
       .catch(error => {
@@ -202,29 +212,26 @@ class MyHackathon extends React.Component {
               </GridItem>
               <GridItem xs={12} sm={12} md={12}>
                 <TextField
-                        id="code_url"
-                        label="Code URL"
-                        fullWidth={true}
-                        // value={this.state.changedHackathon.description}
-                        type="text"
-                        className={classes.textField}
-                        inputProps={{
-                          onChange: this.handleChange
-                        }}
-                        InputLabelProps={{
-                          shrink: true
-                        }}
-                        margin="normal"
-                        variant="outlined"
-                  />
+                  id="code_url"
+                  label="Code URL"
+                  fullWidth={true}
+                  // value={this.state.changedHackathon.description}
+                  type="text"
+                  className={classes.textField}
+                  inputProps={{
+                    onChange: this.handleChange
+                  }}
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  margin="normal"
+                  variant="outlined"
+                />
               </GridItem>
               <GridItem xs={12} sm={12} md={4}>
-              <Button
-                color="primary"
-                onClick={this.submitCode}
-              >
-                Submit Code
-              </Button>      
+                <Button color="primary" onClick={this.submitCode}>
+                  Submit Code
+                </Button>
               </GridItem>
             </GridContainer>
           </div>

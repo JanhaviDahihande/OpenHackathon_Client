@@ -51,6 +51,7 @@ class HackathonDetails extends React.Component {
 
   updateHackathonStatus() {
     const status = 2;
+    const authHeader = localStorage.getItem("accessToken");
     fetch(
       "http://localhost:5000/hackathon/" +
         this.state.hackathonId +
@@ -59,6 +60,7 @@ class HackathonDetails extends React.Component {
       {
         method: "PATCH",
         headers: {
+          Authorization: authHeader,
           "Content-Type": "application/json"
         }
       }
@@ -81,6 +83,7 @@ class HackathonDetails extends React.Component {
 
   finaliseStatus() {
     const status = 3;
+    const authHeader = localStorage.getItem("accessToken");
     fetch(
       "http://localhost:5000/hackathon/" +
         this.state.hackathonId +
@@ -89,6 +92,7 @@ class HackathonDetails extends React.Component {
       {
         method: "PATCH",
         headers: {
+          Authorization: authHeader,
           "Content-Type": "application/json"
         }
       }
@@ -111,8 +115,10 @@ class HackathonDetails extends React.Component {
 
   getMyHackathons() {
     console.log("State:::", this.state);
+    const authHeader = localStorage.getItem("accessToken");
     axios
       .get("http://localhost:5000/hackathon/" + this.state.hackathonId, {
+        headers: { Authorization: authHeader },
         params: {
           userId: this.state.userId
         }

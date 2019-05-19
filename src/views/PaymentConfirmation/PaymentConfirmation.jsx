@@ -23,8 +23,8 @@ import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
 import image from "assets/img/bg7.jpg";
 
-import { GoogleLogin } from 'react-google-login';
-import queryString from 'query-string';
+import { GoogleLogin } from "react-google-login";
+import queryString from "query-string";
 class PaymentConfirmation extends React.Component {
   constructor(props) {
     super(props);
@@ -34,22 +34,23 @@ class PaymentConfirmation extends React.Component {
     };
   }
   componentDidMount() {
-    const values = queryString.parse(this.props.location.search)
-    console.log(values.token)
-    var url = 'http://localhost:5000/participant/pay'
+    const values = queryString.parse(this.props.location.search);
+    console.log(values.token);
+    const authHeader = localStorage.getItem("accessToken");
+    var url = "http://localhost:5000/participant/pay";
     fetch(url, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        Authorization: authHeader,
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        token: values.token,
-      }),
+        token: values.token
+      })
     })
       .then(res => res.json())
       .then(json => {
-        console.log('json', json);
-        
+        console.log("json", json);
       });
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
     setTimeout(
@@ -59,9 +60,9 @@ class PaymentConfirmation extends React.Component {
       700
     );
   }
-  
+
   render() {
-    const responseGoogle = (response) => {
+    const responseGoogle = response => {
       // var profile = response.getBasicProfile();
       // console.log("ID: " + profile.getId()); // Don't send this directly to your server!
       // console.log('Full Name: ' + profile.getName());
@@ -74,7 +75,7 @@ class PaymentConfirmation extends React.Component {
       // var id_token = response.getAuthResponse().id_token;
       // console.log("ID Token: " + id_token);
       console.log(response);
-    }
+    };
     const { classes, ...rest } = this.props;
     return (
       <div>
@@ -99,12 +100,19 @@ class PaymentConfirmation extends React.Component {
                 <Card className={classes[this.state.cardAnimaton]}>
                   <form className={classes.form}>
                     <CardBody>
-                    <h3><b>Payment is now confirmed.</b></h3>
-                     <p>Please login to proceed.</p>
+                      <h3>
+                        <b>Payment is now confirmed.</b>
+                      </h3>
+                      <p>Please login to proceed.</p>
                     </CardBody>
                     <CardFooter className={classes.cardFooter}>
-                      <Button simple color="primary" size="lg" onClick={this.handlesOnLogin}>
-                       Login
+                      <Button
+                        simple
+                        color="primary"
+                        size="lg"
+                        onClick={this.handlesOnLogin}
+                      >
+                        Login
                       </Button>
                     </CardFooter>
                   </form>
@@ -119,7 +127,7 @@ class PaymentConfirmation extends React.Component {
   }
 
   handlesOnLogin = (event: SyntheticEvent<>) => {
-    this.props.history.push(`/login`)
+    this.props.history.push(`/login`);
   };
 }
 

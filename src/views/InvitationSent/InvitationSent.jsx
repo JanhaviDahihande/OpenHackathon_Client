@@ -29,9 +29,11 @@ class InvitationSent extends React.Component {
     const values = queryString.parse(this.props.location.search);
     console.log(values.token);
     var url = "http://localhost:5000/auth/verify";
+    const authHeader = localStorage.getItem("accessToken");
     fetch(url, {
       method: "POST",
       headers: {
+        Authorization: authHeader,
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
