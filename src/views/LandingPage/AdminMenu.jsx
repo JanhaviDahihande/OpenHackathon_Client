@@ -41,6 +41,21 @@ class AdminMenu extends React.Component {
               <Card style={{ width: "20rem" }}>
                 <CardHeader color="warning">
                   <h4>
+                    <b>Dashboard</b>
+                  </h4>
+                </CardHeader>
+                <CardBody>
+                  <h4 className={classes.cardTitle}>Dashboard</h4>
+                  <Button color="primary" component={Link} to="/dashboard">
+                    Go
+                  </Button>
+                </CardBody>
+              </Card>
+            </GridItem>
+            <GridItem xs={12} sm={12} md={4}>
+              <Card style={{ width: "20rem" }}>
+                <CardHeader color="warning">
+                  <h4>
                     <b>All Hackathons</b>
                   </h4>
                 </CardHeader>

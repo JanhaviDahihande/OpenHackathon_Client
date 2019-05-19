@@ -23,46 +23,48 @@ import RegistrationConfirmation from "./views/RegistrationConfirmation/Registrat
 import ProductSection from "./views/LandingPage/Sections/ProductSection";
 import CreateHackathon from "./views/CreateHackathon/CreateHackathon";
 import InvitationSent from "./views/InvitationSent/InvitationSent";
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import PaymentConfirmation from "./views/PaymentConfirmation/PaymentConfirmation";
 import TeamRegistration from "./views/TeamRegistration/TeamRegistration";
 import JudgeHackathon from "./views/Hackathon/JudgeHackathon";
+import Dashboard from "./views/Dashboard/Dashboard";
 var hist = createBrowserHistory();
 
 ReactDOM.render(
   <MuiThemeProvider>
-  <Router history={hist}>
-    <Switch>
-      <Route path="/index" component={LandingPage} />
-      <Route path="/profile" component={ProfilePage} />
-      <Route path="/login" component={LoginPage} />
-      <Route path="/logout" component={LandingPage} />
-      <Route path="/register" component={RegisterPage} />
-      <Route path="/all_hackathons" component={AllHackathonList} />
-      <Route path="/create_organization" component={CreateOrganization} />
-      <Route path="/team_registration/:id/:minsize/:maxsize" component={TeamRegistration} />
-      <Route path="/user_organization" component={UserOrganization} />
-      <Route path="/my_hackathonlist" component={MyHackathonsList} />
-      <Route path="/my_hackathon/:id" component={MyHackathon} />
-      <Route path="/judge_hackathon/:id" component={JudgeHackathon} />
-      <Route path="/hackathon_details/:id" component={HackathonDetails} />
-      <Route
-        path="/registration-confirmation"
-        component={RegistrationConfirmation}
-      />
-      <Route
-        path="/payment-confirmation"
-        component={PaymentConfirmation}
-      />
-      <Route path="/create_hackathon/:id" component={CreateHackathon} />
-      <Route path="/create_hackathon" component={CreateHackathon} />
-      <Route path="/invitation-sent" component={InvitationSent} />
+    <Router history={hist}>
+      <Switch>
+        <Route path="/index" component={LandingPage} />
+        <Route path="/profile" component={ProfilePage} />
+        <Route path="/login" component={LoginPage} />
+        <Route path="/logout" component={LandingPage} />
+        <Route path="/register" component={RegisterPage} />
+        <Route path="/all_hackathons" component={AllHackathonList} />
+        <Route path="/dashboard" component={Dashboard} />
+        <Route path="/create_organization" component={CreateOrganization} />
+        <Route
+          path="/team_registration/:id/:minsize/:maxsize"
+          component={TeamRegistration}
+        />
+        <Route path="/user_organization" component={UserOrganization} />
+        <Route path="/my_hackathonlist" component={MyHackathonsList} />
+        <Route path="/my_hackathon/:id" component={MyHackathon} />
+        <Route path="/judge_hackathon/:id" component={JudgeHackathon} />
+        <Route path="/hackathon_details/:id" component={HackathonDetails} />
+        <Route
+          path="/registration-confirmation"
+          component={RegistrationConfirmation}
+        />
+        <Route path="/payment-confirmation" component={PaymentConfirmation} />
+        <Route path="/create_hackathon/:id" component={CreateHackathon} />
+        <Route path="/create_hackathon" component={CreateHackathon} />
+        <Route path="/invitation-sent" component={InvitationSent} />
 
-      <Route path="/about" component={ProductSection} />
-      <Route path="/" component={LandingPage} />
-      <Route path="/confirm/:id" component={ConfirmPage} />
-    </Switch>
-  </Router>
+        <Route path="/about" component={ProductSection} />
+        <Route path="/" component={LandingPage} />
+        <Route path="/confirm/:id" component={ConfirmPage} />
+      </Switch>
+    </Router>
   </MuiThemeProvider>,
   document.getElementById("root")
 );
