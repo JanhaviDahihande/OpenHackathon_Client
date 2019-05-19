@@ -44,7 +44,7 @@ class HackerMenu extends React.Component {
                     <b>All Hackathons</b>
                   </h4>
                 </CardHeader>
-                <CardBody>
+                <CardBody style={{ height: "150px" }}>
                   <h4 className={classes.cardTitle}>Get all hackathons.</h4>
                   <Button color="primary" component={Link} to="/all_hackathons">
                     Go
@@ -60,10 +60,10 @@ class HackerMenu extends React.Component {
                     <b>My Hackathon</b>
                   </h4>
                 </CardHeader>
-                <CardBody>
-                  <h4 className={classes.cardTitle}>
+                <CardBody style={{ height: "150px" }}>
+                  <h5 className={classes.cardTitle}>
                     Get the current hackathon information.
-                  </h4>
+                  </h5>
                   <Button
                     color="primary"
                     component={Link}
@@ -74,7 +74,7 @@ class HackerMenu extends React.Component {
                 </CardBody>
               </Card>
             </GridItem>
-            <GridItem xs={12} sm={12} md={4}>
+            {/* <GridItem xs={12} sm={12} md={4}>
               <Card style={{ width: "20rem" }}>
                 <CardHeader color="warning">
                   <h4>
@@ -94,7 +94,7 @@ class HackerMenu extends React.Component {
                   </Button>
                 </CardBody>
               </Card>
-            </GridItem>
+            </GridItem> */}
             <GridItem xs={12} sm={12} md={4}>
               <Card style={{ width: "20rem" }}>
                 <CardHeader color="warning">
@@ -102,10 +102,10 @@ class HackerMenu extends React.Component {
                     <b>My Organization</b>
                   </h4>
                 </CardHeader>
-                <CardBody>
-                  <h4 className={classes.cardTitle}>
+                <CardBody style={{ height: "150px" }}>
+                  <h5 className={classes.cardTitle}>
                     Get/Update your organization information.
-                  </h4>
+                  </h5>
                   <Button
                     color="primary"
                     component={Link}
@@ -123,10 +123,10 @@ class HackerMenu extends React.Component {
                     <b>My Profile</b>
                   </h4>
                 </CardHeader>
-                <CardBody>
-                  <h4 className={classes.cardTitle}>
+                <CardBody style={{ height: "150px" }}>
+                  <h5 className={classes.cardTitle}>
                     Get all your user details from here!
-                  </h4>
+                  </h5>
                   <Button color="primary" component={Link} to="/profile">
                     Go
                   </Button>
