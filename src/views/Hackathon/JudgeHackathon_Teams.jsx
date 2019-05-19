@@ -26,7 +26,7 @@ import Footer from "components/Footer/Footer.jsx";
 import TextField from "@material-ui/core/TextField";
 import Button from "components/CustomButtons/Button.jsx";
 const dashboardRoutes = [];
-class JudgeHackathon extends React.Component {
+class JudgeHackathon_Teams extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
@@ -34,7 +34,9 @@ class JudgeHackathon extends React.Component {
       cardAnimaton: "cardHidden",
       hackathonId: 0,
       userId: 1,
-      team: {
+      hackathon: {
+        hackathonId: null,
+        hackathonName: null,
         teamId: null,
         teamName: null,
         participants: [],
@@ -42,8 +44,9 @@ class JudgeHackathon extends React.Component {
         score: 0,
         submissionURL: null,
         teamLeadId: null,
-        status: 0,
+        status:0
       },
+      teams:[],
       code_url: '',
       score_toggle: true
     };
@@ -52,7 +55,7 @@ class JudgeHackathon extends React.Component {
     const id = this.props.match.params.id;
     console.log("Params::: ", id);
     this.setState(
-      { teamId: id, userId: localStorage.getItem("userId") },
+      { hackathonId: id, userId: localStorage.getItem("userId") },
       () => {
         this.getMyHackathons();
       }
@@ -67,37 +70,35 @@ class JudgeHackathon extends React.Component {
     console.log("State:::", this.state);
     axios
       .get(
-        "http://localhost:5000/participant/" +
-          this.state.userId +
-          "/team/" +
-          this.state.teamId
+        "http://localhost:5000/hackathon/" +
+          this.state.hackathonId+
+          "/leaderboard"
       )
       .then(response => {
         console.log(response);
-        var team = {};
-        team.hackathonId = response.data.hackathonId;
-        team.hackathonName = response.data.hackathonName;
-        team.teamId = response.data.teamId;
-        team.teamName = response.data.teamName;
-        team.participants = response.data.participants;
-        team.paymentDone = response.data.paymentDone;
-        team.score = response.data.score;
-        team.submissionURL = response.data.submissionURL;
-        team.teamLeadId = response.data.teamLeadId;
-        team.status = response.data.status;
-        alert(team.participants);
-        this.setState({ team: team });
+        var teams = [];
+        for (let i = 0; i < response.data.length; i++) {
+          teams.push({
+            id: response.data[i].teamId,
+            name: response.data[i].teamName,
+            score: response.data[i].teamScore,
+            members: response.data[i].teamMembers,
+          });
+        }
+        
+        alert(teams);
+        this.setState({ teams: teams });
       });
   }
 
   handleChange(evt) {
-    var team = this.state.team;
-    team[evt.target.id] = evt.target.value;
-    this.setState({ team: team });
+    var hackathon = this.state.hackathon;
+    hackathon[evt.target.id] = evt.target.value;
+    this.setState({ hackathon: hackathon });
   }
 
   submitCode(evt){
-    var judge_score = this.state.team.score;
+    var judge_score = this.state.hackathon.score;
     var url = "http://localhost:5000/participant/" + localStorage.getItem("userId") +"/hackathon/" + this.state.hackathonId + "?judgeScore=" + judge_score;
     fetch(url, {
       method: "PATCH",
@@ -123,40 +124,41 @@ class JudgeHackathon extends React.Component {
 
   render() {
     const { classes, ...rest } = this.props;
-    var comp = this.state.team.status != 2?(
+    var comp = this.state.hackathon.status == 3?(
       ""
     ):(
       <Edit style={{color: "black"}} onClick= {this.handleEdit}/>
     );
 
-    var participant_list = this.state.team.participants?( <GridItem xs={12} sm={12} md={12}>
+    var participant_team_list = this.state.teams?(<GridItem xs={12} sm={12} md={12}>
       <Paper className={classes.root}>
         <Table className={classes.table} style={{ marginBottom: 30 }}>
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
-              <TableCell align="left">Role</TableCell>
-              <TableCell align="left">Payment Status</TableCell>
-              <TableCell align="left">Amount</TableCell>
+              <TableCell align="left">Score</TableCell>
+              <TableCell align="left">Members</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {this.state.team.participants.map(row => (
-              <TableRow key={row.userId}>
-                <TableCell component="th" scope="row">
+            {this.state.teams.map(row => (
+              <TableRow>
+                <TableCell component="a"
+                            href={"/judge_hackathon/" + row.id}>
                   {row.name}
                 </TableCell>
-                <TableCell align="left">{row.title}</TableCell>
+                <TableCell align="left">{row.score}</TableCell>
                 <TableCell align="left">
-                  {row.paymentDone ? "Done" : "Pending"}
+                  {row.members}
                 </TableCell>
-                <TableCell align="left">{0}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </Paper>
-    </GridItem>):(<GridItem xs={12} sm={12} md={12}><h5 style={{color:"black"}}>No participants</h5></GridItem>)
+    </GridItem>):(<GridItem xs={12} sm={12} md={12}>
+               <h4 style={{color:"black"}}>Currently no teams have registered for this hackathon!</h4>
+              </GridItem>)
     return (
       <div>
         <div>
@@ -185,7 +187,7 @@ class JudgeHackathon extends React.Component {
             <GridContainer style={{ backgroundColor: "white" }}>
               <GridItem xs={4} sm={2} md={3}>
                 <InfoArea
-                  title={this.state.team.hackathonName}
+                  title={this.state.hackathon.hackathonName}
                   description="Not getting from backend"
                   icon={Code}
                   iconColor="rose"
@@ -196,7 +198,7 @@ class JudgeHackathon extends React.Component {
               <TextField
                         id="score"
                         label="Score"
-                        value= {this.state.team.score}
+                        value= {this.state.hackathon.score}
                         // value={this.state.changedHackathon.description}
                         className={classes.textField}
                         inputProps={{
@@ -218,40 +220,9 @@ class JudgeHackathon extends React.Component {
               </GridItem>
 
               <GridItem xs={12} sm={12} md={12}>
-                <h2 style={{ color: "black" }}>Team</h2>
+                <h2 style={{ color: "black" }}>Participating Teams</h2>
               </GridItem>
-             {participant_list}
-
-              <GridItem xs={12} sm={12} md={8}>
-                <h2 style={{ color: "black" }}>Code Submission</h2>
-              </GridItem>
-              <GridItem xs={12} sm={12} md={12}>
-                <TextField
-                        id="code_url"
-                        label="Code URL"
-                        fullWidth={true}
-                        // value={this.state.changedHackathon.description}
-                        type="text"
-                        className={classes.textField}
-                        inputProps={{
-                          onChange: this.handleChange,
-                          disabled: true
-                        }}
-                        InputLabelProps={{
-                          shrink: true
-                        }}
-                        margin="normal"
-                        variant="outlined"
-                  />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={4}>
-              <Button
-                color="primary"
-                onClick={this.submitCode}
-              >
-                Submit Code
-              </Button>      
-              </GridItem>
+             {participant_team_list}
             </GridContainer>
           </div>
         </div>
@@ -261,4 +232,4 @@ class JudgeHackathon extends React.Component {
   }
 }
 
-export default withStyles(loginPageStyle)(JudgeHackathon);
+export default withStyles(loginPageStyle)(JudgeHackathon_Teams);

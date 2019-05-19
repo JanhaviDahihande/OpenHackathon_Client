@@ -144,7 +144,7 @@ class MyHackathonsList extends React.Component {
                         <TableRow key={row.id}>
                           <TableCell
                             component="a"
-                            href={"/my_hackathon/" + row.id}
+                            href={"/judge_hackathon_teams/" + row.id}
                           >
                             {row.eventName}
                           </TableCell>

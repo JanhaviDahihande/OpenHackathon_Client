@@ -27,6 +27,7 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import PaymentConfirmation from "./views/PaymentConfirmation/PaymentConfirmation";
 import TeamRegistration from "./views/TeamRegistration/TeamRegistration";
 import JudgeHackathon from "./views/Hackathon/JudgeHackathon";
+import JudgeHackathon_Teams from "./views/Hackathon/JudgeHackathon_Teams";
 import Dashboard from "./views/Dashboard/Dashboard";
 var hist = createBrowserHistory();
 
@@ -50,6 +51,7 @@ ReactDOM.render(
         <Route path="/my_hackathonlist" component={MyHackathonsList} />
         <Route path="/my_hackathon/:id" component={MyHackathon} />
         <Route path="/judge_hackathon/:id" component={JudgeHackathon} />
+        <Route path="/judge_hackathon_teams/:id" component={JudgeHackathon_Teams} />
         <Route path="/hackathon_details/:id" component={HackathonDetails} />
         <Route
           path="/registration-confirmation"
