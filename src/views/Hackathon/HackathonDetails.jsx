@@ -179,7 +179,10 @@ class HackathonDetails extends React.Component {
           </Button>
         </h4>
       ) : this.state.hackathon.userRole == 2 ? (
-        <h4 color="primary" style={{ marginTop: "5px", color: "black" }}>
+        <h4
+          color="primary"
+          style={{ marginTop: "5px", color: "black", padding: "10px" }}
+        >
           You are Judging this event.
         </h4>
       ) : (
@@ -222,7 +225,7 @@ class HackathonDetails extends React.Component {
             <Button
               color="primary"
               component={Link}
-              to={"/hackathon/" + this.state.hackathonId + "/paymentreport"}
+              to={"/hackathon/paymentreport/" + this.state.hackathonId}
               style={{ margin: "10px" }}
             >
               Payment Report
@@ -265,7 +268,7 @@ class HackathonDetails extends React.Component {
             <Button
               color="primary"
               component={Link}
-              to={"/hackathon/" + this.state.hackathonId + "/paymentreport"}
+              to={"/hackathon/paymentreport/" + this.state.hackathonId}
               style={{ margin: "10px" }}
             >
               Payment Report
@@ -299,10 +302,18 @@ class HackathonDetails extends React.Component {
             <Button
               color="primary"
               component={Link}
-              to={"/hackathon/" + this.state.hackathonId + "/paymentreport"}
+              to={"/hackathon/paymentreport/" + this.state.hackathonId}
               style={{ margin: "10px" }}
             >
               Payment Report
+            </Button>
+            <Button
+              color="primary"
+              component={Link}
+              to={"/hackathon/" + this.state.hackathonId + "/expense"}
+              style={{ margin: "10px" }}
+            >
+              Manage Expenses
             </Button>
           </div>
         );
@@ -405,18 +416,24 @@ class HackathonDetails extends React.Component {
                       <CustomTableCell>Sponsors</CustomTableCell>
                       <CustomTableCell>
                         {this.state.hackathon.sponsors &&
-                          this.state.hackathon.sponsors.map(sponsor => (
-                            <dd key={sponsor.id}> {sponsor.name} </dd>
-                          ))}
+                          this.state.hackathon.sponsors.map((sponsor, index) =>
+                            // <dd  key={sponsor.id}> { sponsorsponsor.name} </dd>
+                            index != this.state.hackathon.sponsors.length - 1
+                              ? sponsor.name + ", "
+                              : sponsor.name + ""
+                          )}
                       </CustomTableCell>
                     </TableRow>
                     <TableRow className={classes.row}>
                       <CustomTableCell>Judges</CustomTableCell>
                       <CustomTableCell>
                         {this.state.hackathon.judges &&
-                          this.state.hackathon.judges.map(judge => (
-                            <dd key={judge.id}> {judge.name} </dd>
-                          ))}
+                          this.state.hackathon.judges.map((judge, index) =>
+                            // <dd key={judge.id}> {judge.name} </dd>
+                            index != this.state.hackathon.judges.length - 1
+                              ? judge.name + ", "
+                              : judge.name + ""
+                          )}
                       </CustomTableCell>
                     </TableRow>
                   </TableBody>

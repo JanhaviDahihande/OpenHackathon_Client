@@ -33,6 +33,7 @@ import JudgeHackathon_Teams from "./views/Hackathon/JudgeHackathon_Teams";
 import Dashboard from "./views/Dashboard/Dashboard";
 import LeaderBoard from "./views/Hackathon/Leaderboard";
 import FinanceReport from "./views/Reports/FinanceReport";
+import PaymentReport from "./views/Reports/PaymentReport";
 var hist = createBrowserHistory();
 
 function ProtectedRoute({ component: Component, authed, ...rest }) {
@@ -154,7 +155,11 @@ ReactDOM.render(
           path="/hackathon/leaderboard/:id"
           component={LeaderBoard}
         />
-
+        <ProtectedRoute
+          authed={loggedIn()}
+          path="/hackathon/paymentreport/:id"
+          component={PaymentReport}
+        />
         <ProtectedRoute
           authed={loggedIn()}
           path="/create_hackathon/:id"
