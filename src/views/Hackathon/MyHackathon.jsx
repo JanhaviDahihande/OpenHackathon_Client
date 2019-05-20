@@ -87,7 +87,10 @@ class MyHackathon extends React.Component {
         hackathon.submissionURL = response.data.submissionURL;
         hackathon.teamLeadId = response.data.teamLeadId;
         hackathon.hackathonStatus = response.data.status;
-        this.setState({ hackathon: hackathon });
+        this.setState({
+          hackathon: hackathon,
+          code_url: hackathon.submissionURL
+        });
       });
   }
 
@@ -99,6 +102,10 @@ class MyHackathon extends React.Component {
   }
 
   submitCode(evt) {
+    if (!this.state.code_url.trim()) {
+      alert("Code URL can not be empty");
+      return;
+    }
     var submission_url = this.state.code_url;
     var url =
       "http://openhackathon.us-east-1.elasticbeanstalk.com/participant/" +
@@ -222,10 +229,20 @@ class MyHackathon extends React.Component {
               <GridItem xs={12} sm={12} md={12}>
                 <TextField
                   disabled={
-                    this.state.hackathon.hackathonStatus != 1 ? true : false
+                    this.state.hackathon.hackathonStatus != 1 ||
+                    !this.state.hackathon.paymentDone
+                      ? true
+                      : false
+                  }
+                  placeholder={
+                    this.state.hackathon.hackathonStatus == 1 &&
+                    !this.state.hackathon.paymentDone
+                      ? "Code submission not allowed as team's payment is pending"
+                      : ""
                   }
                   id="code_url"
                   label="Code URL"
+                  value={this.state.code_url}
                   fullWidth={true}
                   // value={this.state.changedHackathon.description}
                   type="text"
@@ -242,17 +259,18 @@ class MyHackathon extends React.Component {
               </GridItem>
               <GridItem xs={12} sm={12} md={4}>
                 <Button
-                  style={{
-                    display:
-                      this.state.hackathon.hackathonStatus == 1
-                        ? "block"
-                        : "none"
-                  }}
+                  disabled={
+                    this.state.hackathon.hackathonStatus != 1 ||
+                    !this.state.hackathon.paymentDone
+                      ? true
+                      : false
+                  }
                   color="primary"
                   onClick={this.submitCode}
                 >
                   Submit Code
                 </Button>
+
                 <h4
                   style={{
                     color: "black",
