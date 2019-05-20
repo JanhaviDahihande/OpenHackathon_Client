@@ -136,6 +136,11 @@ class TeamRegistration extends React.Component {
   }
 
   register(evt) {
+    if (this.state.team_name.trim() == "" || !this.state.team_name) {
+      alert("Team name is required");
+      return;
+    }
+
     if (
       this.state.participants.length >= this.state.min_team_size &&
       this.state.participants.length <= this.state.max_team_size
