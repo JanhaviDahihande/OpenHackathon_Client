@@ -30,6 +30,7 @@ import JudgeHackathon from "./views/Hackathon/JudgeHackathon";
 import JudgeHackathon_Teams from "./views/Hackathon/JudgeHackathon_Teams";
 import Dashboard from "./views/Dashboard/Dashboard";
 import LeaderBoard from "./views/Hackathon/Leaderboard";
+import FinanceReport from "./views/Reports/FinanceReport";
 var hist = createBrowserHistory();
 
 ReactDOM.render(
@@ -51,6 +52,7 @@ ReactDOM.render(
         <Route path="/user_organization" component={UserOrganization} />
         <Route path="/my_hackathonlist" component={MyHackathonsList} />
         <Route path="/my_hackathon/:id" component={MyHackathon} />
+        <Route path="/earningreport" component={FinanceReport} />
         <Route path="/judge_hackathon/:id" component={JudgeHackathon} />
         <Route
           path="/judge_hackathon_teams/:id"
