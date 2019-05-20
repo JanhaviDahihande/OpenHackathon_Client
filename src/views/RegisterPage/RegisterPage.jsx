@@ -96,8 +96,8 @@ class RegisterPage extends PureComponent<Props, State> {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          firstname: screen_name,
-          lastname: first_name,
+          lastname: screen_name,
+          firstname: first_name,
           email: email_id,
           password: password
         })
