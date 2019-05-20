@@ -67,7 +67,7 @@ class FinanceReport extends React.Component {
     var url =
       "http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" +
       this.state.hackathon_id +
-      "/financial_report";
+      "/earningreport";
     axios
       .get(url, { headers: { Authorization: authHeader } })
       .then(response => {
@@ -88,6 +88,7 @@ class FinanceReport extends React.Component {
         hackathon.revenue = response.data.revenue;
         hackathon.expense = response.data.expense;
         hackathon.profit = response.data.profit;
+        hackathon.sponsorsRevenue = response.data.sponsorAmount;
         this.setState({ hackathon: hackathon });
       });
   }
@@ -232,9 +233,9 @@ class FinanceReport extends React.Component {
                 <Card style={{ width: "15rem", textAlign: "center" }}>
                   <CardBody>
                     <h3 className={classes.cardTitle}>
-                      <b>Sponsor Revenue</b>
+                      <b>Sponsors Revenue</b>
                     </h3>
-                    <h1>{this.state.hackathon.noOfTeams}</h1>
+                    <h1>{this.state.hackathon.sponsorsRevenue}</h1>
                   </CardBody>
                 </Card>
               </GridItem>
