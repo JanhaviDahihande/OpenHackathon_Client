@@ -146,11 +146,9 @@ class HackathonDetails extends React.Component {
     const { classes, ...rest } = this.props;
     var comp =
       this.state.hackathon.status != 1 ? (
-        <CardHeader color="primary" style={{ marginTop: "5px" }}>
-          <span>
-            <b>Registration Closed</b>
-          </span>
-        </CardHeader>
+        <h4 color="primary" style={{ color: "black", marginTop: "5px" }}>
+          Registration Closed
+        </h4>
       ) : this.state.hackathon.userRole == 0 ? (
         <Button
           color="primary"
@@ -167,28 +165,23 @@ class HackathonDetails extends React.Component {
           Register
         </Button>
       ) : this.state.hackathon.userRole == 1 ? (
-        <CardHeader color="primary" style={{ marginTop: "5px" }}>
-          <span>
-            <b>
-              Registered Already. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <a
-                href={"/my_hackathon/" + this.state.hackathonId}
-                style={{
-                  color: "black",
-                  fontSize: "15px"
-                }}
-              >
-                Click to see Team Details.
-              </a>
-            </b>
-          </span>
-        </CardHeader>
+        <h4 color="primary" style={{ marginTop: "5px", color: "black" }}>
+          You have already registered for this hackathon.
+          <Button
+            component={Link}
+            color="primary"
+            to={"/my_hackathon/" + this.state.hackathonId}
+            style={{
+              color: "white"
+            }}
+          >
+            Click to see Team Details.
+          </Button>
+        </h4>
       ) : this.state.hackathon.userRole == 2 ? (
-        <CardHeader color="primary" style={{ marginTop: "5px" }}>
-          <span>
-            <b>You are Judging this event.</b>
-          </span>
-        </CardHeader>
+        <h4 color="primary" style={{ marginTop: "5px", color: "black" }}>
+          You are Judging this event.
+        </h4>
       ) : (
         ""
       );
@@ -200,14 +193,39 @@ class HackathonDetails extends React.Component {
               color="primary"
               component={Link}
               to={"/create_hackathon/" + this.state.hackathonId}
+              style={{ margin: "10px" }}
             >
               Edit
             </Button>
-            <Button color="primary" onClick={this.updateHackathonStatus}>
+            <Button
+              color="primary"
+              onClick={this.updateHackathonStatus}
+              style={{ margin: "10px" }}
+            >
               Close Hackathon
             </Button>
-            <Button color="primary" onClick={this.finaliseStatus}>
+            <Button
+              color="primary"
+              onClick={this.finaliseStatus}
+              style={{ margin: "10px" }}
+            >
               Finalise Hackathon
+            </Button>
+            <Button
+              color="primary"
+              component={Link}
+              to={"/hackathon/" + this.state.hackathonId + "/earningreport"}
+              style={{ margin: "10px" }}
+            >
+              Earning Report
+            </Button>
+            <Button
+              color="primary"
+              component={Link}
+              to={"/hackathon/" + this.state.hackathonId + "/paymentreport"}
+              style={{ margin: "10px" }}
+            >
+              Payment Report
             </Button>
           </div>
         ) : this.state.hackathon.status == 2 ? (
@@ -216,28 +234,62 @@ class HackathonDetails extends React.Component {
               color="primary"
               component={Link}
               to={"/create_hackathon/" + this.state.hackathonId}
+              style={{ margin: "10px" }}
             >
               Edit
             </Button>
-            <Button id="finalise" color="primary" onClick={this.finaliseStatus}>
+            <Button
+              id="finalise"
+              color="primary"
+              onClick={this.finaliseStatus}
+              style={{ margin: "10px" }}
+            >
               Finalise Hackathon
+            </Button>
+            <Button
+              color="primary"
+              component={Link}
+              to={"/hackathon/" + this.state.hackathonId + "/earningreport"}
+              style={{ margin: "10px" }}
+            >
+              Earning Report
+            </Button>
+            <Button
+              color="primary"
+              component={Link}
+              to={"/hackathon/" + this.state.hackathonId + "/paymentreport"}
+              style={{ margin: "10px" }}
+            >
+              Payment Report
             </Button>
           </div>
         ) : (
-          <div>Hackathon is finalised</div>
+          <div>
+            <h4
+              style={{
+                color: "black"
+              }}
+            >
+              Hackathon is finalised
+            </h4>
+            <Button
+              color="primary"
+              component={Link}
+              to={"/hackathon/" + this.state.hackathonId + "/earningreport"}
+              style={{ margin: "10px" }}
+            >
+              Earning Report
+            </Button>
+            <Button
+              color="primary"
+              component={Link}
+              to={"/hackathon/" + this.state.hackathonId + "/paymentreport"}
+              style={{ margin: "10px" }}
+            >
+              Payment Report
+            </Button>
+          </div>
         );
-      //   comp = (
-      //     <div>
-      //       <Button
-      //         color="primary"
-      //         component={Link}
-      //         to={"/create_hackathon/" + this.state.hackathonId}
-      //       >
-      //         Edit
-      //       </Button>
-      //       {{ statusButton }}
-      //     </div>
-      //   );
     }
 
     const CustomTableCell = withStyles(theme => ({
@@ -288,11 +340,11 @@ class HackathonDetails extends React.Component {
                 />
               </GridItem>
 
-              <GridItem xs={12} sm={12} md={2} />
+              {/* <GridItem xs={12} sm={12} md={2} />
 
               <GridItem xs={12} sm={12} md={12}>
                 <hr />
-              </GridItem>
+              </GridItem> */}
 
               <GridItem xs={12} sm={12} md={12}>
                 <Table className={classes.table} style={{ marginBottom: 30 }}>
@@ -354,13 +406,69 @@ class HackathonDetails extends React.Component {
                   </TableBody>
                 </Table>
               </GridItem>
-              {/* <GridItem xs={12} sm={12} md={12}>
-                <hr />
-              </GridItem> */}
+              {/* <GridContainer
+                className="row"
+                style={{
+                  display:
+                    localStorage.getItem("role") == "Admin" ? "block" : "none"
+                }}
+              >
+                <GridItem className="col-md-3">
+                  <Button
+                    color="primary"
+                    component={Link}
+                    to={"/create_hackathon/" + this.state.hackathonId}
+                    style={{
+                      display:
+                        this.state.hackathon.status != 3 ? "block" : "none",
+                      width: "100px"
+                    }}
+                  >
+                    Edit
+                  </Button>
+                </GridItem>
+                <GridItem className="col-md-3">
+                  <Button
+                    color="primary"
+                    onClick={this.updateHackathonStatus}
+                    style={{
+                      display:
+                        this.state.hackathon.status == 1 ? "block" : "none"
+                    }}
+                  >
+                    Close Hackathon
+                  </Button>
+                </GridItem>
+                <GridItem className="col-md-3">
+                  <Button
+                    color="primary"
+                    onClick={this.finaliseStatus}
+                    style={{
+                      display:
+                        this.state.hackathon.status != 3 ? "block" : "none"
+                    }}
+                  >
+                    Finalise Hackathon
+                  </Button>
+                </GridItem>
+                <GridItem className="col-md-3">
+                  <div>
+                    <h4
+                      style={{
+                        color: "black",
+                        display:
+                          this.state.hackathon.status == 3 ? "block" : "none"
+                      }}
+                    >
+                      Hackathon is finalised
+                    </h4>
+                  </div>
+                </GridItem>
+              </GridContainer> */}
 
-              <GridItem xs={12} sm={12} md={4}>
-                <CardBody style={{ width: "30rem" }}>{comp}</CardBody>
-              </GridItem>
+              <div className="row" xs={12} sm={12} md={12}>
+                <div>{comp}</div>
+              </div>
             </GridContainer>
           </div>
         </div>

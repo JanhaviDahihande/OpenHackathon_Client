@@ -26,13 +26,6 @@ class AdminMenu extends React.Component {
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={8}>
             <h2 className={classes.title}>Actions</h2>
-            {/* <h5 className={classes.description}>
-              This is the paragraph where you can write more details about your
-              product. Keep you user engaged by providing meaningful
-              information. Remember that by this time, the user is curious,
-              otherwise he wouldn't scroll to get here. Add a button if you want
-              the user to see more.
-            </h5> */}
           </GridItem>
         </GridContainer>
         <div>
@@ -68,7 +61,7 @@ class AdminMenu extends React.Component {
               </Card>
             </GridItem>
 
-            <GridItem xs={12} sm={12} md={4}>
+            {/* <GridItem xs={12} sm={12} md={4}>
               <Card style={{ width: "20rem" }}>
                 <CardHeader color="warning">
                   <h4>
@@ -88,18 +81,18 @@ class AdminMenu extends React.Component {
                   </Button>
                 </CardBody>
               </Card>
-            </GridItem>
+            </GridItem> */}
             <GridItem xs={12} sm={12} md={4}>
               <Card style={{ width: "20rem" }}>
                 <CardHeader color="warning">
-                  <h4>
+                  <h5>
                     <b>My Organization</b>
-                  </h4>
+                  </h5>
                 </CardHeader>
                 <CardBody>
-                  <h4 className={classes.cardTitle}>
-                    Get the current Hackathon information.
-                  </h4>
+                  <h5 className={classes.cardTitle}>
+                    Organization information.
+                  </h5>
                   <Button
                     color="primary"
                     component={Link}
@@ -113,14 +106,14 @@ class AdminMenu extends React.Component {
             <GridItem xs={12} sm={12} md={4}>
               <Card style={{ width: "20rem" }}>
                 <CardHeader color="warning">
-                  <h4>
+                  <h5>
                     <b>My Profile</b>
-                  </h4>
+                  </h5>
                 </CardHeader>
                 <CardBody>
-                  <h4 className={classes.cardTitle}>
+                  <h5 className={classes.cardTitle}>
                     Get all your user details from here!
-                  </h4>
+                  </h5>
                   <Button color="primary" component={Link} to="/profile">
                     Go
                   </Button>
@@ -130,14 +123,14 @@ class AdminMenu extends React.Component {
             <GridItem xs={12} sm={12} md={4}>
               <Card style={{ width: "20rem" }}>
                 <CardHeader color="warning">
-                  <h4>
+                  <h5>
                     <b> Create Hackathon</b>
-                  </h4>
+                  </h5>
                 </CardHeader>
                 <CardBody>
-                  <h4 className={classes.cardTitle}>
+                  <h5 className={classes.cardTitle}>
                     Create a new hackathon from here!
-                  </h4>
+                  </h5>
                   <Button
                     color="primary"
                     component={Link}
