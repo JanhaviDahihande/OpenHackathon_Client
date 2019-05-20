@@ -167,15 +167,24 @@ class AllHackathonsList extends React.Component {
 
                           <TableCell align="left">{row.fees}</TableCell>
 
-                          <TableCell component="a" align="left">
+                          <TableCell component="a" align="center">
                             <Button
                               color="primary"
                               component={Link}
                               to={"/hackathon/leaderboard/" + row.id}
-                              disabled={row.status == 3 ? false : true}
+                              style={{
+                                display: row.status == 3 ? "none" : "block"
+                              }}
                             >
                               Show
                             </Button>
+                            <h6
+                              style={{
+                                display: row.status != 3 ? "none" : "block"
+                              }}
+                            >
+                              Not yet finalized
+                            </h6>
                           </TableCell>
                         </TableRow>
                       ))}

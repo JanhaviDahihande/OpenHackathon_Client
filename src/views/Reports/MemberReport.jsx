@@ -111,7 +111,7 @@ class MemberReport extends React.Component {
                           <TableRow key={row.teamId}>
                             <TableCell>{row.name}</TableCell>
                             <TableCell>
-                              {row.paymentDone === 1 ? "Paid" : "Not paid"}
+                              {row.paymentDone === true ? "Paid" : "Not paid"}
                             </TableCell>
                             <TableCell align="left">
                               {row.fees > null ? row.fees : "Not available"}
