@@ -3,7 +3,7 @@ import React from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Code from "@material-ui/icons/Code";
 import Score from "@material-ui/icons/Score";
-import Edit from '@material-ui/icons/Edit';
+import Edit from "@material-ui/icons/Edit";
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
@@ -42,9 +42,9 @@ class JudgeHackathon extends React.Component {
         score: 0,
         submissionURL: null,
         teamLeadId: null,
-        status: 0,
+        status: 0
       },
-      code_url: '',
+      code_url: "",
       score_toggle: true
     };
   }
@@ -60,7 +60,6 @@ class JudgeHackathon extends React.Component {
     this.submitCode = this.submitCode.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
-    
   }
 
   getMyHackathons() {
@@ -71,7 +70,8 @@ class JudgeHackathon extends React.Component {
         "http://openhackathon.us-east-1.elasticbeanstalk.com/participant/" +
           this.state.userId +
           "/team/" +
-          this.state.teamId,{headers:{Authorization:authHeader}}
+          this.state.teamId,
+        { headers: { Authorization: authHeader } }
       )
       .then(response => {
         console.log(response);
@@ -96,22 +96,27 @@ class JudgeHackathon extends React.Component {
     this.setState({ team: team });
   }
 
-  submitCode(evt){
+  submitCode(evt) {
     var judge_score = this.state.team.score;
     const authHeader = localStorage.getItem("accessToken");
-    var url = "http://openhackathon.us-east-1.elasticbeanstalk.com/participant/" + localStorage.getItem("userId") +"/hackathon/" + this.state.hackathonId + "?judgeScore=" + judge_score;
+    var url =
+      "http://openhackathon.us-east-1.elasticbeanstalk.com/participant/" +
+      localStorage.getItem("userId") +
+      "/hackathon/" +
+      this.state.hackathonId +
+      "?judgeScore=" +
+      judge_score;
     fetch(url, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        Authorization:authHeader
-      },
+        Authorization: authHeader
+      }
     })
       .then(res => res.json())
       .then(json => {
         if (json.status != "BadRequest") {
-          window.location.href =
-            "http://localhost:3000/my_hackathonlist";
+          window.location.href = "http://localhost:3000/my_hackathonlist";
         } else alert("Request failed with error: " + json.message);
       })
       .catch(error => {
@@ -119,46 +124,53 @@ class JudgeHackathon extends React.Component {
       });
   }
 
-  handleEdit(evt){
-    this.setState({score_toggle: false})
+  handleEdit(evt) {
+    this.setState({ score_toggle: false });
   }
 
   render() {
     const { classes, ...rest } = this.props;
-    var comp = this.state.team.status != 2?(
-      ""
-    ):(
-      <Edit style={{color: "black"}} onClick= {this.handleEdit}/>
-    );
+    var comp =
+      this.state.team.status != 2 ? (
+        ""
+      ) : (
+        <Edit style={{ color: "black" }} onClick={this.handleEdit} />
+      );
 
-    var participant_list = this.state.team.participants?( <GridItem xs={12} sm={12} md={12}>
-      <Paper className={classes.root}>
-        <Table className={classes.table} style={{ marginBottom: 30 }}>
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell align="left">Role</TableCell>
-              <TableCell align="left">Payment Status</TableCell>
-              <TableCell align="left">Amount</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {this.state.team.participants.map(row => (
-              <TableRow key={row.userId}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="left">{row.title}</TableCell>
-                <TableCell align="left">
-                  {row.paymentDone ? "Done" : "Pending"}
-                </TableCell>
-                <TableCell align="left">{0}</TableCell>
+    var participant_list = this.state.team.participants ? (
+      <GridItem xs={12} sm={12} md={12}>
+        <Paper className={classes.root}>
+          <Table className={classes.table} style={{ marginBottom: 30 }}>
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell align="left">Role</TableCell>
+                <TableCell align="left">Payment Status</TableCell>
+                <TableCell align="left">Amount</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Paper>
-    </GridItem>):(<GridItem xs={12} sm={12} md={12}><h5 style={{color:"black"}}>No participants</h5></GridItem>)
+            </TableHead>
+            <TableBody>
+              {this.state.team.participants.map(row => (
+                <TableRow key={row.userId}>
+                  <TableCell component="th" scope="row">
+                    {row.name}
+                  </TableCell>
+                  <TableCell align="left">{row.title}</TableCell>
+                  <TableCell align="left">
+                    {row.paymentDone ? "Done" : "Pending"}
+                  </TableCell>
+                  <TableCell align="left">{0}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Paper>
+      </GridItem>
+    ) : (
+      <GridItem xs={12} sm={12} md={12}>
+        <h5 style={{ color: "black" }}>No participants</h5>
+      </GridItem>
+    );
     return (
       <div>
         <div>
@@ -188,32 +200,31 @@ class JudgeHackathon extends React.Component {
               <GridItem xs={4} sm={2} md={3}>
                 <InfoArea
                   title={this.state.team.hackathonName}
-                  description="Not getting from backend"
+                  // description="Not getting from backend"
                   icon={Code}
                   iconColor="rose"
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={4} />
               <GridItem xs={12} sm={12} md={2}>
-              <TextField
-                        id="score"
-                        label="Score"
-                        value= {this.state.team.score}
-                        // value={this.state.changedHackathon.description}
-                        className={classes.textField}
-                        inputProps={{
-                          onChange: this.handleChange,
-                          disabled: this.state.score_toggle,
-                          type: "text"
-                        }}
-                        margin="normal"
-                        variant="outlined"
-                        
-                  />
+                <TextField
+                  id="score"
+                  label="Score"
+                  value={this.state.team.score}
+                  // value={this.state.changedHackathon.description}
+                  className={classes.textField}
+                  inputProps={{
+                    onChange: this.handleChange,
+                    disabled: this.state.score_toggle,
+                    type: "text"
+                  }}
+                  margin="normal"
+                  variant="outlined"
+                />
               </GridItem>
 
-              <GridItem xs={12} sm={12} md={3} style={{top:30}}>
-                    {comp}
+              <GridItem xs={12} sm={12} md={3} style={{ top: 30 }}>
+                {comp}
               </GridItem>
               <GridItem xs={12} sm={12} md={12}>
                 <hr />
@@ -222,37 +233,34 @@ class JudgeHackathon extends React.Component {
               <GridItem xs={12} sm={12} md={12}>
                 <h2 style={{ color: "black" }}>Team</h2>
               </GridItem>
-             {participant_list}
+              {participant_list}
 
               <GridItem xs={12} sm={12} md={8}>
                 <h2 style={{ color: "black" }}>Code Submission</h2>
               </GridItem>
               <GridItem xs={12} sm={12} md={12}>
                 <TextField
-                        id="code_url"
-                        label="Code URL"
-                        fullWidth={true}
-                        value={this.state.team.submissionURL}
-                        type="text"
-                        className={classes.textField}
-                        inputProps={{
-                          onChange: this.handleChange,
-                          disabled: true
-                        }}
-                        InputLabelProps={{
-                          shrink: true
-                        }}
-                        margin="normal"
-                        variant="outlined"
-                  />
+                  id="code_url"
+                  label="Code URL"
+                  fullWidth={true}
+                  value={this.state.team.submissionURL}
+                  type="text"
+                  className={classes.textField}
+                  inputProps={{
+                    onChange: this.handleChange,
+                    disabled: true
+                  }}
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  margin="normal"
+                  variant="outlined"
+                />
               </GridItem>
               <GridItem xs={12} sm={12} md={4}>
-              <Button
-                color="primary"
-                onClick={this.submitCode}
-              >
-                Submit Code
-              </Button>      
+                <Button color="primary" onClick={this.submitCode}>
+                  Submit Code
+                </Button>
               </GridItem>
             </GridContainer>
           </div>

@@ -159,7 +159,7 @@ class MyHackathon extends React.Component {
               <GridItem xs={4} sm={2} md={3}>
                 <InfoArea
                   title={this.state.hackathon.hackathonName}
-                  description="Not getting from backend"
+                  // description="Not getting from backend"
                   icon={Code}
                   iconColor="rose"
                 />

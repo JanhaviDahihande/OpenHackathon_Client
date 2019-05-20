@@ -74,6 +74,8 @@ ReactDOM.render(
           component={RegistrationConfirmation}
         />
 
+        <Route path="/invitation-sent" component={InvitationSent} />
+
         <ProtectedRoute
           authed={loggedIn()}
           path="/profile/:id"
@@ -169,11 +171,6 @@ ReactDOM.render(
           authed={loggedIn()}
           path="/create_hackathon"
           component={CreateHackathon}
-        />
-        <ProtectedRoute
-          authed={loggedIn()}
-          path="/invitation-sent"
-          component={InvitationSent}
         />
 
         <ProtectedRoute

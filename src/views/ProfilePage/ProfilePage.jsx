@@ -77,9 +77,12 @@ class ProfilePage extends React.Component {
         ? this.state.userId
         : this.state.profileUserId;
     axios
-      .get("http://openhackathon.us-east-1.elasticbeanstalk.com/user/" + userId, {
-        headers: { Authorization: authHeader }
-      })
+      .get(
+        "http://openhackathon.us-east-1.elasticbeanstalk.com/user/" + userId,
+        {
+          headers: { Authorization: authHeader }
+        }
+      )
       .then(response => {
         var user = {};
         user.aboutMe = response.data.aboutMe;
@@ -102,14 +105,18 @@ class ProfilePage extends React.Component {
   updateProfile() {
     console.log("Sending:::", JSON.stringify(this.state.changedProfile));
     const authHeader = localStorage.getItem("accessToken");
-    fetch("http://openhackathon.us-east-1.elasticbeanstalk.com/user/" + this.state.userId, {
-      method: "PUT",
-      headers: {
-        Authorization: authHeader,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(this.state.changedProfile)
-    })
+    fetch(
+      "http://openhackathon.us-east-1.elasticbeanstalk.com/user/" +
+        this.state.userId,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: authHeader,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(this.state.changedProfile)
+      }
+    )
       .then(res => res.json())
       .then(json => {
         if (json.status != "BadRequest") {
@@ -537,6 +544,7 @@ class ProfilePage extends React.Component {
                   <div>
                     <img
                       src={
+                        !this.state.profile.potrait_url ||
                         this.state.profile.potrait_url == ""
                           ? profile
                           : this.state.profile.potrait_url
