@@ -152,22 +152,13 @@ class FinanceReport extends React.Component {
                 <Card style={{ width: "15rem", textAlign: "center" }}>
                   <CardBody>
                     <h3 className={classes.cardTitle}>
-                      <b>Sponsors</b>
-                    </h3>
-                    <h1>{this.state.hackathon.noOfSponsors}</h1>
-                  </CardBody>
-                </Card>
-              </GridItem>
-              <GridItem xs={12} sm={12} md={3}>
-                <Card style={{ width: "15rem", textAlign: "center" }}>
-                  <CardBody>
-                    <h3 className={classes.cardTitle}>
                       <b>Participants</b>
                     </h3>
                     <h1>{this.state.hackathon.totalParticipants}</h1>
                   </CardBody>
                 </Card>
               </GridItem>
+
               <GridItem xs={12} sm={12} md={3}>
                 <Card style={{ width: "15rem", textAlign: "center" }}>
                   <CardBody>
@@ -188,11 +179,43 @@ class FinanceReport extends React.Component {
                   </CardBody>
                 </Card>
               </GridItem>
+
+              <GridItem xs={12} sm={12} md={4}>
+                <Card style={{ width: "20rem", textAlign: "center" }}>
+                  <CardBody>
+                    <h3 className={classes.cardTitle}>
+                      <b>Average Fees Paid</b>
+                    </h3>
+                    <h1>${this.state.hackathon.avgFeesPaid.toFixed(2)}</h1>
+                  </CardBody>
+                </Card>
+              </GridItem>
               <GridItem xs={12} sm={12} md={3}>
                 <Card style={{ width: "15rem", textAlign: "center" }}>
                   <CardBody>
                     <h3 className={classes.cardTitle}>
-                      <b>Revenue</b>
+                      <b>Sponsors</b>
+                    </h3>
+                    <h1>{this.state.hackathon.noOfSponsors}</h1>
+                  </CardBody>
+                </Card>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+                <Card style={{ width: "20rem", textAlign: "center" }}>
+                  <CardBody>
+                    <h3 className={classes.cardTitle}>
+                      <b>Sponsors Revenue</b>
+                    </h3>
+                    <h1>${this.state.hackathon.sponsorsRevenue}</h1>
+                  </CardBody>
+                </Card>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={1} />
+              <GridItem xs={12} sm={12} md={3}>
+                <Card style={{ width: "15rem", textAlign: "center" }}>
+                  <CardBody>
+                    <h3 className={classes.cardTitle}>
+                      <b>Total Revenue</b>
                     </h3>
                     <h1>${this.state.hackathon.revenue}</h1>
                   </CardBody>
@@ -202,7 +225,7 @@ class FinanceReport extends React.Component {
                 <Card style={{ width: "15rem", textAlign: "center" }}>
                   <CardBody>
                     <h3 className={classes.cardTitle}>
-                      <b>Expense</b>
+                      <b>Total Expenses</b>
                     </h3>
                     <h1>${this.state.hackathon.expense}</h1>
                   </CardBody>
@@ -212,34 +235,15 @@ class FinanceReport extends React.Component {
                 <Card style={{ width: "15rem", textAlign: "center" }}>
                   <CardBody>
                     <h3 className={classes.cardTitle}>
-                      <b>Profit</b>
+                      <b>Total Profit</b>
                     </h3>
-                    <h1>${this.state.hackathon.profit}</h1>
+                    <h1 style={{ color: "green" }}>
+                      ${this.state.hackathon.profit}
+                    </h1>
                   </CardBody>
                 </Card>
               </GridItem>
-              <GridItem xs={12} sm={12} md={3} />
-              <GridItem xs={12} sm={12} md={3}>
-                <Card style={{ width: "15rem", textAlign: "center" }}>
-                  <CardBody>
-                    <h3 className={classes.cardTitle}>
-                      <b>Average Fees Paid</b>
-                    </h3>
-                    <h1>{this.state.hackathon.avgFeesPaid.toFixed(2)}</h1>
-                  </CardBody>
-                </Card>
-              </GridItem>
-              <GridItem xs={12} sm={12} md={3}>
-                <Card style={{ width: "15rem", textAlign: "center" }}>
-                  <CardBody>
-                    <h3 className={classes.cardTitle}>
-                      <b>Sponsors Revenue</b>
-                    </h3>
-                    <h1>{this.state.hackathon.sponsorsRevenue}</h1>
-                  </CardBody>
-                </Card>
-              </GridItem>
-              <GridItem xs={12} sm={12} md={3} />
+
               {/* <Paper className={classes.root}>
                   <Table className={classes.table} style={{ marginBottom: 30 }}>
                     <TableHead>
