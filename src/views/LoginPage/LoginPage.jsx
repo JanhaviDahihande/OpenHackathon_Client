@@ -186,10 +186,8 @@ class LoginPage extends React.Component {
             "accessToken",
             json.tokenType + " " + json.accessToken
           );
-          localStorage.setItem(
-            "username",
-            json.firstname + " " + json.lastname
-          );
+          localStorage.setItem("username", json.lastname);
+          localStorage.setItem("firstname", json.firstname);
           window.location.href = "/index";
           // history.push({ pathname: "/index" });
         } else {

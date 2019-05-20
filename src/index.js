@@ -134,7 +134,7 @@ ReactDOM.render(
         />
         <ProtectedRoute
           authed={loggedIn()}
-          path="/earningreport"
+          path="/hackathon/:id/earningreport"
           component={FinanceReport}
         />
         <ProtectedRoute
