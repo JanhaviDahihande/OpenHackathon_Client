@@ -57,7 +57,7 @@ class JudgeHackathon extends React.Component {
         this.getMyHackathons();
       }
     );
-    this.submitCode = this.submitCode.bind(this);
+    this.updateScore = this.updateScore.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
   }
@@ -96,7 +96,7 @@ class JudgeHackathon extends React.Component {
     this.setState({ team: team });
   }
 
-  submitCode(evt) {
+  updateScore(evt) {
     var judge_score = this.state.team.score;
     const authHeader = localStorage.getItem("accessToken");
     var url =
@@ -236,7 +236,7 @@ class JudgeHackathon extends React.Component {
               {participant_list}
 
               <GridItem xs={12} sm={12} md={8}>
-                <h2 style={{ color: "black" }}>Code Submission</h2>
+                <h2 style={{ color: "black" }}>Code URL</h2>
               </GridItem>
               <GridItem xs={12} sm={12} md={12}>
                 <TextField
@@ -258,8 +258,8 @@ class JudgeHackathon extends React.Component {
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={4}>
-                <Button color="primary" onClick={this.submitCode}>
-                  Submit Code
+                <Button color="primary" onClick={this.updateScore}>
+                  Submit Score
                 </Button>
               </GridItem>
             </GridContainer>
