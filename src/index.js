@@ -15,6 +15,8 @@ import ConfirmPage from "views/ConfirmPage/ConfirmPage.jsx";
 import CreateOrganization from "views/CreateOrganization/CreateOrganization.jsx";
 import UserOrganization from "views/UserOrganization/UserOrganization.jsx";
 import AllHackathonList from "./views/Hackathon/AllHackathonList";
+import ExpenseList from "./views/Hackathon/ExpenseList";
+import CreateExpense from "./views/Hackathon/CreateExpense";
 import HackathonDetails from "./views/Hackathon/HackathonDetails";
 import MyHackathonsList from "./views/Hackathon/MyHackathonsList";
 import MyHackathon from "./views/Hackathon/MyHackathon";
@@ -52,6 +54,11 @@ ReactDOM.render(
         <Route path="/user_organization" component={UserOrganization} />
         <Route path="/my_hackathonlist" component={MyHackathonsList} />
         <Route path="/my_hackathon/:id" component={MyHackathon} />
+        <Route path="/hackathon/:id/expense" component={ExpenseList} />
+        <Route
+          path="/hackathon/:id/:name/addExpense"
+          component={CreateExpense}
+        />
         <Route path="/earningreport" component={FinanceReport} />
         <Route path="/judge_hackathon/:id" component={JudgeHackathon} />
         <Route

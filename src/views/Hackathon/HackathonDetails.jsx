@@ -227,6 +227,14 @@ class HackathonDetails extends React.Component {
             >
               Payment Report
             </Button>
+            <Button
+              color="primary"
+              component={Link}
+              to={"/hackathon/" + this.state.hackathonId + "/expense"}
+              style={{ margin: "10px" }}
+            >
+              Manage Expenses
+            </Button>
           </div>
         ) : this.state.hackathon.status == 2 ? (
           <div>
@@ -261,6 +269,14 @@ class HackathonDetails extends React.Component {
               style={{ margin: "10px" }}
             >
               Payment Report
+            </Button>
+            <Button
+              color="primary"
+              component={Link}
+              to={"/hackathon/" + this.state.hackathonId + "/expense"}
+              style={{ margin: "10px" }}
+            >
+              Manage Expenses
             </Button>
           </div>
         ) : (
