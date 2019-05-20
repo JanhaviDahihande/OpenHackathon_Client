@@ -34,6 +34,7 @@ class JudgeHackathon_Teams extends React.Component {
       cardAnimaton: "cardHidden",
       hackathonId: 0,
       userId: 1,
+      authHeader:null,
       hackathon: {
         hackathonId: null,
         hackathonName: null,
@@ -55,7 +56,7 @@ class JudgeHackathon_Teams extends React.Component {
     const id = this.props.match.params.id;
     console.log("Params::: ", id);
     this.setState(
-      { hackathonId: id, userId: localStorage.getItem("userId") },
+      { hackathonId: id, userId: localStorage.getItem("userId"), authHeader : localStorage.getItem("accessToken") },
       () => {
         this.getMyHackathons();
       }
@@ -68,11 +69,12 @@ class JudgeHackathon_Teams extends React.Component {
 
   getMyHackathons() {
     console.log("State:::", this.state);
+    
     axios
       .get(
         "http://localhost:5000/hackathon/" +
           this.state.hackathonId+
-          "/leaderboard"
+          "/leaderboard",{headers:{Authorization:this.state.authHeader}}
       )
       .then(response => {
         console.log(response);
@@ -85,10 +87,9 @@ class JudgeHackathon_Teams extends React.Component {
             members: response.data[i].teamMembers,
           });
         }
-        
-        alert(teams);
         this.setState({ teams: teams });
       });
+      
   }
 
   handleChange(evt) {
@@ -99,8 +100,8 @@ class JudgeHackathon_Teams extends React.Component {
 
   submitCode(evt){
     var judge_score = this.state.hackathon.score;
-    var url = "http://localhost:5000/participant/" + localStorage.getItem("userId") +"/hackathon/" + this.state.hackathonId + "?judgeScore=" + judge_score;
-    fetch(url, {
+    //var url = "http://localhost:5000/participant/" + localStorage.getItem("userId") +"/hackathon/" + this.state.hackathonId + "?judgeScore=" + judge_score;
+    fetch("http://localhost:5000/participant/" + localStorage.getItem("userId") +"/hackathon/" + this.state.hackathonId + "?judgeScore=" + judge_score,{headers:{Authorization:this.state.authHeader}}, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json"
@@ -188,33 +189,13 @@ class JudgeHackathon_Teams extends React.Component {
               <GridItem xs={4} sm={2} md={3}>
                 <InfoArea
                   title={this.state.hackathon.hackathonName}
-                  description="Not getting from backend"
+                  description="Hackathon Name"
                   icon={Code}
                   iconColor="rose"
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={4} />
-              <GridItem xs={12} sm={12} md={2}>
-              <TextField
-                        id="score"
-                        label="Score"
-                        value= {this.state.hackathon.score}
-                        // value={this.state.changedHackathon.description}
-                        className={classes.textField}
-                        inputProps={{
-                          onChange: this.handleChange,
-                          disabled: this.state.score_toggle,
-                          type: "text"
-                        }}
-                        margin="normal"
-                        variant="outlined"
-                        
-                  />
-              </GridItem>
-
-              <GridItem xs={12} sm={12} md={3} style={{top:30}}>
-                    {comp}
-              </GridItem>
+              
               <GridItem xs={12} sm={12} md={12}>
                 <hr />
               </GridItem>

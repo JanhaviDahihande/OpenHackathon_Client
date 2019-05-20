@@ -65,12 +65,13 @@ class JudgeHackathon extends React.Component {
 
   getMyHackathons() {
     console.log("State:::", this.state);
+    const authHeader = localStorage.getItem("accessToken");
     axios
       .get(
         "http://localhost:5000/participant/" +
           this.state.userId +
           "/team/" +
-          this.state.teamId
+          this.state.teamId,{headers:{Authorization:authHeader}}
       )
       .then(response => {
         console.log(response);
@@ -85,7 +86,6 @@ class JudgeHackathon extends React.Component {
         team.submissionURL = response.data.submissionURL;
         team.teamLeadId = response.data.teamLeadId;
         team.status = response.data.status;
-        alert(team.participants);
         this.setState({ team: team });
       });
   }
@@ -98,11 +98,13 @@ class JudgeHackathon extends React.Component {
 
   submitCode(evt){
     var judge_score = this.state.team.score;
+    const authHeader = localStorage.getItem("accessToken");
     var url = "http://localhost:5000/participant/" + localStorage.getItem("userId") +"/hackathon/" + this.state.hackathonId + "?judgeScore=" + judge_score;
     fetch(url, {
       method: "PATCH",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization:authHeader
       },
     })
       .then(res => res.json())
@@ -230,7 +232,7 @@ class JudgeHackathon extends React.Component {
                         id="code_url"
                         label="Code URL"
                         fullWidth={true}
-                        // value={this.state.changedHackathon.description}
+                        value={this.state.team.submissionURL}
                         type="text"
                         className={classes.textField}
                         inputProps={{
