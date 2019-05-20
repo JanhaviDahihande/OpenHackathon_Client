@@ -51,7 +51,12 @@ class TeamRegistration extends React.Component {
       hackathon_id: 0,
       min_team_size: 0,
       max_team_size: 0,
-      participants: [],
+      participants: [
+        {
+          id: localStorage.getItem("userId"),
+          role: "Team Lead"
+        }
+      ],
       team_name: ""
     };
   }

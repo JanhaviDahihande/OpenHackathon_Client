@@ -136,7 +136,11 @@ ReactDOM.render(
           path="/earningreport"
           component={FinanceReport}
         />
-        <Route path="/judge_hackathon/:id" component={JudgeHackathon} />
+        <ProtectedRoute
+          authed={loggedIn()}
+          path="/judge_hackathon/:id"
+          component={JudgeHackathon}
+        />
         <ProtectedRoute
           authed={loggedIn()}
           path="/judge_hackathon_teams/:id"
@@ -147,7 +151,11 @@ ReactDOM.render(
           path="/hackathon_details/:id"
           component={HackathonDetails}
         />
-        <Route path="/hackathon/leaderboard/:id" component={LeaderBoard} />
+        <ProtectedRoute
+          authed={loggedIn()}
+          path="/hackathon/leaderboard/:id"
+          component={LeaderBoard}
+        />
 
         <ProtectedRoute
           authed={loggedIn()}
