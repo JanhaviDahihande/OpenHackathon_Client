@@ -17,6 +17,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import { Link } from "react-router-dom";
 
 import axios from "axios";
 import HeaderLinks from "components/Header/HeaderLinks.jsx";
@@ -200,6 +201,13 @@ class MyHackathon extends React.Component {
                             {row.paymentDone ? "Done" : "Pending"}
                           </TableCell>
                           <TableCell align="left">{row.fees}</TableCell>
+                          <Button
+                            color="primary"
+                            component={Link}
+                            to={"/profile/" + row.userId}
+                          >
+                            See Profile
+                          </Button>
                         </TableRow>
                       ))}
                     </TableBody>

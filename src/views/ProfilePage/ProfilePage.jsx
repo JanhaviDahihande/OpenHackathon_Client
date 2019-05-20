@@ -41,6 +41,7 @@ class ProfilePage extends React.Component {
     this.state = {
       editable: 0,
       userId: 1,
+      profileUserId: 1,
       profile: {},
       changedProfile: {}
     };
@@ -51,9 +52,14 @@ class ProfilePage extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ userId: localStorage.getItem("userId") }, () => {
-      this.getUserProfile();
-    });
+    var profileUserId = 0;
+    if (this.props.match.params.id) profileUserId = this.props.match.params.id;
+    this.setState(
+      { userId: localStorage.getItem("userId"), profileUserId: profileUserId },
+      () => {
+        this.getUserProfile();
+      }
+    );
   }
 
   cancelUpdateProfile() {
@@ -66,8 +72,12 @@ class ProfilePage extends React.Component {
 
   getUserProfile() {
     const authHeader = localStorage.getItem("accessToken");
+    const userId =
+      this.state.profileUserId == 0
+        ? this.state.userId
+        : this.state.profileUserId;
     axios
-      .get("http://localhost:5000/user/" + this.state.userId, {
+      .get("http://localhost:5000/user/" + userId, {
         headers: { Authorization: authHeader }
       })
       .then(response => {
@@ -482,18 +492,25 @@ class ProfilePage extends React.Component {
               </form>
             </Card>
           </GridItem>
-          <Button
-            color="primary"
-            size="md"
-            style={{ left: "500px" }}
-            onClick={this.editProfile}
-          >
-            Edit
-          </Button>
         </GridContainer>
       ) : (
         ""
       );
+
+    var editButton =
+      this.state.profileUserId == 0 ? (
+        <Button
+          color="primary"
+          size="md"
+          style={{ left: "500px" }}
+          onClick={this.editProfile}
+        >
+          Edit
+        </Button>
+      ) : (
+        ""
+      );
+
     return (
       <div>
         <Header
@@ -532,6 +549,7 @@ class ProfilePage extends React.Component {
               </GridItem>
             </GridContainer>
             {comp}
+            {editButton}
           </div>
         </div>
         <Footer />

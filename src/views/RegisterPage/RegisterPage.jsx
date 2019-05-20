@@ -36,8 +36,8 @@ class RegisterPage extends PureComponent<Props, State> {
     // we use this to make the card to appear after the page has been rendered
     this.state = {
       cardAnimaton: "cardHidden",
+      screen_name: "",
       first_name: "",
-      last_name: "",
       email_id: "",
       password: "",
       confirm_password: ""
@@ -56,8 +56,8 @@ class RegisterPage extends PureComponent<Props, State> {
       function() {
         this.setState({
           cardAnimaton: "",
+          screen_name: "",
           first_name: "",
-          last_name: "",
           email_id: "",
           password: ""
         });
@@ -68,9 +68,9 @@ class RegisterPage extends PureComponent<Props, State> {
 
   sendEmail = (event: SyntheticEvent<>) => {
     const { history } = this.props;
-    const { first_name, last_name, email_id, password } = this.state;
+    const { screen_name, first_name, email_id, password } = this.state;
     console.log(
-      first_name + "__" + last_name + "__" + email_id + "__" + password
+      screen_name + "__" + first_name + "__" + email_id + "__" + password
     );
     if (
       document.getElementById("password").value !=
@@ -79,9 +79,9 @@ class RegisterPage extends PureComponent<Props, State> {
       alert("Passwords don't match");
       document.getElementById("password").value = "";
       document.getElementById("confirm_password").value = "";
-    } else if (document.getElementById("first_name").value == "") {
+    } else if (document.getElementById("screen_name").value == "") {
       alert("First name cannot be blank");
-    } else if (document.getElementById("last_name").value == "") {
+    } else if (document.getElementById("first_name").value == "") {
       alert("Last name cannot be blank");
     } else if (document.getElementById("email_id").value == "") {
       alert("Email cannot be blank");
@@ -96,8 +96,8 @@ class RegisterPage extends PureComponent<Props, State> {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          firstname: first_name,
-          lastname: last_name,
+          firstname: screen_name,
+          lastname: first_name,
           email: email_id,
           password: password
         })
@@ -116,8 +116,8 @@ class RegisterPage extends PureComponent<Props, State> {
     };
     const { classes, ...rest } = this.props;
     const {
+      screen_name,
       first_name,
-      last_name,
       email_id,
       password,
       confirm_password
@@ -149,9 +149,9 @@ class RegisterPage extends PureComponent<Props, State> {
                     </CardHeader>
                     <CardBody>
                       <CustomInput
-                        labelText="First Name"
-                        id="first_name"
-                        value={first_name}
+                        labelText="Screen Name"
+                        id="screen_name"
+                        value={screen_name}
                         formControlProps={{
                           fullWidth: true
                         }}
@@ -166,9 +166,9 @@ class RegisterPage extends PureComponent<Props, State> {
                         }}
                       />
                       <CustomInput
-                        labelText="Screen Name"
-                        id="last_name"
-                        value={last_name}
+                        labelText="First Name"
+                        id="first_name"
+                        value={first_name}
                         formControlProps={{
                           fullWidth: true
                         }}
@@ -265,7 +265,7 @@ class RegisterPage extends PureComponent<Props, State> {
     if (event) {
       //event.preventDefault();
       // should add some validator before setState in real use cases
-      this.setState({ first_name: event.target.value.trim() });
+      this.setState({ screen_name: event.target.value.trim() });
     }
   };
 
@@ -273,7 +273,7 @@ class RegisterPage extends PureComponent<Props, State> {
     if (event) {
       //event.preventDefault();
       // should add some validator before setState in real use cases
-      this.setState({ last_name: event.target.value.trim() });
+      this.setState({ first_name: event.target.value.trim() });
     }
   };
 

@@ -40,6 +40,7 @@ ReactDOM.render(
     <Router history={hist}>
       <Switch>
         <Route path="/index" component={LandingPage} />
+        <Route path="/profile/:id" component={ProfilePage} />
         <Route path="/profile" component={ProfilePage} />
         <Route path="/login" component={LoginPage} />
         <Route path="/logout" component={LandingPage} />
