@@ -247,11 +247,20 @@ class TeamRegistration extends React.Component {
                         }}
                       >
                         <option>--Select user--</option>
-                        {this.state.team_members.map(user => (
-                          <option key={user.id} value={user.id}>
-                            {user.firstname + " " + user.lastname}
-                          </option>
-                        ))}
+                        {this.state.team_members
+                          .filter(
+                            user =>
+                              this.state.participants
+                                .map(function(p) {
+                                  return parseInt(p.id);
+                                })
+                                .indexOf(user.id) == -1
+                          )
+                          .map(user => (
+                            <option key={user.id} value={user.id}>
+                              {user.firstname + " " + user.lastname}
+                            </option>
+                          ))}
                       </Select>
 
                       <Select
@@ -324,9 +333,6 @@ class TeamRegistration extends React.Component {
 const RequestRow = props => {
   var team_members = props.team_members;
   var name;
-  console.log("Here");
-  console.log(props.participants.id);
-  console.log(team_members);
   for (var i = 0; i < team_members.length; i++) {
     if (team_members[i].id == props.participants.id) {
       name = team_members[i].firstname + " " + team_members[i].lastname;
