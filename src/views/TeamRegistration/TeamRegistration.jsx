@@ -51,12 +51,7 @@ class TeamRegistration extends React.Component {
       hackathon_id: 0,
       min_team_size: 0,
       max_team_size: 0,
-      participants: [
-        {
-          id: localStorage.getItem("userId"),
-          role: "Team Lead"
-        }
-      ],
+      participants: [],
       team_name: ""
     };
   }
@@ -65,9 +60,17 @@ class TeamRegistration extends React.Component {
     const minsize = this.props.match.params.minsize;
     const maxsize = this.props.match.params.maxsize;
     console.log("Params::: ", id);
+    var selfParticipant = [
+      { id: localStorage.getItem("userId"), role: "Team Lead" }
+    ];
     if (id) {
       this.setState(
-        { hackathon_id: id, min_team_size: minsize, max_team_size: maxsize },
+        {
+          hackathon_id: id,
+          participants: selfParticipant,
+          min_team_size: minsize,
+          max_team_size: maxsize
+        },
         () => {
           this.getTeamMembers();
         }
@@ -87,7 +90,10 @@ class TeamRegistration extends React.Component {
   getTeamMembers() {
     try {
       const authHeader = localStorage.getItem("accessToken");
-      var url = "http://openhackathon.us-east-1.elasticbeanstalk.com/" + this.state.hackathon_id + "/users";
+      var url =
+        "http://openhackathon.us-east-1.elasticbeanstalk.com/" +
+        this.state.hackathon_id +
+        "/users";
       fetch(url, { headers: { Authorization: authHeader } })
         .then(res => res.json())
         .then(json => {
@@ -131,9 +137,8 @@ class TeamRegistration extends React.Component {
 
   register(evt) {
     if (
-      this.state.min_team_size <=
-      this.state.participants.length <=
-      this.state.max_team_size
+      this.state.participants.length >= this.state.min_team_size &&
+      this.state.participants.length <= this.state.max_team_size
     ) {
       const authHeader = localStorage.getItem("accessToken");
       var url =
