@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { createBrowserHistory } from "history";
-import { Router, Route, Switch } from "react-router-dom";
+import { Router, Route, Switch, Redirect } from "react-router-dom";
 
 import "assets/scss/material-kit-react.scss?v=1.4.0";
 
@@ -35,51 +35,147 @@ import LeaderBoard from "./views/Hackathon/Leaderboard";
 import FinanceReport from "./views/Reports/FinanceReport";
 var hist = createBrowserHistory();
 
+function ProtectedRoute({ component: Component, authed, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        authed === true ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to={{ pathname: "/login" }} />
+        )
+      }
+    />
+  );
+}
+
+function loggedIn() {
+  if (
+    localStorage.getItem("userId") == undefined ||
+    localStorage.getItem("userId") == "" ||
+    localStorage.getItem("accessToken") == undefined ||
+    localStorage.getItem("accessToken") == ""
+  )
+    return false;
+  else return true;
+}
+
 ReactDOM.render(
   <MuiThemeProvider>
     <Router history={hist}>
       <Switch>
         <Route path="/index" component={LandingPage} />
-        <Route path="/profile/:id" component={ProfilePage} />
-        <Route path="/profile" component={ProfilePage} />
         <Route path="/login" component={LoginPage} />
         <Route path="/logout" component={LandingPage} />
         <Route path="/register" component={RegisterPage} />
-        <Route path="/all_hackathons" component={AllHackathonList} />
-        <Route path="/dashboard" component={Dashboard} />
-        <Route path="/create_organization" component={CreateOrganization} />
-        <Route
-          path="/team_registration/:id/:minsize/:maxsize"
-          component={TeamRegistration}
-        />
-        <Route path="/user_organization" component={UserOrganization} />
-        <Route path="/my_hackathonlist" component={MyHackathonsList} />
-        <Route path="/my_hackathon/:id" component={MyHackathon} />
-        <Route path="/hackathon/:id/expense" component={ExpenseList} />
-        <Route
-          path="/hackathon/:id/:name/addExpense"
-          component={CreateExpense}
-        />
-        <Route path="/earningreport" component={FinanceReport} />
-        <Route path="/judge_hackathon/:id" component={JudgeHackathon} />
-        <Route
-          path="/judge_hackathon_teams/:id"
-          component={JudgeHackathon_Teams}
-        />
-        <Route path="/hackathon_details/:id" component={HackathonDetails} />
-        <Route path="/hackathon/leaderboard/:id" component={LeaderBoard} />
+        <Route path="/payment-confirmation" component={PaymentConfirmation} />
         <Route
           path="/registration-confirmation"
           component={RegistrationConfirmation}
         />
-        <Route path="/payment-confirmation" component={PaymentConfirmation} />
-        <Route path="/create_hackathon/:id" component={CreateHackathon} />
-        <Route path="/create_hackathon" component={CreateHackathon} />
-        <Route path="/invitation-sent" component={InvitationSent} />
 
-        <Route path="/about" component={ProductSection} />
-        <Route path="/" component={LandingPage} />
-        <Route path="/confirm/:id" component={ConfirmPage} />
+        <ProtectedRoute
+          authed={loggedIn()}
+          path="/profile/:id"
+          component={ProfilePage}
+        />
+        <ProtectedRoute
+          authed={loggedIn()}
+          path="/profile"
+          component={ProfilePage}
+        />
+
+        <ProtectedRoute
+          authed={loggedIn()}
+          path="/all_hackathons"
+          component={AllHackathonList}
+        />
+        <ProtectedRoute
+          authed={loggedIn()}
+          path="/dashboard"
+          component={Dashboard}
+        />
+        <ProtectedRoute
+          authed={loggedIn()}
+          path="/create_organization"
+          component={CreateOrganization}
+        />
+        <ProtectedRoute
+          authed={loggedIn()}
+          path="/team_registration/:id/:minsize/:maxsize"
+          component={TeamRegistration}
+        />
+        <ProtectedRoute
+          authed={loggedIn()}
+          path="/user_organization"
+          component={UserOrganization}
+        />
+        <ProtectedRoute
+          authed={loggedIn()}
+          path="/my_hackathonlist"
+          component={MyHackathonsList}
+        />
+        <ProtectedRoute
+          authed={loggedIn()}
+          path="/my_hackathon/:id"
+          component={MyHackathon}
+        />
+        <ProtectedRoute
+          authed={loggedIn()}
+          path="/hackathon/:id/expense"
+          component={ExpenseList}
+        />
+        <ProtectedRoute
+          authed={loggedIn()}
+          path="/hackathon/:id/:name/addExpense"
+          component={CreateExpense}
+        />
+        <ProtectedRoute
+          authed={loggedIn()}
+          path="/earningreport"
+          component={FinanceReport}
+        />
+        <Route path="/judge_hackathon/:id" component={JudgeHackathon} />
+        <ProtectedRoute
+          authed={loggedIn()}
+          path="/judge_hackathon_teams/:id"
+          component={JudgeHackathon_Teams}
+        />
+        <ProtectedRoute
+          authed={loggedIn()}
+          path="/hackathon_details/:id"
+          component={HackathonDetails}
+        />
+        <Route path="/hackathon/leaderboard/:id" component={LeaderBoard} />
+
+        <ProtectedRoute
+          authed={loggedIn()}
+          path="/create_hackathon/:id"
+          component={CreateHackathon}
+        />
+        <ProtectedRoute
+          authed={loggedIn()}
+          path="/create_hackathon"
+          component={CreateHackathon}
+        />
+        <ProtectedRoute
+          authed={loggedIn()}
+          path="/invitation-sent"
+          component={InvitationSent}
+        />
+
+        <ProtectedRoute
+          authed={loggedIn()}
+          path="/about"
+          component={ProductSection}
+        />
+        <ProtectedRoute authed={loggedIn()} path="/" component={LandingPage} />
+        <ProtectedRoute
+          authed={loggedIn()}
+          path="/confirm/:id"
+          component={ConfirmPage}
+        />
       </Switch>
     </Router>
   </MuiThemeProvider>,
