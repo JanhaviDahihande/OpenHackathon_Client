@@ -18,16 +18,11 @@ import NavPills from "components/NavPills/NavPills.jsx";
 import Parallax from "components/Parallax/Parallax.jsx";
 import Card from "components/Card/Card.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
-
 import profile from "assets/img/faces/christian.jpg";
-
 import profilePageStyle from "assets/jss/material-kit-react/views/profilePage.jsx";
-
 import CardBody from "components/Card/CardBody.jsx";
-
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Input from "@material-ui/core/Input";
-
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -37,6 +32,8 @@ import WorkIcon from "@material-ui/icons/Work";
 import BeachAccessIcon from "@material-ui/icons/BeachAccess";
 import axios from "axios";
 import TextField from "@material-ui/core/TextField";
+import CardHeader from "@material-ui/core/CardHeader";
+
 class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
@@ -133,11 +130,15 @@ class ProfilePage extends React.Component {
       this.state.editable == 1 ? (
         <div className={classes.container} style={{ paddingTop: 10 }}>
           <GridContainer justify="center">
-            <GridItem xs={12} sm={12} md={8}>
+            <GridItem xs={4} sm={4} md={4}>
               <Card className={classes[this.state.cardAnimaton]}>
+                <CardHeader title="Primary info" />
                 <form className={classes.form}>
                   <CardBody>
                     <TextField
+                      xs={6}
+                      sm={6}
+                      md={6}
                       id="firstname"
                       label="First Name"
                       className={classes.textField}
@@ -147,38 +148,46 @@ class ProfilePage extends React.Component {
                         type: "text"
                       }}
                       margin="normal"
-                      variant="outlined"
+                      fullWidth
                     />
                     <br />
                     <TextField
+                      xs={6}
+                      sm={6}
+                      md={6}
                       id="lastname"
                       label="Last Name"
                       className={classes.textField}
                       value={this.state.profile.lastname}
                       inputProps={{
-                        onChange: this.handleChange,
-                        type: "text"
+                        onChange: this.handleChange
+                        // type: "text"
                       }}
                       margin="normal"
-                      variant="outlined"
+                      fullWidth
                     />
                     <br />
                     <TextField
+                      xs={6}
+                      sm={6}
+                      md={6}
                       id="screenName"
                       label="Screen Name"
                       className={classes.textField}
+                      disabled
                       value={this.state.profile.screenName}
                       inputProps={{
                         onChange: this.handleChange,
                         type: "text"
                       }}
                       margin="normal"
-                      variant="outlined"
+                      fullWidth
                     />
                     <br />
                     <TextField
                       id="email"
                       label="Email"
+                      disabled
                       className={classes.textField}
                       value={this.state.profile.email}
                       inputProps={{
@@ -186,9 +195,17 @@ class ProfilePage extends React.Component {
                         type: "text"
                       }}
                       margin="normal"
-                      variant="outlined"
+                      fullWidth
                     />
-                    <br />
+                  </CardBody>
+                </form>
+              </Card>
+            </GridItem>
+            <GridItem xs={4} sm={4} md={4}>
+              <Card className={classes[this.state.cardAnimaton]}>
+                <CardHeader title="Address info" />
+                <form className={classes.form}>
+                  <CardBody>
                     <TextField
                       id="street"
                       label="Street"
@@ -199,7 +216,7 @@ class ProfilePage extends React.Component {
                         type: "text"
                       }}
                       margin="normal"
-                      variant="outlined"
+                      fullWidth
                     />
                     <br />
                     <TextField
@@ -212,7 +229,7 @@ class ProfilePage extends React.Component {
                         type: "text"
                       }}
                       margin="normal"
-                      variant="outlined"
+                      fullWidth
                     />
                     <br />
                     <TextField
@@ -225,7 +242,7 @@ class ProfilePage extends React.Component {
                         type: "text"
                       }}
                       margin="normal"
-                      variant="outlined"
+                      fullWidth
                     />
                     <br />
                     <TextField
@@ -238,9 +255,17 @@ class ProfilePage extends React.Component {
                         type: "text"
                       }}
                       margin="normal"
-                      variant="outlined"
+                      fullWidth
                     />
-                    <br />
+                  </CardBody>
+                </form>
+              </Card>
+            </GridItem>
+            <GridItem xs={4} sm={4} md={4}>
+              <Card className={classes[this.state.cardAnimaton]}>
+                <CardHeader title="Profile info" />
+                <form className={classes.form}>
+                  <CardBody>
                     <TextField
                       id="title"
                       label="Title"
@@ -251,22 +276,9 @@ class ProfilePage extends React.Component {
                         type: "text"
                       }}
                       margin="normal"
-                      variant="outlined"
+                      fullWidth
                     />
                     <br />
-
-                    {/* <CustomInput
-                      labelText="Organization"
-                      id="organization"
-                      placeholder={this.state.profile.organizationName}
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        onChange: this.handleChange,
-                        type: "text"
-                      }}
-                    /> */}
                     <TextField
                       id="potrait_url"
                       label="Portrait URL"
@@ -277,7 +289,7 @@ class ProfilePage extends React.Component {
                         type: "text"
                       }}
                       margin="normal"
-                      variant="outlined"
+                      fullWidth
                     />
                     <br />
                     <TextField
@@ -290,41 +302,45 @@ class ProfilePage extends React.Component {
                         type: "text"
                       }}
                       margin="normal"
-                      variant="outlined"
+                      fullWidth
                     />
-
-                    <br />
                   </CardBody>
-                  <CardFooter className={classes.cardFooter}>
-                    <Button
-                      simple
-                      color="primary"
-                      size="lg"
-                      onClick={this.updateProfile}
-                    >
-                      Update
-                    </Button>
-                    <br />
-                    <Button
-                      simple
-                      color="primary"
-                      size="lg"
-                      onClick={this.cancelUpdateProfile}
-                    >
-                      Cancel
-                    </Button>
-                  </CardFooter>
+                  <CardFooter
+                    className={classes.cardFooter}
+                    style={{ paddingBottom: "5px" }}
+                  />
                 </form>
               </Card>
             </GridItem>
+            <Button
+              style={{ align: "right", left: "450px" }}
+              color="primary"
+              size="md"
+              onClick={this.updateProfile}
+            >
+              Update
+            </Button>
+            <br />
+            <Button
+              color="primary"
+              size="md"
+              onClick={this.cancelUpdateProfile}
+              style={{ left: "450px" }}
+            >
+              Cancel
+            </Button>
           </GridContainer>
         </div>
       ) : //section 1 ends here
       this.state.editable == 0 ? (
         <GridContainer justify="center">
-          <GridItem xs={12} sm={12} md={8}>
-            <Card className={classes[this.state.cardAnimaton]}>
+          <GridItem xs={4} sm={4} md={4}>
+            <Card
+              className={classes[this.state.cardAnimaton]}
+              style={{ height: "400px", backgroundColor: "" }}
+            >
               <form className={classes.form}>
+                <CardHeader title="Primary info" />
                 <CardBody>
                   <List className={classes.root}>
                     <ListItem>
@@ -363,6 +379,26 @@ class ProfilePage extends React.Component {
                         secondary={this.state.profile.email}
                       />
                     </ListItem>
+                  </List>
+                </CardBody>
+              </form>
+            </Card>
+          </GridItem>
+          <GridItem xs={4} sm={4} md={4}>
+            <Card style={{ height: "400px" }}>
+              <form>
+                <CardHeader title="Address info" />
+                <CardBody>
+                  <List>
+                    <ListItem>
+                      <Avatar>
+                        <WorkIcon />
+                      </Avatar>
+                      <ListItemText
+                        primary="Street"
+                        secondary={this.state.profile.street}
+                      />
+                    </ListItem>
                     <ListItem>
                       <Avatar>
                         <WorkIcon />
@@ -381,6 +417,29 @@ class ProfilePage extends React.Component {
                         secondary={this.state.profile.state}
                       />
                     </ListItem>
+                    <ListItem>
+                      <Avatar>
+                        <WorkIcon />
+                      </Avatar>
+                      <ListItemText
+                        primary="Zip"
+                        secondary={this.state.profile.zip}
+                      />
+                    </ListItem>
+                  </List>
+                </CardBody>
+              </form>
+            </Card>
+          </GridItem>
+          <GridItem xs={4} sm={4} md={4}>
+            <Card style={{ height: "400px" }}>
+              <form>
+                <CardHeader
+                  title="Profile info"
+                  // style={{ backgroundColor: "#9c27b0" }}
+                />
+                <CardBody>
+                  <List>
                     <ListItem>
                       <Avatar>
                         <ImageIcon />
@@ -419,19 +478,18 @@ class ProfilePage extends React.Component {
                     </ListItem>
                   </List>
                 </CardBody>
-                <CardFooter className={classes.cardFooter}>
-                  <Button
-                    simple
-                    color="primary"
-                    size="lg"
-                    onClick={this.editProfile}
-                  >
-                    Edit
-                  </Button>
-                </CardFooter>
+                <CardFooter className={classes.cardFooter} />
               </form>
             </Card>
           </GridItem>
+          <Button
+            color="primary"
+            size="md"
+            style={{ left: "500px" }}
+            onClick={this.editProfile}
+          >
+            Edit
+          </Button>
         </GridContainer>
       ) : (
         ""
@@ -439,19 +497,22 @@ class ProfilePage extends React.Component {
     return (
       <div>
         <Header
-          color="transparent"
-          brand="Material Kit React"
+          color="primary"
+          brand="Open hackathons"
           rightLinks={<HeaderLinks />}
           fixed
           changeColorOnScroll={{
-            height: 200,
+            height: 400,
             color: "white"
           }}
           {...rest}
         />
         {/* <Parallax small filter image={require("assets/img/profile-bg.jpg")} /> */}
-        <Parallax small filter image={require("assets/img/profile-bg.jpg")} />
-        <div className={classNames(classes.main, classes.mainRaised)}>
+        <Parallax small filter image={require("assets/img/bg2.jpg")} />
+        <div
+          className={classNames(classes.main, classes.mainRaised)}
+          style={{ paddingBottom: "20px" }}
+        >
           <div className={classes.container}>
             <GridContainer justify="center">
               <GridItem xs={12} sm={12} md={6}>
@@ -463,7 +524,7 @@ class ProfilePage extends React.Component {
                           ? profile
                           : this.state.profile.potrait_url
                       }
-                      alt="..."
+                      alt="Profile page"
                       className={imageClasses}
                     />
                   </div>

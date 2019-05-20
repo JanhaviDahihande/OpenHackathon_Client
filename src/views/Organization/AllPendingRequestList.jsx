@@ -67,6 +67,7 @@ class AllPendingRequestList extends React.Component {
   getPendingRequests() {
     const authHeader = localStorage.getItem("accessToken");
     const { classes, ...rest } = this.props;
+    this.setState({ isLoading: true });
     fetch(
       "http://localhost:5000/user/" + this.props.userId + "/pendingrequests",
       {
@@ -120,7 +121,30 @@ class AllPendingRequestList extends React.Component {
       });
   }
 
-  rejectRequest(userid, organizationName) {}
+  rejectRequest(user) {
+    var userObject = {
+      id: user.id
+    };
+    this.state.isLoading = true;
+    const authHeader = localStorage.getItem("accessToken");
+    const { classes, ...rest } = this.props;
+    console.log(user);
+    fetch("http://localhost:5000/user/reject", {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authHeader
+      },
+      body: JSON.stringify(userObject)
+    })
+      .then(res => res.json())
+      .then(response => {
+        console.log(response);
+        this.setState({ isLoading: false });
+        this.getPendingRequests();
+      });
+  }
 
   render() {
     const { classes, ...rest } = this.props;

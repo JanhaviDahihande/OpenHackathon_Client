@@ -191,67 +191,67 @@ class UserOrganization extends React.Component {
       ) : (
         <GridItem xs={4} sm={2} md={3} />
       );
-    if (this.state.isLoading) {
-      return (
-        <div style={{ backgroundColor: "white", textAlign: "center" }}>
+    // if (this.state.isLoading) {
+    //   return (
+    //     <div style={{ backgroundColor: "white", textAlign: "center" }}>
+    //       <CircularProgress className={classes.progress} />
+    //     </div>
+    //   );
+    // } else {
+    return (
+      <div>
+        <Header
+          color="primary"
+          routes={dashboardRoutes}
+          brand="Open Hackathon"
+          rightLinks={<HeaderLinks />}
+          fixed
+          changeColorOnScroll={{
+            // height: 400,
+            color: "white"
+          }}
+          {...rest}
+        />
+        <div
+          style={{
+            zIndex: 2,
+            backgroundColor: "white",
+            textAlign: "center",
+            display: this.state.isLoading ? "block" : "none"
+          }}
+        >
           <CircularProgress className={classes.progress} />
         </div>
-      );
-    } else {
-      return (
-        <div>
-          <div
-            style={{
-              backgroundColor: "white",
-              textAlign: "center",
-              display: this.state.isLoading ? "" : "none"
-            }}
-          >
-            <CircularProgress className={classes.progress} />
-          </div>
-          <Header
-            color="primary"
-            routes={dashboardRoutes}
-            brand="Open Hackathon"
-            rightLinks={<HeaderLinks />}
-            fixed
-            changeColorOnScroll={{
-              // height: 400,
-              color: "white"
-            }}
-            {...rest}
-          />
-
-          <div
-            className={classes.pageHeader}
-            style={{
-              backgroundImage: "url(" + image + ")",
-              backgroundSize: "cover",
-              backgroundPosition: "top center",
-              display: this.state.isLoading ? "none" : "block"
-            }}
-          >
-            <div className={classes.container}>
-              <GridContainer
-                style={{
-                  backgroundColor: "white",
-                  marginLeft: "0px",
-                  marginRight: "0px"
-                }}
-              >
-                <GridItem xs={4} sm={2} md={3}>
-                  <InfoArea
-                    title="Organization"
-                    description={
-                      this.state.profile.organizationName
-                        ? this.state.profile.organizationName
-                        : "Not a part of any organization"
-                    }
-                    icon={Group}
-                    iconColor="rose"
-                  />
-                </GridItem>
-                {/* <GridItem xs={4} sm={2} md={3}>
+        <div
+          className={classes.pageHeader}
+          style={{
+            backgroundImage: "url(" + image + ")",
+            backgroundSize: "cover",
+            backgroundPosition: "top center",
+            display: this.state.isLoading ? "none" : "block"
+          }}
+        >
+          <div className={classes.container}>
+            <GridContainer
+              style={{
+                backgroundColor: "white",
+                marginLeft: "0px",
+                marginRight: "0px"
+              }}
+            >
+              <GridItem xs={4} sm={2} md={3}>
+                <InfoArea
+                  title="Organization"
+                  description={
+                    this.state.profile.organizationName
+                      ? this.state.profile.organizationName
+                      : "Not a part of any organization"
+                  }
+                  icon={Group}
+                  iconColor="rose"
+                />
+              </GridItem>
+              {/* <GridItem xs={4} sm={2} md={3}>
                   <InfoArea
                     title="Status"
                     description={
@@ -264,188 +264,185 @@ class UserOrganization extends React.Component {
                   />
                 </GridItem> */}
 
-                <GridItem
-                  xs={4}
-                  sm={2}
-                  md={3}
-                  style={{ display: "flex", alignItems: "center" }}
-                />
-                <GridItem
-                  xs={4}
-                  sm={2}
-                  md={3}
-                  style={{
-                    display: "flex",
-                    alignItems: "center"
-                  }}
-                  name="leave_button"
-                >
-                  <Button
-                    color="primary"
-                    onClick={this.leaveOrganization}
-                    disabled={
-                      this.state.profile.membershipStatus != "Approved"
-                        ? true
-                        : false
-                    }
-                    style={{ width: "80%" }}
-                  >
-                    Leave Organization
-                  </Button>
-                </GridItem>
-                <GridItem
-                  xs={4}
-                  sm={2}
-                  md={3}
-                  style={{ display: "flex", alignItems: "center" }}
-                >
-                  <Button
-                    color="primary"
-                    component={Link}
-                    to="/create_organization"
-                    style={{ width: "80%" }}
-                  >
-                    Create Organization
-                  </Button>
-                </GridItem>
-              </GridContainer>
-              <GridContainer
+              <GridItem
+                xs={4}
+                sm={2}
+                md={3}
+                style={{ display: "flex", alignItems: "center" }}
+              />
+              <GridItem
+                xs={4}
+                sm={2}
+                md={3}
                 style={{
-                  backgroundColor: "white",
-                  marginLeft: "0px",
-                  marginRight: "0px"
+                  display: "flex",
+                  alignItems: "center"
                 }}
+                name="leave_button"
               >
-                <GridItem xs={4} sm={2} md={3}>
-                  <InfoArea
-                    title="Status"
-                    description={
-                      this.state.profile.membershipStatus
-                        ? this.state.profile.membershipStatus
-                        : "NA"
-                    }
-                    icon={Assessment}
-                    iconColor="rose"
-                  />
-                </GridItem>
-                <GridItem
-                  xs={4}
-                  sm={2}
-                  md={3}
-                  style={{ display: "flex", alignItems: "center" }}
+                <Button
+                  color="primary"
+                  onClick={this.leaveOrganization}
+                  disabled={
+                    this.state.profile.membershipStatus != "Approved"
+                      ? true
+                      : false
+                  }
+                  style={{ width: "80%" }}
+                >
+                  Leave Organization
+                </Button>
+              </GridItem>
+              <GridItem
+                xs={4}
+                sm={2}
+                md={3}
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <Button
+                  color="primary"
+                  component={Link}
+                  to="/create_organization"
+                  style={{ width: "80%" }}
+                >
+                  Create Organization
+                </Button>
+              </GridItem>
+            </GridContainer>
+            <GridContainer
+              style={{
+                backgroundColor: "white",
+                marginLeft: "0px",
+                marginRight: "0px"
+              }}
+            >
+              <GridItem xs={4} sm={2} md={3}>
+                <InfoArea
+                  title="Status"
+                  description={
+                    this.state.profile.membershipStatus
+                      ? this.state.profile.membershipStatus
+                      : "NA"
+                  }
+                  icon={Assessment}
+                  iconColor="rose"
                 />
-                <GridItem
-                  xs={4}
-                  sm={2}
-                  md={3}
-                  style={{ display: "flex", alignItems: "center" }}
+              </GridItem>
+              <GridItem
+                xs={4}
+                sm={2}
+                md={3}
+                style={{ display: "flex", alignItems: "center" }}
+              />
+              <GridItem
+                xs={4}
+                sm={2}
+                md={3}
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <Button
+                  color="primary"
+                  style={{ width: "80%" }}
+                  onClick={this.handleModalOpen}
                 >
-                  <Button
-                    color="primary"
-                    style={{ width: "80%" }}
-                    onClick={this.handleModalOpen}
-                  >
-                    Browse Organizations
-                  </Button>
-                </GridItem>
-                <GridItem
-                  xs={4}
-                  sm={2}
-                  md={3}
-                  style={{ display: "flex", alignItems: "center" }}
+                  Browse Organizations
+                </Button>
+              </GridItem>
+              <GridItem
+                xs={4}
+                sm={2}
+                md={3}
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <Button
+                  color="primary"
+                  onClick={this.handleManageModalOpen}
+                  style={{ width: "80%" }}
                 >
-                  <Button
-                    color="primary"
-                    onClick={this.handleManageModalOpen}
-                    style={{ width: "80%" }}
-                  >
-                    Manage Requests
-                  </Button>
-                </GridItem>
-              </GridContainer>
+                  Manage Requests
+                </Button>
+              </GridItem>
+            </GridContainer>
+            <div
+              style={{
+                height: "500px",
+                overflowY: "scroll"
+              }}
+            >
               <div
                 style={{
-                  height: "500px",
-                  overflowY: "scroll"
+                  backgroundColor: "white",
+                  textAlign: "center",
+                  display: this.state.isLoading ? "block" : "none"
                 }}
               >
-                <div
-                  style={{
-                    backgroundColor: "white",
-                    textAlign: "center",
-                    display: this.state.isLoading ? "block" : "none"
-                  }}
-                >
-                  <CircularProgress className={classes.progress} />
-                </div>
-                <Dialog
-                  open={this.state.open}
-                  onClose={this.handleModalClose}
-                  aria-labelledby="form-dialog-title"
-                  // fullWidth="false"
-                  maxWidth="300px"
-                  style={{
-                    padding: "40px"
-                  }}
-                  // aria-labelledby="max-width-dialog-title"
-                >
-                  {/* <DialogTitle id="form-dialog-title">Subscribe</DialogTitle> */}
-                  <DialogContent style={{ width: "990px" }}>
-                    {/* <DialogContentText>
+                <CircularProgress className={classes.progress} />
+              </div>
+              <Dialog
+                open={this.state.open}
+                onClose={this.handleModalClose}
+                aria-labelledby="form-dialog-title"
+                // fullWidth="false"
+                maxWidth="300px"
+                style={{
+                  padding: "40px"
+                }}
+                // aria-labelledby="max-width-dialog-title"
+              >
+                {/* <DialogTitle id="form-dialog-title">Subscribe</DialogTitle> */}
+                <DialogContent style={{ width: "990px" }}>
+                  {/* <DialogContentText>
                       To subscribe to this website, please enter your email
                       address here. We will send updates occasionally.
                     </DialogContentText> */}
-                    <OrganizationList
-                      currentUserOrganization={
-                        this.state.profile.organizationName
-                      }
-                      reloadAfterJoin={this.reloadAfterJoin}
-                      handleModalClose={this.handleModalClose}
-                    />
-                  </DialogContent>
-                  <DialogActions>
-                    <Button
-                      onClick={this.handleModalClose}
-                      // variant="outlined"
-                      // className={classes.button}
-                      color="primary"
-                    >
-                      Close
-                    </Button>
-                  </DialogActions>
-                </Dialog>
-                <Dialog
-                  open={this.state.openManage}
-                  onClose={this.handleManageModalClose}
-                  aria-labelledby="form-dialog-title"
-                  maxWidth="300px"
-                  style={{
-                    padding: "40px"
-                  }}
-                >
-                  <DialogContent style={{ width: "990px" }}>
-                    <AllPendingRequestList
-                      userId={this.state.profile.id}
-                      reloadAfterJoin={this.reloadAfterJoin}
-                      handleModalClose={this.handleModalClose}
-                    />
-                  </DialogContent>
-                  <DialogActions>
-                    <Button
-                      onClick={this.handleManageModalClose}
-                      color="primary"
-                    >
-                      Close
-                    </Button>
-                  </DialogActions>
-                </Dialog>
-              </div>
+                  <OrganizationList
+                    currentUserOrganization={
+                      this.state.profile.organizationName
+                    }
+                    reloadAfterJoin={this.reloadAfterJoin}
+                    handleModalClose={this.handleModalClose}
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button
+                    onClick={this.handleModalClose}
+                    // variant="outlined"
+                    // className={classes.button}
+                    color="primary"
+                  >
+                    Close
+                  </Button>
+                </DialogActions>
+              </Dialog>
+              <Dialog
+                open={this.state.openManage}
+                onClose={this.handleManageModalClose}
+                aria-labelledby="form-dialog-title"
+                maxWidth="300px"
+                style={{
+                  padding: "40px"
+                }}
+              >
+                <DialogContent style={{ width: "990px" }}>
+                  <AllPendingRequestList
+                    userId={this.state.profile.id}
+                    reloadAfterJoin={this.reloadAfterJoin}
+                    handleModalClose={this.handleModalClose}
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={this.handleManageModalClose} color="primary">
+                    Close
+                  </Button>
+                </DialogActions>
+              </Dialog>
             </div>
           </div>
-          <Footer />
         </div>
-      );
-    }
+        <Footer />
+      </div>
+    );
+    // }
   }
 }
 export default withStyles(loginPageStyle)(UserOrganization);

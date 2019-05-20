@@ -77,14 +77,14 @@ class AllOrganizationsList extends React.Component {
 
   getOrganizations() {
     const authHeader = localStorage.getItem("accessToken");
-
+    var organization = [];
     axios
       .get("http://localhost:5000/organization", {
         headers: { Authorization: authHeader }
       })
       .then(response => {
         console.log(response);
-        var organization = [];
+
         for (let i = 0; i < response.data.length; i++) {
           organization.push({
             id: response.data[i].id,
