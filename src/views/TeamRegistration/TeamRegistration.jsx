@@ -87,7 +87,7 @@ class TeamRegistration extends React.Component {
   getTeamMembers() {
     try {
       const authHeader = localStorage.getItem("accessToken");
-      var url = "http://localhost:5000/user/list";
+      var url = "http://localhost:5000/" + this.state.hackathon_id + "/users";
       fetch(url, { headers: { Authorization: authHeader } })
         .then(res => res.json())
         .then(json => {

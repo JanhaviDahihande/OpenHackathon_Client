@@ -86,6 +86,7 @@ class MyHackathon extends React.Component {
         hackathon.score = response.data.score;
         hackathon.submissionURL = response.data.submissionURL;
         hackathon.teamLeadId = response.data.teamLeadId;
+        hackathon.hackathonStatus = response.data.status;
         this.setState({ hackathon: hackathon });
       });
   }
@@ -220,6 +221,9 @@ class MyHackathon extends React.Component {
               </GridItem>
               <GridItem xs={12} sm={12} md={12}>
                 <TextField
+                  disabled={
+                    this.state.hackathon.hackathonStatus != 1 ? true : false
+                  }
                   id="code_url"
                   label="Code URL"
                   fullWidth={true}
@@ -237,9 +241,29 @@ class MyHackathon extends React.Component {
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={4}>
-                <Button color="primary" onClick={this.submitCode}>
+                <Button
+                  style={{
+                    display:
+                      this.state.hackathon.hackathonStatus == 1
+                        ? "block"
+                        : "none"
+                  }}
+                  color="primary"
+                  onClick={this.submitCode}
+                >
                   Submit Code
                 </Button>
+                <h4
+                  style={{
+                    color: "black",
+                    display:
+                      this.state.hackathon.hackathonStatus != 1
+                        ? "block"
+                        : "none"
+                  }}
+                >
+                  This hackathon is closed for submissions
+                </h4>
               </GridItem>
             </GridContainer>
           </div>
