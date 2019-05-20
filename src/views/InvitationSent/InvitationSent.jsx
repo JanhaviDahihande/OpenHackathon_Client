@@ -98,7 +98,6 @@ class InvitationSent extends React.Component {
                           registered email address.
                         </b>
                       </h4>
-                      <p>Click on the link to login.</p>
                     </CardBody>
                     {/* <CardFooter className={classes.cardFooter}>
                       <Button simple color="primary" size="lg" onClick={this.handlesOnLogin}>
