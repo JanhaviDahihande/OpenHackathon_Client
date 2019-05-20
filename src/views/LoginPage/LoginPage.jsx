@@ -190,7 +190,8 @@ class LoginPage extends React.Component {
             "username",
             json.firstname + " " + json.lastname
           );
-          history.push({ pathname: "/index" });
+          window.location.href = "/index";
+          // history.push({ pathname: "/index" });
         } else {
           alert("Invalid username or password!");
           document.getElementById("email").value = "";

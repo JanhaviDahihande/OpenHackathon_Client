@@ -52,13 +52,11 @@ function ProtectedRoute({ component: Component, authed, ...rest }) {
 
 function loggedIn() {
   if (
-    localStorage.getItem("userId") == undefined ||
-    localStorage.getItem("userId") == "" ||
-    localStorage.getItem("accessToken") == undefined ||
-    localStorage.getItem("accessToken") == ""
-  )
+    !localStorage.getItem("userId") ||
+    localStorage.getItem("userId") === ""
+  ) {
     return false;
-  else return true;
+  } else return true;
 }
 
 ReactDOM.render(
