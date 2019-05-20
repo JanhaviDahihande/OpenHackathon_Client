@@ -42,7 +42,7 @@ class MyHackathonsList extends React.Component {
     const authHeader = localStorage.getItem("accessToken");
     axios
       .get(
-        "http://localhost:5000/participant/" + this.state.userId + "/hackathon",{headers:{Authorization:authHeader}}
+        "http://openhackathon.us-east-1.elasticbeanstalk.com/participant/" + this.state.userId + "/hackathon",{headers:{Authorization:authHeader}}
       )
       .then(response => {
         console.log(response);

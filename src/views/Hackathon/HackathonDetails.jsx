@@ -53,7 +53,7 @@ class HackathonDetails extends React.Component {
     const status = 2;
     const authHeader = localStorage.getItem("accessToken");
     fetch(
-      "http://localhost:5000/hackathon/" +
+      "http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" +
         this.state.hackathonId +
         "?status=" +
         status,
@@ -85,7 +85,7 @@ class HackathonDetails extends React.Component {
     const status = 3;
     const authHeader = localStorage.getItem("accessToken");
     fetch(
-      "http://localhost:5000/hackathon/" +
+      "http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" +
         this.state.hackathonId +
         "?status=" +
         status,
@@ -117,7 +117,7 @@ class HackathonDetails extends React.Component {
     console.log("State:::", this.state);
     const authHeader = localStorage.getItem("accessToken");
     axios
-      .get("http://localhost:5000/hackathon/" + this.state.hackathonId, {
+      .get("http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" + this.state.hackathonId, {
         headers: { Authorization: authHeader },
         params: {
           userId: this.state.userId

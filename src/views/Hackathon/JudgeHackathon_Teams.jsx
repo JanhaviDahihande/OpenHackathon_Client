@@ -72,7 +72,7 @@ class JudgeHackathon_Teams extends React.Component {
     
     axios
       .get(
-        "http://localhost:5000/hackathon/" +
+        "http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" +
           this.state.hackathonId+
           "/leaderboard",{headers:{Authorization:this.state.authHeader}}
       )
@@ -100,8 +100,8 @@ class JudgeHackathon_Teams extends React.Component {
 
   submitCode(evt){
     var judge_score = this.state.hackathon.score;
-    //var url = "http://localhost:5000/participant/" + localStorage.getItem("userId") +"/hackathon/" + this.state.hackathonId + "?judgeScore=" + judge_score;
-    fetch("http://localhost:5000/participant/" + localStorage.getItem("userId") +"/hackathon/" + this.state.hackathonId + "?judgeScore=" + judge_score,{headers:{Authorization:this.state.authHeader}}, {
+    //var url = "http://openhackathon.us-east-1.elasticbeanstalk.com/participant/" + localStorage.getItem("userId") +"/hackathon/" + this.state.hackathonId + "?judgeScore=" + judge_score;
+    fetch("http://openhackathon.us-east-1.elasticbeanstalk.com/participant/" + localStorage.getItem("userId") +"/hackathon/" + this.state.hackathonId + "?judgeScore=" + judge_score,{headers:{Authorization:this.state.authHeader}}, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json"

@@ -36,7 +36,8 @@ class RegistrationConfirmation extends React.Component {
   componentDidMount() {
     const values = queryString.parse(this.props.location.search);
     console.log(values.token);
-    var url = "http://localhost:5000/auth/verify/";
+    var url =
+      "http://openhackathon.us-east-1.elasticbeanstalk.com/auth/verify/";
     fetch(url, {
       method: "POST",
       headers: {

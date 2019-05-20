@@ -87,7 +87,7 @@ class TeamRegistration extends React.Component {
   getTeamMembers() {
     try {
       const authHeader = localStorage.getItem("accessToken");
-      var url = "http://localhost:5000/" + this.state.hackathon_id + "/users";
+      var url = "http://openhackathon.us-east-1.elasticbeanstalk.com/" + this.state.hackathon_id + "/users";
       fetch(url, { headers: { Authorization: authHeader } })
         .then(res => res.json())
         .then(json => {
@@ -137,7 +137,7 @@ class TeamRegistration extends React.Component {
     ) {
       const authHeader = localStorage.getItem("accessToken");
       var url =
-        "http://localhost:5000/participant/" +
+        "http://openhackathon.us-east-1.elasticbeanstalk.com/participant/" +
         localStorage.getItem("userId") +
         "/hackathon/" +
         this.state.hackathon_id;

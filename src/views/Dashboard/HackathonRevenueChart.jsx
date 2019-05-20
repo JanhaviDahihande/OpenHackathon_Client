@@ -39,12 +39,15 @@ class HackathonRevenueChart extends React.Component {
   updateRevenueChart() {
     const authHeader = localStorage.getItem("accessToken");
     axios
-      .get("http://localhost:5000/dashboard/hackathonRevenue", {
-        headers: { Authorization: authHeader },
-        params: {
-          userId: this.state.userId
+      .get(
+        "http://openhackathon.us-east-1.elasticbeanstalk.com/dashboard/hackathonRevenue",
+        {
+          headers: { Authorization: authHeader },
+          params: {
+            userId: this.state.userId
+          }
         }
-      })
+      )
       .then(response => {
         var result = [];
         response.data.reduce(function(res, value) {

@@ -69,12 +69,17 @@ class PaymentReport extends React.Component {
     const id = this.props.match.params.id;
     var paymentRecordResponse = [];
     axios
-      .get("http://localhost:5000/hackathon/" + id + "/paymentreport", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: authHeader
+      .get(
+        "http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" +
+          id +
+          "/paymentreport",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: authHeader
+          }
         }
-      })
+      )
       .then(response => {
         console.log("Payment RESPONSE");
         console.log(response);

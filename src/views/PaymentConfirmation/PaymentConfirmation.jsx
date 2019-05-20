@@ -37,7 +37,7 @@ class PaymentConfirmation extends React.Component {
     const values = queryString.parse(this.props.location.search);
     console.log(values.token);
     const authHeader = localStorage.getItem("accessToken");
-    var url = "http://localhost:5000/participant/pay";
+    var url = "http://openhackathon.us-east-1.elasticbeanstalk.com/participant/pay";
     fetch(url, {
       method: "POST",
       headers: {

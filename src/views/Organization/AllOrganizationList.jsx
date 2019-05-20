@@ -52,7 +52,7 @@ class AllOrganizationsList extends React.Component {
     const authHeader = localStorage.getItem("accessToken");
     axios
       .get(
-        "http://localhost:5000/user/" + this.state.userId + "/join/" + name,
+        "http://openhackathon.us-east-1.elasticbeanstalk.com/user/" + this.state.userId + "/join/" + name,
         {
           headers: { Authorization: authHeader }
         }
@@ -79,7 +79,7 @@ class AllOrganizationsList extends React.Component {
     const authHeader = localStorage.getItem("accessToken");
     var organization = [];
     axios
-      .get("http://localhost:5000/organization", {
+      .get("http://openhackathon.us-east-1.elasticbeanstalk.com/organization", {
         headers: { Authorization: authHeader }
       })
       .then(response => {

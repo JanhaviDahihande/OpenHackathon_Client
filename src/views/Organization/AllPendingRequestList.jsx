@@ -69,7 +69,9 @@ class AllPendingRequestList extends React.Component {
     const { classes, ...rest } = this.props;
     this.setState({ isLoading: true });
     fetch(
-      "http://localhost:5000/user/" + this.props.userId + "/pendingrequests",
+      "http://openhackathon.us-east-1.elasticbeanstalk.com/user/" +
+        this.props.userId +
+        "/pendingrequests",
       {
         method: "GET",
         "Content-Type": "application/json",
@@ -104,7 +106,7 @@ class AllPendingRequestList extends React.Component {
     const authHeader = localStorage.getItem("accessToken");
     const { classes, ...rest } = this.props;
     console.log(user);
-    fetch("http://localhost:5000/user/approve", {
+    fetch("http://openhackathon.us-east-1.elasticbeanstalk.com/user/approve", {
       method: "POST",
 
       headers: {
@@ -129,7 +131,7 @@ class AllPendingRequestList extends React.Component {
     const authHeader = localStorage.getItem("accessToken");
     const { classes, ...rest } = this.props;
     console.log(user);
-    fetch("http://localhost:5000/user/reject", {
+    fetch("http://openhackathon.us-east-1.elasticbeanstalk.com/user/reject", {
       method: "POST",
 
       headers: {

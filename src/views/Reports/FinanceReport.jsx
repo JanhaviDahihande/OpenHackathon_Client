@@ -61,7 +61,7 @@ class FinanceReport extends React.Component {
     const authHeader = localStorage.getItem("accessToken");
     axios
       .get(
-        "http://localhost:5000/hackathon/1/financial_report",{headers:{Authorization:authHeader}}
+        "http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/1/financial_report",{headers:{Authorization:authHeader}}
       )
       .then(response => {
         console.log(response);

@@ -166,7 +166,7 @@ class LoginPage extends React.Component {
     const { history } = this.props;
     const { email, password } = this.state;
     // Post request to backend
-    fetch("http://localhost:5000/auth/signin", {
+    fetch("http://openhackathon.us-east-1.elasticbeanstalk.com/auth/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

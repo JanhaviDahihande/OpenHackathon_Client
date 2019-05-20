@@ -65,11 +65,11 @@ function HeaderLinks({ ...props }) {
 
   return (
     <List className={classes.list}>
-      <ListItem className={classes.listItem}>
+      {/* <ListItem className={classes.listItem}>
         <Button href="/" color="transparent" className={classes.navLink}>
           About
         </Button>
-      </ListItem>
+      </ListItem> */}
       <ListItem className={classes.listItem}>
         <Button href="/index" color="transparent" className={classes.navLink}>
           Actions

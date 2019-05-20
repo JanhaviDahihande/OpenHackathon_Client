@@ -50,9 +50,14 @@ class Leaderboard extends React.Component {
     const authHeader = localStorage.getItem("accessToken");
     const id = this.props.match.params.id;
     axios
-      .get("http://localhost:5000/hackathon/" + id + "/leaderboard", {
-        headers: { Authorization: authHeader }
-      })
+      .get(
+        "http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" +
+          id +
+          "/leaderboard",
+        {
+          headers: { Authorization: authHeader }
+        }
+      )
       .then(response => {
         console.log("LEADERBOARD RESPONSE");
         console.log(response);

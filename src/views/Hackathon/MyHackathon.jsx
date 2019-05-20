@@ -67,7 +67,7 @@ class MyHackathon extends React.Component {
     const authHeader = localStorage.getItem("accessToken");
     axios
       .get(
-        "http://localhost:5000/participant/" +
+        "http://openhackathon.us-east-1.elasticbeanstalk.com/participant/" +
           this.state.userId +
           "/hackathon/" +
           this.state.hackathonId,
@@ -101,7 +101,7 @@ class MyHackathon extends React.Component {
   submitCode(evt) {
     var submission_url = this.state.code_url;
     var url =
-      "http://localhost:5000/participant/" +
+      "http://openhackathon.us-east-1.elasticbeanstalk.com/participant/" +
       localStorage.getItem("userId") +
       "/hackathon/" +
       this.state.hackathonId +

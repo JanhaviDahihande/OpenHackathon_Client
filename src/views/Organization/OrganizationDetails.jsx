@@ -68,15 +68,19 @@ class OrganizationDetails extends React.Component {
     console.log("State:::", this.state);
     const authHeader = localStorage.getItem("accessToken");
     axios
-      .get("http://localhost:5000/organization/" + this.state.organizationId, {
-        params: {
-          userId: this.state.userId
-        },
-        headers: {
-          Authorization: authHeader,
-          "Content-Type": "application/json"
+      .get(
+        "http://openhackathon.us-east-1.elasticbeanstalk.com/organization/" +
+          this.state.organizationId,
+        {
+          params: {
+            userId: this.state.userId
+          },
+          headers: {
+            Authorization: authHeader,
+            "Content-Type": "application/json"
+          }
         }
-      })
+      )
       .then(response => {
         console.log(response);
         var organization = {};

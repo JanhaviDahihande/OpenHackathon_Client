@@ -60,7 +60,7 @@ class UserOrganization extends React.Component {
   leaveOrganization() {
     const authHeader = localStorage.getItem("accessToken");
 
-    fetch("http://localhost:5000/user/leave", {
+    fetch("http://openhackathon.us-east-1.elasticbeanstalk.com/user/leave", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -97,9 +97,13 @@ class UserOrganization extends React.Component {
     const authHeader = localStorage.getItem("accessToken");
 
     axios
-      .get("http://localhost:5000/user/" + this.state.userId, {
-        headers: { Authorization: authHeader }
-      })
+      .get(
+        "http://openhackathon.us-east-1.elasticbeanstalk.com/user/" +
+          this.state.userId,
+        {
+          headers: { Authorization: authHeader }
+        }
+      )
       .then(response => {
         var user = {};
         user.id = response.data.id;

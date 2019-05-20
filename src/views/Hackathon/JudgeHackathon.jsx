@@ -68,7 +68,7 @@ class JudgeHackathon extends React.Component {
     const authHeader = localStorage.getItem("accessToken");
     axios
       .get(
-        "http://localhost:5000/participant/" +
+        "http://openhackathon.us-east-1.elasticbeanstalk.com/participant/" +
           this.state.userId +
           "/team/" +
           this.state.teamId,{headers:{Authorization:authHeader}}
@@ -99,7 +99,7 @@ class JudgeHackathon extends React.Component {
   submitCode(evt){
     var judge_score = this.state.team.score;
     const authHeader = localStorage.getItem("accessToken");
-    var url = "http://localhost:5000/participant/" + localStorage.getItem("userId") +"/hackathon/" + this.state.hackathonId + "?judgeScore=" + judge_score;
+    var url = "http://openhackathon.us-east-1.elasticbeanstalk.com/participant/" + localStorage.getItem("userId") +"/hackathon/" + this.state.hackathonId + "?judgeScore=" + judge_score;
     fetch(url, {
       method: "PATCH",
       headers: {

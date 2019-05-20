@@ -24,13 +24,13 @@ class AdminMenu extends React.Component {
     return (
       <div className={classes.section}>
         <GridContainer justify="center">
-          <GridItem xs={12} sm={12} md={8}>
+          <GridItem xs={12} sm={12} md={12}>
             <h2 className={classes.title}>Actions</h2>
           </GridItem>
         </GridContainer>
         <div>
           <GridContainer>
-            <GridItem xs={12} sm={12} md={4}>
+            {/* <GridItem xs={12} sm={12} md={4}>
               <Card style={{ width: "20rem" }}>
                 <CardHeader color="warning">
                   <h4>
@@ -44,7 +44,7 @@ class AdminMenu extends React.Component {
                   </Button>
                 </CardBody>
               </Card>
-            </GridItem>
+            </GridItem> */}
             <GridItem xs={12} sm={12} md={4}>
               <Card style={{ width: "20rem" }}>
                 <CardHeader color="warning">
@@ -120,7 +120,7 @@ class AdminMenu extends React.Component {
                 </CardBody>
               </Card>
             </GridItem>
-            <GridItem xs={12} sm={12} md={4}>
+            {/* <GridItem xs={12} sm={12} md={4}>
               <Card style={{ width: "20rem" }}>
                 <CardHeader color="warning">
                   <h5>
@@ -140,7 +140,7 @@ class AdminMenu extends React.Component {
                   </Button>
                 </CardBody>
               </Card>
-            </GridItem>
+            </GridItem> */}
           </GridContainer>
         </div>
       </div>

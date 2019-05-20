@@ -79,7 +79,7 @@ class CreateOrganization extends React.Component {
   getOrganization() {
     const authHeader = localStorage.getItem("accessToken");
     axios
-      .get("http://localhost:5000/organization/" + this.state.organization_id, {
+      .get("http://openhackathon.us-east-1.elasticbeanstalk.com/organization/" + this.state.organization_id, {
         params: {
           userId: localStorage.getItem("userId")
         },
@@ -141,7 +141,7 @@ class CreateOrganization extends React.Component {
     // this.state.changedOrganization.address.zip = this.state.zip;
     this.state.changedOrganization.owner.id = localStorage.getItem("userId");
     const authHeader = localStorage.getItem("accessToken");
-    fetch("http://localhost:5000/organization/create", {
+    fetch("http://openhackathon.us-east-1.elasticbeanstalk.com/organization/create", {
       method: "POST",
       headers: {
         Authorization: authHeader,

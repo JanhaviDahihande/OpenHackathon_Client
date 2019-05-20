@@ -74,7 +74,7 @@ class CreateExpense extends React.Component {
   postExpense() {
     const authHeader = localStorage.getItem("accessToken");
     const url =
-      "http://localhost:5000/hackathon/" + this.state.hackathon_id + "/expense";
+      "http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" + this.state.hackathon_id + "/expense";
     fetch(url, {
       method: "POST",
       headers: {

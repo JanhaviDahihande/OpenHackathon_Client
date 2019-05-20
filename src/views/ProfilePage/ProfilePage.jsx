@@ -77,7 +77,7 @@ class ProfilePage extends React.Component {
         ? this.state.userId
         : this.state.profileUserId;
     axios
-      .get("http://localhost:5000/user/" + userId, {
+      .get("http://openhackathon.us-east-1.elasticbeanstalk.com/user/" + userId, {
         headers: { Authorization: authHeader }
       })
       .then(response => {
@@ -102,7 +102,7 @@ class ProfilePage extends React.Component {
   updateProfile() {
     console.log("Sending:::", JSON.stringify(this.state.changedProfile));
     const authHeader = localStorage.getItem("accessToken");
-    fetch("http://localhost:5000/user/" + this.state.userId, {
+    fetch("http://openhackathon.us-east-1.elasticbeanstalk.com/user/" + this.state.userId, {
       method: "PUT",
       headers: {
         Authorization: authHeader,
@@ -549,7 +549,7 @@ class ProfilePage extends React.Component {
               </GridItem>
             </GridContainer>
             {comp}
-            {editButton}
+            {this.state.editable == 0 ? editButton : ""}
           </div>
         </div>
         <Footer />
