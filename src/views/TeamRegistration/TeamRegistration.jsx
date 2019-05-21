@@ -90,24 +90,31 @@ class TeamRegistration extends React.Component {
   getTeamMembers() {
     try {
       const authHeader = localStorage.getItem("accessToken");
-      var url = "http://openhackathon.us-east-1.elasticbeanstalk.com/" + this.state.hackathon_id + "/users";
+      var url =
+        "http://openhackathon.us-east-1.elasticbeanstalk.com/" +
+        this.state.hackathon_id +
+        "/users";
       fetch(url, { headers: { Authorization: authHeader } })
         .then(res => res.json())
         .then(json => {
-          console.log("json", json);
-          var team_members = [];
-          for (var i = 0; i < json.length; i++) {
-            team_members.push({
-              firstname: json[i].firstname == null ? "" : json[i].firstname,
-              lastname: json[i].lastname == null ? "" : json[i].lastname,
-              id: json[i].id
-            });
-          }
-          console.log(team_members);
+          if (json.status != "BadRequest") {
+            console.log("json", json);
+            var team_members = [];
+            for (var i = 0; i < json.length; i++) {
+              team_members.push({
+                firstname: json[i].firstname == null ? "" : json[i].firstname,
+                lastname: json[i].lastname == null ? "" : json[i].lastname,
+                id: json[i].id
+              });
+            }
+            console.log(team_members);
 
-          this.setState({ team_members: team_members }, () => {
-            console.log(this.state.team_members);
-          });
+            this.setState({ team_members: team_members }, () => {
+              console.log(this.state.team_members);
+            });
+          } else {
+            alert(json.message);
+          }
         });
     } catch (error) {}
   }

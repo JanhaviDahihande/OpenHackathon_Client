@@ -74,23 +74,27 @@ class MyHackathon extends React.Component {
         { headers: { Authorization: authHeader } }
       )
       .then(response => {
-        console.log(response);
-        var hackathon = {};
-        hackathon.hackathonId = response.data.hackathonId;
-        hackathon.hackathonName = response.data.hackathonName;
-        hackathon.teamId = response.data.teamId;
-        hackathon.teamName = response.data.teamName;
-        hackathon.participants = response.data.participants;
-        hackathon.paymentDone = response.data.paymentDone;
-        hackathon.fees = response.data.fees;
-        hackathon.score = response.data.score;
-        hackathon.submissionURL = response.data.submissionURL;
-        hackathon.teamLeadId = response.data.teamLeadId;
-        hackathon.hackathonStatus = response.data.status;
-        this.setState({
-          hackathon: hackathon,
-          code_url: hackathon.submissionURL
-        });
+        if (response.data.status != "BadRequest") {
+          console.log(response);
+          var hackathon = {};
+          hackathon.hackathonId = response.data.hackathonId;
+          hackathon.hackathonName = response.data.hackathonName;
+          hackathon.teamId = response.data.teamId;
+          hackathon.teamName = response.data.teamName;
+          hackathon.participants = response.data.participants;
+          hackathon.paymentDone = response.data.paymentDone;
+          hackathon.fees = response.data.fees;
+          hackathon.score = response.data.score;
+          hackathon.submissionURL = response.data.submissionURL;
+          hackathon.teamLeadId = response.data.teamLeadId;
+          hackathon.hackathonStatus = response.data.status;
+          this.setState({
+            hackathon: hackathon,
+            code_url: hackathon.submissionURL
+          });
+        } else {
+          alert(response.data.message);
+        }
       });
   }
 

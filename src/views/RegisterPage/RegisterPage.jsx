@@ -104,8 +104,12 @@ class RegisterPage extends PureComponent<Props, State> {
       })
         .then(res => res.json())
         .then(json => {
-          console.log("json", json);
-          history.push({ pathname: "/invitation-sent" });
+          if (json.status != "BadRequest") {
+            console.log("json", json);
+            history.push({ pathname: "/invitation-sent" });
+          } else {
+            alert(json.message);
+          }
         });
     }
   };

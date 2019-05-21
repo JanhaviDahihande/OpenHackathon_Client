@@ -88,38 +88,47 @@ class CreateHackathon extends React.Component {
       fetch(url, { headers: { Authorization: authHeader } })
         .then(res => res.json())
         .then(json => {
-          console.log("json", json);
-          var judges = [];
-          for (var i = 0; i < json.length; i++) {
-            judges.push({
-              firstname: json[i].firstname == null ? "" : json[i].firstname,
-              lastname: json[i].lastname == null ? "" : json[i].lastname,
-              id: json[i].id
-            });
-          }
-          console.log(judges);
+          if (json.status != "BadRequest") {
+            console.log("json", json);
+            var judges = [];
+            for (var i = 0; i < json.length; i++) {
+              judges.push({
+                firstname: json[i].firstname == null ? "" : json[i].firstname,
+                lastname: json[i].lastname == null ? "" : json[i].lastname,
+                id: json[i].id
+              });
+            }
+            console.log(judges);
 
-          this.setState({ judges_list: judges }, () => {
-            console.log(this.state.judges_list);
-          });
+            this.setState({ judges_list: judges }, () => {
+              console.log(this.state.judges_list);
+            });
+          } else {
+            alert(json.message);
+          }
         });
     } catch (error) {}
   }
   getSponsors() {
     try {
       const authHeader = localStorage.getItem("accessToken");
-      var url = "http://openhackathon.us-east-1.elasticbeanstalk.com/organization";
+      var url =
+        "http://openhackathon.us-east-1.elasticbeanstalk.com/organization";
       fetch(url, { headers: { Authorization: authHeader } })
         .then(res => res.json())
         .then(json => {
-          console.log("json", json);
-          var sponsors = [];
-          for (var i = 0; i < json.length; i++) {
-            sponsors.push({ name: json[i].name, id: json[i].id });
-          }
-          console.log(sponsors);
+          if (json.status != "BadRequest") {
+            console.log("json", json);
+            var sponsors = [];
+            for (var i = 0; i < json.length; i++) {
+              sponsors.push({ name: json[i].name, id: json[i].id });
+            }
+            console.log(sponsors);
 
-          this.setState({ sponsors_list: sponsors });
+            this.setState({ sponsors_list: sponsors });
+          } else {
+            alert(json.message);
+          }
         });
     } catch (error) {}
   }
@@ -157,41 +166,49 @@ class CreateHackathon extends React.Component {
   getHackathon() {
     const authHeader = localStorage.getItem("accessToken");
     axios
-      .get("http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" + this.state.hackathon_id, {
-        params: {
-          userId: localStorage.getItem("userId")
-        },
-        headers: { Authorization: authHeader }
-      })
+      .get(
+        "http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" +
+          this.state.hackathon_id,
+        {
+          params: {
+            userId: localStorage.getItem("userId")
+          },
+          headers: { Authorization: authHeader }
+        }
+      )
       .then(response => {
-        console.log("GET RESPONSE:::: ", response);
-        var hackathon = {};
-        var changedHackathon = {};
+        if (response.data.status != "BadRequest") {
+          console.log("GET RESPONSE:::: ", response);
+          var hackathon = {};
+          var changedHackathon = {};
 
-        hackathon.eventName = response.data.eventName;
-        hackathon.description = response.data.description;
-        hackathon.fees = response.data.fees;
-        hackathon.startDate = response.data.startDate.substring(0, 10);
-        hackathon.endDate = response.data.endDate.substring(0, 10);
-        hackathon.minTeamSize = response.data.minTeamSize;
-        hackathon.maxTeamSize = response.data.maxTeamSize;
-        hackathon.sponsors = response.data.sponsors;
-        hackathon.judges = response.data.judges;
+          hackathon.eventName = response.data.eventName;
+          hackathon.description = response.data.description;
+          hackathon.fees = response.data.fees;
+          hackathon.startDate = response.data.startDate.substring(0, 10);
+          hackathon.endDate = response.data.endDate.substring(0, 10);
+          hackathon.minTeamSize = response.data.minTeamSize;
+          hackathon.maxTeamSize = response.data.maxTeamSize;
+          hackathon.sponsors = response.data.sponsors;
+          hackathon.judges = response.data.judges;
 
-        changedHackathon = hackathon;
-        changedHackathon.sponsors = [];
-        changedHackathon.judges = [];
-        for (let i = 0; i < response.data.sponsors.length; i++) {
-          changedHackathon.sponsors.push(response.data.sponsors[i].id);
+          changedHackathon = hackathon;
+          changedHackathon.sponsors = [];
+          changedHackathon.judges = [];
+          for (let i = 0; i < response.data.sponsors.length; i++) {
+            changedHackathon.sponsors.push(response.data.sponsors[i].id);
+          }
+
+          for (let i = 0; i < response.data.judges.length; i++) {
+            changedHackathon.judges.push(response.data.judges[i].userId);
+          }
+          this.setState({
+            hackathon: hackathon,
+            changedHackathon: changedHackathon
+          });
+        } else {
+          alert(response.data.message);
         }
-
-        for (let i = 0; i < response.data.judges.length; i++) {
-          changedHackathon.judges.push(response.data.judges[i].userId);
-        }
-        this.setState({
-          hackathon: hackathon,
-          changedHackathon: changedHackathon
-        });
       });
   }
   postHackathon() {
@@ -209,31 +226,29 @@ class CreateHackathon extends React.Component {
         if (json.status != "BadRequest") {
           window.location.href = "/hackathon_details/" + json.id;
         } else alert("Request failed with error: " + json.message);
-      })
-      .catch(error => {
-        alert("Invalid Request");
       });
   }
 
   updateHackathon() {
     const authHeader = localStorage.getItem("accessToken");
     console.log("Updating: ", this.state.changedHackathon);
-    fetch("http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" + this.state.hackathon_id, {
-      method: "PUT",
-      headers: {
-        Authorization: authHeader,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(this.state.changedHackathon)
-    })
+    fetch(
+      "http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" +
+        this.state.hackathon_id,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: authHeader,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(this.state.changedHackathon)
+      }
+    )
       .then(res => res.json())
       .then(json => {
         if (json.status != "BadRequest") {
           window.location.href = "/hackathon_details/" + json.id;
         } else alert("Request failed with error: " + json.message);
-      })
-      .catch(error => {
-        alert("Invalid Request");
       });
   }
 

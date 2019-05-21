@@ -81,47 +81,51 @@ class PaymentReport extends React.Component {
         }
       )
       .then(response => {
-        console.log("Payment RESPONSE");
-        console.log(response);
+        if (response.data.status != "BadRequest") {
+          console.log("Payment RESPONSE");
+          console.log(response);
 
-        for (let i = 0; i < response.data.length; i++) {
-          paymentRecordResponse.push({
-            hackathonId: response.data[i].hackathonId,
-            hackathonName: response.data[i].hackathonName,
-            teamId: response.data[i].teamId,
-            teamName: response.data[i].teamName,
-            status: response.data[i].status,
-            paymentDate: response.data[i].paymentDate,
-            participants: response.data[i].participants,
+          for (let i = 0; i < response.data.length; i++) {
+            paymentRecordResponse.push({
+              hackathonId: response.data[i].hackathonId,
+              hackathonName: response.data[i].hackathonName,
+              teamId: response.data[i].teamId,
+              teamName: response.data[i].teamName,
+              status: response.data[i].status,
+              paymentDate: response.data[i].paymentDate,
+              participants: response.data[i].participants,
 
-            // participants: [
-            //   {
-            //     userId: 1,
-            //     name: "Vishwanath",
-            //     title: "TITLE",
-            //     paymentDone: true,
-            //     fees: 200,
-            //     paymentDate: null
-            //   },
-            //   {
-            //     userId: 7,
-            //     name: "Thor",
-            //     title: "TITLE",
-            //     paymentDone: true,
-            //     fees: 200,
-            //     paymentDate: null
-            //   }
-            // ],
-            paymentDone: response.data[i].paymentDone,
-            score: response.data[i].score,
-            submissionURL: response.data[i].submissionURL,
-            teamLeadId: response.data[i].teamLeadId
+              // participants: [
+              //   {
+              //     userId: 1,
+              //     name: "Vishwanath",
+              //     title: "TITLE",
+              //     paymentDone: true,
+              //     fees: 200,
+              //     paymentDate: null
+              //   },
+              //   {
+              //     userId: 7,
+              //     name: "Thor",
+              //     title: "TITLE",
+              //     paymentDone: true,
+              //     fees: 200,
+              //     paymentDate: null
+              //   }
+              // ],
+              paymentDone: response.data[i].paymentDone,
+              score: response.data[i].score,
+              submissionURL: response.data[i].submissionURL,
+              teamLeadId: response.data[i].teamLeadId
+            });
+          }
+          this.setState({
+            paymentRecordResponse: paymentRecordResponse,
+            isLoading: false
           });
+        } else {
+          alert(response.message);
         }
-        this.setState({
-          paymentRecordResponse: paymentRecordResponse,
-          isLoading: false
-        });
       })
       .then(response => {
         console.log(paymentRecordResponse);

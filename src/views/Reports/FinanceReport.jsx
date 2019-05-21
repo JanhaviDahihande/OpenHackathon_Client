@@ -71,25 +71,30 @@ class FinanceReport extends React.Component {
     axios
       .get(url, { headers: { Authorization: authHeader } })
       .then(response => {
-        console.log(response);
-        var hackathon = {};
-        hackathon.eventName = response.data.eventName;
-        hackathon.startDate = response.data.startDate;
-        hackathon.endDate = response.data.endDate;
-        hackathon.description = response.data.description;
-        hackathon.noOfTeams = response.data.noOfTeams;
-        hackathon.noOfSponsors = response.data.noOfSponsors;
-        hackathon.totalParticipants = response.data.totalParticipants;
-        hackathon.hackathonFees = response.data.hackathonFees;
-        hackathon.totalHackathonFeesPaid = response.data.totalHackathonFeesPaid;
-        hackathon.totalHackathonFeesNotPaid =
-          response.data.totalHackathonFeesNotPaid;
-        hackathon.avgFeesPaid = response.data.avgFeesPaid;
-        hackathon.revenue = response.data.revenue;
-        hackathon.expense = response.data.expense;
-        hackathon.profit = response.data.profit;
-        hackathon.sponsorsRevenue = response.data.sponsorAmount;
-        this.setState({ hackathon: hackathon });
+        if (response.data.status != "BadRequest") {
+          console.log(response);
+          var hackathon = {};
+          hackathon.eventName = response.data.eventName;
+          hackathon.startDate = response.data.startDate;
+          hackathon.endDate = response.data.endDate;
+          hackathon.description = response.data.description;
+          hackathon.noOfTeams = response.data.noOfTeams;
+          hackathon.noOfSponsors = response.data.noOfSponsors;
+          hackathon.totalParticipants = response.data.totalParticipants;
+          hackathon.hackathonFees = response.data.hackathonFees;
+          hackathon.totalHackathonFeesPaid =
+            response.data.totalHackathonFeesPaid;
+          hackathon.totalHackathonFeesNotPaid =
+            response.data.totalHackathonFeesNotPaid;
+          hackathon.avgFeesPaid = response.data.avgFeesPaid;
+          hackathon.revenue = response.data.revenue;
+          hackathon.expense = response.data.expense;
+          hackathon.profit = response.data.profit;
+          hackathon.sponsorsRevenue = response.data.sponsorAmount;
+          this.setState({ hackathon: hackathon });
+        } else {
+          alert(response.data.message);
+        }
       });
   }
   render() {
@@ -292,7 +297,6 @@ class FinanceReport extends React.Component {
             </GridContainer>
           </div>
         </div>
-        
       </div>
     );
   }

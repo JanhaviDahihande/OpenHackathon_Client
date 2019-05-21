@@ -82,20 +82,24 @@ class OrganizationDetails extends React.Component {
         }
       )
       .then(response => {
-        console.log(response);
-        var organization = {};
-        organization.id = response.data.id;
-        organization.name = response.data.name;
-        organization.owner = response.data.owner;
-        organization.description = response.data.description;
-        organization.address = response.data.address;
-        // organization.address.street = response.data.address.street;
-        // organization.address.city = response.data.address.city;
-        // organization.address.state = response.data.address.state;
-        // organization.address.zip = response.data.address.zip;
-        organization.members = response.data.members;
-        organization.sponsoredHackathons = response.data.sponsoredHackathons;
-        this.setState({ organization: organization });
+        if (response.status != "BadRequest") {
+          console.log(response);
+          var organization = {};
+          organization.id = response.data.id;
+          organization.name = response.data.name;
+          organization.owner = response.data.owner;
+          organization.description = response.data.description;
+          organization.address = response.data.address;
+          // organization.address.street = response.data.address.street;
+          // organization.address.city = response.data.address.city;
+          // organization.address.state = response.data.address.state;
+          // organization.address.zip = response.data.address.zip;
+          organization.members = response.data.members;
+          organization.sponsoredHackathons = response.data.sponsoredHackathons;
+          this.setState({ organization: organization });
+        } else {
+          alert(response.message);
+        }
       });
   }
   render() {
@@ -211,7 +215,6 @@ class OrganizationDetails extends React.Component {
             </GridContainer>
           </div>
         </div>
-        
       </div>
     );
   }

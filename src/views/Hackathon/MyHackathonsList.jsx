@@ -49,19 +49,23 @@ class MyHackathonsList extends React.Component {
         { headers: { Authorization: authHeader } }
       )
       .then(response => {
-        console.log(response);
-        var hackathon = [];
-        for (let i = 0; i < response.data.length; i++) {
-          hackathon.push({
-            id: response.data[i].id,
-            eventName: response.data[i].eventName,
-            description: response.data[i].description,
-            startDate: response.data[i].startDate,
-            endDate: response.data[i].endDate,
-            role: response.data[i].role
-          });
+        if (response.data.status != "BadRequest") {
+          console.log(response);
+          var hackathon = [];
+          for (let i = 0; i < response.data.length; i++) {
+            hackathon.push({
+              id: response.data[i].id,
+              eventName: response.data[i].eventName,
+              description: response.data[i].description,
+              startDate: response.data[i].startDate,
+              endDate: response.data[i].endDate,
+              role: response.data[i].role
+            });
+          }
+          this.setState({ hackathon: hackathon });
+        } else {
+          alert(response.data.message);
         }
-        this.setState({ hackathon: hackathon });
       });
   }
   render() {

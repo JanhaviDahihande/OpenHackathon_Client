@@ -49,34 +49,38 @@ class HackathonRevenueChart extends React.Component {
         }
       )
       .then(response => {
-        var result = [];
-        response.data.reduce(function(res, value) {
-          if (!res[value.id]) {
-            res[value.id] = {
-              id: value.id,
-              eventName: value.eventName,
-              amount: 0
-            };
-            result.push(res[value.id]);
-          }
-          res[value.id].amount += value.amount;
-          return res;
-        }, {});
+        if (response.data.status != "BadRequest") {
+          var result = [];
+          response.data.reduce(function(res, value) {
+            if (!res[value.id]) {
+              res[value.id] = {
+                id: value.id,
+                eventName: value.eventName,
+                amount: 0
+              };
+              result.push(res[value.id]);
+            }
+            res[value.id].amount += value.amount;
+            return res;
+          }, {});
 
-        var data = [];
-        data.push(["Hackathons", "Revenue", { role: "style" }]);
-        for (var i = 0; i < result.length; ++i) {
-          var row = [];
-          row.push(result[i].eventName);
-          row.push(result[i].amount);
-          if (result[i][1] < 500) {
-            row.push("red");
-          } else {
-            row.push("blue");
+          var data = [];
+          data.push(["Hackathons", "Revenue", { role: "style" }]);
+          for (var i = 0; i < result.length; ++i) {
+            var row = [];
+            row.push(result[i].eventName);
+            row.push(result[i].amount);
+            if (result[i][1] < 500) {
+              row.push("red");
+            } else {
+              row.push("blue");
+            }
+            data.push(row);
           }
-          data.push(row);
+          this.setState({ hackRevenueData: data });
+        } else {
+          alert(response.data.message);
         }
-        this.setState({ hackRevenueData: data });
       });
   }
 

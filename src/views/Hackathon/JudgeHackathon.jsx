@@ -74,19 +74,23 @@ class JudgeHackathon extends React.Component {
         { headers: { Authorization: authHeader } }
       )
       .then(response => {
-        console.log(response);
-        var team = {};
-        team.hackathonId = response.data.hackathonId;
-        team.hackathonName = response.data.hackathonName;
-        team.teamId = response.data.teamId;
-        team.teamName = response.data.teamName;
-        team.participants = response.data.participants;
-        team.paymentDone = response.data.paymentDone;
-        team.score = response.data.score;
-        team.submissionURL = response.data.submissionURL;
-        team.teamLeadId = response.data.teamLeadId;
-        team.status = response.data.status;
-        this.setState({ team: team });
+        if (response.data.status != "BadRequest") {
+          console.log(response);
+          var team = {};
+          team.hackathonId = response.data.hackathonId;
+          team.hackathonName = response.data.hackathonName;
+          team.teamId = response.data.teamId;
+          team.teamName = response.data.teamName;
+          team.participants = response.data.participants;
+          team.paymentDone = response.data.paymentDone;
+          team.score = response.data.score;
+          team.submissionURL = response.data.submissionURL;
+          team.teamLeadId = response.data.teamLeadId;
+          team.status = response.data.status;
+          this.setState({ team: team });
+        } else {
+          alert(response.data.message);
+        }
       });
   }
 

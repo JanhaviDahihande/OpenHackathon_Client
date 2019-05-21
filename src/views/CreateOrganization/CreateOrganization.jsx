@@ -79,40 +79,47 @@ class CreateOrganization extends React.Component {
   getOrganization() {
     const authHeader = localStorage.getItem("accessToken");
     axios
-      .get("http://openhackathon.us-east-1.elasticbeanstalk.com/organization/" + this.state.organization_id, {
-        params: {
-          userId: localStorage.getItem("userId")
-        },
-        headers: { Authorization: authHeader }
-      })
+      .get(
+        "http://openhackathon.us-east-1.elasticbeanstalk.com/organization/" +
+          this.state.organization_id,
+        {
+          params: {
+            userId: localStorage.getItem("userId")
+          },
+          headers: { Authorization: authHeader }
+        }
+      )
       .then(response => {
-        console.log(response);
-        console.log(response);
-        var organization = {};
-        var changedOrganization = {};
-        organization.id = response.data.id;
-        organization.name = response.data.name;
-        organization.owner = response.data.owner;
-        organization.description = response.data.description;
-        organization.address = response.data.address;
-        // organization.address.street = response.data.address.street;
-        // organization.address.city = response.data.address.city;
-        // organization.address.state = response.data.address.state;
-        // organization.address.zip = response.data.address.zip;
-        this.setState({ organization: organization });
+        // console.log(response);
+        if (response.data.status != "BadRequest") {
+          var organization = {};
+          var changedOrganization = {};
+          organization.id = response.data.id;
+          organization.name = response.data.name;
+          organization.owner = response.data.owner;
+          organization.description = response.data.description;
+          organization.address = response.data.address;
+          // organization.address.street = response.data.address.street;
+          // organization.address.city = response.data.address.city;
+          // organization.address.state = response.data.address.state;
+          // organization.address.zip = response.data.address.zip;
+          this.setState({ organization: organization });
 
-        for (let i = 0; i < response.data.members.length; i++) {
-          changedOrganization.members.push(response.data.members[i].id);
+          for (let i = 0; i < response.data.members.length; i++) {
+            changedOrganization.members.push(response.data.members[i].id);
+          }
+          for (let i = 0; i < response.data.sponsoredHackathons.length; i++) {
+            changedOrganization.sponsoredHackathons.push(
+              response.data.sponsoredHackathons[i].id
+            );
+          }
+          this.setState({
+            organization: organization,
+            changedOrganization: changedOrganization
+          });
+        } else {
+          alert(response.data.message);
         }
-        for (let i = 0; i < response.data.sponsoredHackathons.length; i++) {
-          changedOrganization.sponsoredHackathons.push(
-            response.data.sponsoredHackathons[i].id
-          );
-        }
-        this.setState({
-          organization: organization,
-          changedOrganization: changedOrganization
-        });
       });
   }
 
@@ -141,25 +148,28 @@ class CreateOrganization extends React.Component {
     // this.state.changedOrganization.address.zip = this.state.zip;
     this.state.changedOrganization.owner.id = localStorage.getItem("userId");
     const authHeader = localStorage.getItem("accessToken");
-    fetch("http://openhackathon.us-east-1.elasticbeanstalk.com/organization/create", {
-      method: "POST",
-      headers: {
-        Authorization: authHeader,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(
-        this.state.changedOrganization
-        // eventName: this.state.eventName,
-        // description: this.state.description,
-        // fees: this.state.fees,
-        // startDate: this.state.startDate,
-        // endDate: this.state.endDate,
-        // minTeamSize: this.state.minTeamSize,
-        // maxTeamSize: this.state.maxTeamSize,
-        // sponsors: this.state.sponsors,
-        // judges: this.state.judges
-      )
-    })
+    fetch(
+      "http://openhackathon.us-east-1.elasticbeanstalk.com/organization/create",
+      {
+        method: "POST",
+        headers: {
+          Authorization: authHeader,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(
+          this.state.changedOrganization
+          // eventName: this.state.eventName,
+          // description: this.state.description,
+          // fees: this.state.fees,
+          // startDate: this.state.startDate,
+          // endDate: this.state.endDate,
+          // minTeamSize: this.state.minTeamSize,
+          // maxTeamSize: this.state.maxTeamSize,
+          // sponsors: this.state.sponsors,
+          // judges: this.state.judges
+        )
+      }
+    )
       .then(res => res.json())
       .then(json => {
         if (json.status != "BadRequest") {

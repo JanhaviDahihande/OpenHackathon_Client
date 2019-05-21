@@ -105,22 +105,26 @@ class UserOrganization extends React.Component {
         }
       )
       .then(response => {
-        var user = {};
-        user.id = response.data.id;
-        user.aboutMe = response.data.aboutMe;
-        user.city = response.data.city;
-        user.email = response.data.email;
-        user.firstname = response.data.firstname;
-        user.lastname = response.data.lastname;
-        user.membershipStatus = response.data.membershipStatus;
-        user.organizationName = response.data.organizationName;
-        user.potraitURL = response.data.potraitURL;
-        user.screenName = response.data.screenName;
-        user.state = response.data.state;
-        user.street = response.data.street;
-        user.title = response.data.title;
-        user.zip = response.data.zip;
-        this.setState({ profile: user, isLoading: false });
+        if (response.data.status != "BadRequest") {
+          var user = {};
+          user.id = response.data.id;
+          user.aboutMe = response.data.aboutMe;
+          user.city = response.data.city;
+          user.email = response.data.email;
+          user.firstname = response.data.firstname;
+          user.lastname = response.data.lastname;
+          user.membershipStatus = response.data.membershipStatus;
+          user.organizationName = response.data.organizationName;
+          user.potraitURL = response.data.potraitURL;
+          user.screenName = response.data.screenName;
+          user.state = response.data.state;
+          user.street = response.data.street;
+          user.title = response.data.title;
+          user.zip = response.data.zip;
+          this.setState({ profile: user, isLoading: false });
+        } else {
+          alert(response.data.message);
+        }
       });
   }
 
@@ -443,7 +447,6 @@ class UserOrganization extends React.Component {
             </div>
           </div>
         </div>
-        
       </div>
     );
     // }

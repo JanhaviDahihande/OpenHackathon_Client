@@ -77,26 +77,33 @@ class ProfilePage extends React.Component {
         ? this.state.userId
         : this.state.profileUserId;
     axios
-      .get("http://openhackathon.us-east-1.elasticbeanstalk.com/user/" + userId, {
-        headers: { Authorization: authHeader }
-      })
+      .get(
+        "http://openhackathon.us-east-1.elasticbeanstalk.com/user/" + userId,
+        {
+          headers: { Authorization: authHeader }
+        }
+      )
       .then(response => {
-        var user = {};
-        user.aboutMe = response.data.aboutMe;
-        user.city = response.data.city;
-        user.email = response.data.email;
-        user.firstname = response.data.firstname;
-        user.lastname = response.data.lastname;
-        user.membershipStatus = response.data.membershipStatus;
-        user.organizationName = response.data.organizationName;
-        user.potrait_url = response.data.potraitURL;
-        user.screenname = response.data.screenName;
-        user.state = response.data.state;
-        user.street = response.data.street;
-        user.title = response.data.title;
-        user.zip = response.data.zip;
-        user.screenName = response.data.screenName;
-        this.setState({ profile: user, changedProfile: user });
+        if (response.data.status != "BadRequest") {
+          var user = {};
+          user.aboutMe = response.data.aboutMe;
+          user.city = response.data.city;
+          user.email = response.data.email;
+          user.firstname = response.data.firstname;
+          user.lastname = response.data.lastname;
+          user.membershipStatus = response.data.membershipStatus;
+          user.organizationName = response.data.organizationName;
+          user.potrait_url = response.data.potraitURL;
+          user.screenname = response.data.screenName;
+          user.state = response.data.state;
+          user.street = response.data.street;
+          user.title = response.data.title;
+          user.zip = response.data.zip;
+          user.screenName = response.data.screenName;
+          this.setState({ profile: user, changedProfile: user });
+        } else {
+          alert(response.data.message);
+        }
       });
   }
 
@@ -104,14 +111,18 @@ class ProfilePage extends React.Component {
     console.log("Sending:::", JSON.stringify(this.state.changedProfile));
     const authHeader = localStorage.getItem("accessToken");
     console.log(this.state.changedProfile);
-    fetch("http://openhackathon.us-east-1.elasticbeanstalk.com/user/" + this.state.userId, {
-      method: "PUT",
-      headers: {
-        Authorization: authHeader,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(this.state.changedProfile)
-    })
+    fetch(
+      "http://openhackathon.us-east-1.elasticbeanstalk.com/user/" +
+        this.state.userId,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: authHeader,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(this.state.changedProfile)
+      }
+    )
       .then(res => res.json())
       .then(json => {
         console.log(json);

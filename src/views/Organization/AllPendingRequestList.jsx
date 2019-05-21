@@ -81,20 +81,24 @@ class AllPendingRequestList extends React.Component {
     )
       .then(res => res.json())
       .then(response => {
-        console.log(response);
+        if (response.status != "BadRequest") {
+          console.log(response);
 
-        var users = [];
-        for (let i = 0; i < response.length; i++) {
-          users.push({
-            id: response[i].id,
-            firstname: response[i].firstname,
-            lastname: response[i].lastname,
-            organizationName: response[i].organizationName
-          });
+          var users = [];
+          for (let i = 0; i < response.length; i++) {
+            users.push({
+              id: response[i].id,
+              firstname: response[i].firstname,
+              lastname: response[i].lastname,
+              organizationName: response[i].organizationName
+            });
+          }
+          this.setState({ userList: users, isLoading: false });
+          // this.props.reloadAfterJoin();
+          // this.props.handleModalClose();
+        } else {
+          alert(response.data.message);
         }
-        this.setState({ userList: users, isLoading: false });
-        // this.props.reloadAfterJoin();
-        // this.props.handleModalClose();
       });
   }
 
@@ -117,9 +121,13 @@ class AllPendingRequestList extends React.Component {
     })
       .then(res => res.json())
       .then(response => {
-        console.log(response);
-        this.setState({ isLoading: false });
-        this.getPendingRequests();
+        if (response.status != "BadRequest") {
+          console.log(response);
+          this.setState({ isLoading: false });
+          this.getPendingRequests();
+        } else {
+          alert(response.message);
+        }
       });
   }
 
@@ -142,9 +150,13 @@ class AllPendingRequestList extends React.Component {
     })
       .then(res => res.json())
       .then(response => {
-        console.log(response);
-        this.setState({ isLoading: false });
-        this.getPendingRequests();
+        if (response.status != "BadRequest") {
+          console.log(response);
+          this.setState({ isLoading: false });
+          this.getPendingRequests();
+        } else {
+          alert(response.message);
+        }
       });
   }
 

@@ -51,46 +51,54 @@ class AllHackathonsList extends React.Component {
         headers: { Authorization: authHeader }
       })
       .then(response => {
-        console.log(response);
+        if (response.data.status != "BadRequest") {
+          console.log(response);
 
-        for (let i = 0; i < response.data.length; i++) {
-          hackathon.push({
-            id: response.data[i].id,
-            eventName: response.data[i].eventName,
-            description: response.data[i].description,
-            startDate: response.data[i].startDate,
-            endDate: response.data[i].endDate,
-            minTeamSize: response.data[i].minTeamSize,
-            maxTeamSize: response.data[i].maxTeamSize,
-            fees: response.data[i].fees,
-            status: response.data[i].status
-          });
+          for (let i = 0; i < response.data.length; i++) {
+            hackathon.push({
+              id: response.data[i].id,
+              eventName: response.data[i].eventName,
+              description: response.data[i].description,
+              startDate: response.data[i].startDate,
+              endDate: response.data[i].endDate,
+              minTeamSize: response.data[i].minTeamSize,
+              maxTeamSize: response.data[i].maxTeamSize,
+              fees: response.data[i].fees,
+              status: response.data[i].status
+            });
+          }
+          this.setState({ hackathon: hackathon, isLoading: false });
+        } else {
+          alert(response.data.message);
         }
-        this.setState({ hackathon: hackathon, isLoading: false });
       })
       .then(response => {
-        var upcomingHackathon = [];
-        var ongoingHackathon = [];
-        var pastHackathon = [];
-        var currentDate = new Date();
-        for (let i = 0; i < hackathon.length; i++) {
-          if (new Date(hackathon[i].startDate) > currentDate) {
-            upcomingHackathon.push(hackathon[i]);
-          } else if (
-            (new Date(hackathon[i].startDate) <= currentDate) &
-            (new Date(hackathon[i].endDate) >= currentDate)
-          ) {
-            ongoingHackathon.push(hackathon[i]);
-          } else if (new Date(hackathon[i].endDate) < currentDate) {
-            pastHackathon.push(hackathon[i]);
+        if (response.data.status != "BadRequest") {
+          var upcomingHackathon = [];
+          var ongoingHackathon = [];
+          var pastHackathon = [];
+          var currentDate = new Date();
+          for (let i = 0; i < hackathon.length; i++) {
+            if (new Date(hackathon[i].startDate) > currentDate) {
+              upcomingHackathon.push(hackathon[i]);
+            } else if (
+              (new Date(hackathon[i].startDate) <= currentDate) &
+              (new Date(hackathon[i].endDate) >= currentDate)
+            ) {
+              ongoingHackathon.push(hackathon[i]);
+            } else if (new Date(hackathon[i].endDate) < currentDate) {
+              pastHackathon.push(hackathon[i]);
+            }
           }
-        }
 
-        this.setState({
-          pastHackathon: pastHackathon,
-          ongoingHackathon: ongoingHackathon,
-          upcomingHackathon: upcomingHackathon
-        });
+          this.setState({
+            pastHackathon: pastHackathon,
+            ongoingHackathon: ongoingHackathon,
+            upcomingHackathon: upcomingHackathon
+          });
+        } else {
+          alert(response.data.message);
+        }
       });
   }
   render() {

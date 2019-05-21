@@ -58,24 +58,28 @@ class ExpenseList extends React.Component {
         headers: { Authorization: authHeader }
       })
       .then(response => {
-        console.log(response);
-        var expenses = [];
-        if (response.data.expenses) {
-          for (let i = 0; i < response.data.expenses.length; i++) {
-            expenses.push({
-              id: response.data.expenses[i].id,
-              title: response.data.expenses[i].title,
-              description: response.data.expenses[i].description,
-              expenseDate: response.data.expenses[i].expenseDate,
-              amount: response.data.expenses[i].amount
-            });
+        if (response.data.status != "BadRequest") {
+          console.log(response);
+          var expenses = [];
+          if (response.data.expenses) {
+            for (let i = 0; i < response.data.expenses.length; i++) {
+              expenses.push({
+                id: response.data.expenses[i].id,
+                title: response.data.expenses[i].title,
+                description: response.data.expenses[i].description,
+                expenseDate: response.data.expenses[i].expenseDate,
+                amount: response.data.expenses[i].amount
+              });
+            }
           }
+          this.setState({
+            eventName: response.data.eventName,
+            expenseList: expenses,
+            isLoading: false
+          });
+        } else {
+          alert(response.data.message);
         }
-        this.setState({
-          eventName: response.data.eventName,
-          expenseList: expenses,
-          isLoading: false
-        });
       });
   }
   render() {

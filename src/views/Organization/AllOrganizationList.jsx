@@ -52,26 +52,33 @@ class AllOrganizationsList extends React.Component {
     const authHeader = localStorage.getItem("accessToken");
     axios
       .get(
-        "http://openhackathon.us-east-1.elasticbeanstalk.com/user/" + this.state.userId + "/join/" + name,
+        "http://openhackathon.us-east-1.elasticbeanstalk.com/user/" +
+          this.state.userId +
+          "/join/" +
+          name,
         {
           headers: { Authorization: authHeader }
         }
       )
       .then(response => {
-        console.log(response);
-        var organization = [];
-        for (let i = 0; i < response.data.length; i++) {
-          organization.push({
-            id: response.data[i].id,
-            name: response.data[i].name,
-            description: response.data[i].description,
-            owner: response.data[i].owner,
-            address: response.data[i].address
-          });
+        if (response.data.status != "BadRequest") {
+          console.log(response);
+          var organization = [];
+          for (let i = 0; i < response.data.length; i++) {
+            organization.push({
+              id: response.data[i].id,
+              name: response.data[i].name,
+              description: response.data[i].description,
+              owner: response.data[i].owner,
+              address: response.data[i].address
+            });
+          }
+          this.setState({ organization: organization });
+          this.props.reloadAfterJoin();
+          this.props.handleModalClose();
+        } else {
+          alert(response.data.message);
         }
-        this.setState({ organization: organization });
-        this.props.reloadAfterJoin();
-        this.props.handleModalClose();
       });
   }
 
@@ -83,18 +90,22 @@ class AllOrganizationsList extends React.Component {
         headers: { Authorization: authHeader }
       })
       .then(response => {
-        console.log(response);
+        if (response.data.status != "BadRequest") {
+          console.log(response);
 
-        for (let i = 0; i < response.data.length; i++) {
-          organization.push({
-            id: response.data[i].id,
-            name: response.data[i].name,
-            description: response.data[i].description,
-            owner: response.data[i].owner,
-            address: response.data[i].address
-          });
+          for (let i = 0; i < response.data.length; i++) {
+            organization.push({
+              id: response.data[i].id,
+              name: response.data[i].name,
+              description: response.data[i].description,
+              owner: response.data[i].owner,
+              address: response.data[i].address
+            });
+          }
+          this.setState({ organization: organization, isLoading: false });
+        } else {
+          alert(response.data.message);
         }
-        this.setState({ organization: organization, isLoading: false });
       });
   }
   render() {

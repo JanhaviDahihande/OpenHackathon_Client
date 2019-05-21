@@ -157,29 +157,37 @@ class HackathonDetails extends React.Component {
     const authHeader = localStorage.getItem("accessToken");
     this.setState({ isLoading: true });
     axios
-      .get("http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" + this.state.hackathonId, {
-        headers: { Authorization: authHeader },
-        params: {
-          userId: this.state.userId
+      .get(
+        "http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" +
+          this.state.hackathonId,
+        {
+          headers: { Authorization: authHeader },
+          params: {
+            userId: this.state.userId
+          }
         }
-      })
+      )
       .then(response => {
-        console.log(response);
-        var hackathon = {};
-        hackathon.hackathonId = response.data.id;
-        hackathon.hackathonName = response.data.eventName;
-        hackathon.startDate = response.data.startDate.substring(0, 10);
-        hackathon.endDate = response.data.endDate.substring(0, 10);
-        hackathon.description = response.data.description;
-        hackathon.fees = response.data.fees;
-        hackathon.minTeamSize = response.data.minTeamSize;
-        hackathon.maxTeamSize = response.data.maxTeamSize;
-        hackathon.judges = response.data.judges;
-        hackathon.sponsors = response.data.sponsors;
-        hackathon.discount = response.data.discount;
-        hackathon.status = response.data.status;
-        hackathon.userRole = response.data.role;
-        this.setState({ hackathon: hackathon, isLoading: false });
+        if (response.data.status != "BadRequest") {
+          console.log(response);
+          var hackathon = {};
+          hackathon.hackathonId = response.data.id;
+          hackathon.hackathonName = response.data.eventName;
+          hackathon.startDate = response.data.startDate.substring(0, 10);
+          hackathon.endDate = response.data.endDate.substring(0, 10);
+          hackathon.description = response.data.description;
+          hackathon.fees = response.data.fees;
+          hackathon.minTeamSize = response.data.minTeamSize;
+          hackathon.maxTeamSize = response.data.maxTeamSize;
+          hackathon.judges = response.data.judges;
+          hackathon.sponsors = response.data.sponsors;
+          hackathon.discount = response.data.discount;
+          hackathon.status = response.data.status;
+          hackathon.userRole = response.data.role;
+          this.setState({ hackathon: hackathon, isLoading: false });
+        } else {
+          alert(response.data.message);
+        }
       })
       .catch(() => {
         alert("Error occured while fetching hackathon details");

@@ -59,18 +59,22 @@ class Leaderboard extends React.Component {
         }
       )
       .then(response => {
-        console.log("LEADERBOARD RESPONSE");
-        console.log(response);
-        var teamListResponse = [];
-        for (let i = 0; i < response.data.length; i++) {
-          teamListResponse.push({
-            teamId: response.data[i].teamId,
-            teamName: response.data[i].teamName,
-            teamScore: response.data[i].teamScore,
-            teamMembers: response.data[i].teamMembers
-          });
+        if (response.data.status != "BadRequest") {
+          console.log("LEADERBOARD RESPONSE");
+          console.log(response);
+          var teamListResponse = [];
+          for (let i = 0; i < response.data.length; i++) {
+            teamListResponse.push({
+              teamId: response.data[i].teamId,
+              teamName: response.data[i].teamName,
+              teamScore: response.data[i].teamScore,
+              teamMembers: response.data[i].teamMembers
+            });
+          }
+          this.setState({ teamList: teamListResponse, isLoading: false });
+        } else {
+          alert(response.data.message);
         }
-        this.setState({ teamList: teamListResponse, isLoading: false });
       });
   }
 
