@@ -96,6 +96,7 @@ class HackathonDetails extends React.Component {
           // hackathon.userRole = json.role;
           // this.setState({ hackathon: hackathon, isLoading: false });
           alert("Hackathon status changed successfully");
+
           // window.location.href = "/hackathon_details/" + json.id;
         } else {
           alert("Request failed with error: " + json.message);
@@ -127,20 +128,22 @@ class HackathonDetails extends React.Component {
           alert("Hackathon status changed successfully");
           // var hackathon = this.state.hackathon;
           // hackathon.status = status;
-          var hackathon = {};
-          hackathon.hackathonId = json.id;
-          hackathon.hackathonName = json.eventName;
-          hackathon.startDate = json.startDate.substring(0, 10);
-          hackathon.endDate = json.endDate.substring(0, 10);
-          hackathon.description = json.description;
-          hackathon.fees = json.fees;
-          hackathon.minTeamSize = json.minTeamSize;
-          hackathon.maxTeamSize = json.maxTeamSize;
-          hackathon.judges = json.judges;
-          hackathon.sponsors = json.sponsors;
-          hackathon.discount = json.discount;
-          hackathon.status = status;
-          hackathon.userRole = json.role;
+          // var hackathon = {};
+          // hackathon.hackathonId = json.id;
+          // hackathon.hackathonName = json.eventName;
+          // hackathon.startDate = json.startDate.substring(0, 10);
+          // hackathon.endDate = json.endDate.substring(0, 10);
+          // hackathon.description = json.description;
+          // hackathon.fees = json.fees;
+          // hackathon.minTeamSize = json.minTeamSize;
+          // hackathon.maxTeamSize = json.maxTeamSize;
+          // hackathon.judges = json.judges;
+          // hackathon.sponsors = json.sponsors;
+          // hackathon.discount = json.discount;
+          // hackathon.status = status;
+          // hackathon.userRole = json.role;
+          var hackathon = this.state.hackathon;
+          hackathon.status = 3;
           this.setState({ hackathon: hackathon, isLoading: false });
           // window.location.href =
           //   "http://openhackathon.online:3000/hackathon_details/" + json.id;
