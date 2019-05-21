@@ -96,8 +96,19 @@ class MyHackathonsList extends React.Component {
         >
           <div className={classes.container}>
             <GridContainer style={{ backgroundColor: "white" }}>
-              <GridItem xs={12} sm={12} md={12}>
-                <h2 style={{ color: "black" }}>Hackathons</h2>
+              <GridItem
+                xs={12}
+                sm={12}
+                md={12}
+                style={{
+                  backgroundColor: "white",
+                  textAlign: "center",
+                  padding: "20px"
+                }}
+              >
+                <h2 style={{ color: "black", textTransform: "uppercase" }}>
+                  My Hackathons
+                </h2>
               </GridItem>
               <GridItem xs={12} sm={12} md={12}>
                 <Paper className={classes.root}>
@@ -140,9 +151,13 @@ class MyHackathonsList extends React.Component {
                           >
                             {row.eventName}
                           </TableCell>
-                          <TableCell align="left">{row.startDate}</TableCell>
+                          <TableCell align="left">
+                            {row.startDate.substring(0, 10)}
+                          </TableCell>
 
-                          <TableCell align="left">{row.endDate}</TableCell>
+                          <TableCell align="left">
+                            {row.endDate.substring(0, 10)}
+                          </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
@@ -189,9 +204,13 @@ class MyHackathonsList extends React.Component {
                           >
                             {row.eventName}
                           </TableCell>
-                          <TableCell align="left">{row.startDate}</TableCell>
+                          <TableCell align="left">
+                            {row.startDate.substring(0, 10)}
+                          </TableCell>
 
-                          <TableCell align="left">{row.endDate}</TableCell>
+                          <TableCell align="left">
+                            {row.endDate.substring(0, 10)}
+                          </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>

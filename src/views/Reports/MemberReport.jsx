@@ -88,8 +88,22 @@ class MemberReport extends React.Component {
                   backgroundColor: "white"
                 }}
               >
-                <GridItem xs={12} sm={12} md={12}>
+                {/* <GridItem xs={12} sm={12} md={12}>
                   <h3 style={{ color: "black" }}>Member List</h3>
+                </GridItem> */}
+                <GridItem
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  style={{
+                    backgroundColor: "white",
+                    textAlign: "center",
+                    padding: "20px"
+                  }}
+                >
+                  <h2 style={{ color: "black", textTransform: "uppercase" }}>
+                    Member List
+                  </h2>
                 </GridItem>
 
                 <GridItem xs={12} sm={12} md={12}>
