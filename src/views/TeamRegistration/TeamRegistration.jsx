@@ -169,8 +169,8 @@ class TeamRegistration extends React.Component {
         .then(res => res.json())
         .then(json => {
           if (json.status != "BadRequest") {
-            window.location.href =
-              "/hackathon_details/" + this.state.hackathon_id;
+            alert("Registration successful");
+            window.location.href = "/my_hackathon/" + this.state.hackathon_id;
           } else alert("Request failed with error: " + json.message);
         })
         .catch(error => {
