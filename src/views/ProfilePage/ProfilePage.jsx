@@ -158,12 +158,13 @@ class ProfilePage extends React.Component {
                       md={6}
                       id="firstname"
                       label="First Name"
-                      className={classes.textField}
+                      // //className={classes.textField}
                       value={this.state.profile.firstname}
-                      inputProps={{
-                        onChange: this.handleChange,
-                        type: "text"
-                      }}
+                      onChange={this.handleChange}
+                      // inputProps={{
+                      //   onChange: this.handleChange,
+                      //   type: "text"
+                      // }}
                       margin="normal"
                       fullWidth
                     />
@@ -174,12 +175,13 @@ class ProfilePage extends React.Component {
                       md={6}
                       id="lastname"
                       label="Last Name"
-                      className={classes.textField}
+                      //className={classes.textField}
                       value={this.state.profile.lastname}
-                      inputProps={{
-                        onChange: this.handleChange
-                        // type: "text"
-                      }}
+                      onChange={this.handleChange}
+                      // inputProps={{
+                      //   onChange: this.handleChange
+                      //   // type: "text"
+                      // }}
                       margin="normal"
                       fullWidth
                     />
@@ -190,13 +192,14 @@ class ProfilePage extends React.Component {
                       md={6}
                       id="screenName"
                       label="Screen Name"
-                      className={classes.textField}
+                      //className={classes.textField}
                       disabled
                       value={this.state.profile.screenName}
-                      inputProps={{
-                        onChange: this.handleChange,
-                        type: "text"
-                      }}
+                      onChange={this.handleChange}
+                      // inputProps={{
+                      //   onChange: this.handleChange,
+                      //   type: "text"
+                      // }}
                       margin="normal"
                       fullWidth
                     />
@@ -205,12 +208,13 @@ class ProfilePage extends React.Component {
                       id="email"
                       label="Email"
                       disabled
-                      className={classes.textField}
+                      //className={classes.textField}
                       value={this.state.profile.email}
-                      inputProps={{
-                        onChange: this.handleChange,
-                        type: "text"
-                      }}
+                      onChange={this.handleChange}
+                      // inputProps={{
+                      //   onChange: this.handleChange,
+                      //   type: "text"
+                      // }}
                       margin="normal"
                       fullWidth
                     />
@@ -226,12 +230,13 @@ class ProfilePage extends React.Component {
                     <TextField
                       id="street"
                       label="Street"
-                      className={classes.textField}
+                      //className={classes.textField}
                       value={this.state.profile.street}
-                      inputProps={{
-                        onChange: this.handleChange,
-                        type: "text"
-                      }}
+                      onChange={this.handleChange}
+                      // inputProps={{
+                      //   onChange: this.handleChange,
+                      //   type: "text"
+                      // }}
                       margin="normal"
                       fullWidth
                     />
@@ -239,12 +244,13 @@ class ProfilePage extends React.Component {
                     <TextField
                       id="city"
                       label="City"
-                      className={classes.textField}
+                      //className={classes.textField}
                       value={this.state.profile.city}
-                      inputProps={{
-                        onChange: this.handleChange,
-                        type: "text"
-                      }}
+                      onChange={this.handleChange}
+                      // inputProps={{
+                      //   onChange: this.handleChange,
+                      //   type: "text"
+                      // }}
                       margin="normal"
                       fullWidth
                     />
@@ -252,12 +258,13 @@ class ProfilePage extends React.Component {
                     <TextField
                       id="state"
                       label="State"
-                      className={classes.textField}
+                      //className={classes.textField}
                       value={this.state.profile.state}
-                      inputProps={{
-                        onChange: this.handleChange,
-                        type: "text"
-                      }}
+                      onChange={this.handleChange}
+                      // inputProps={{
+                      //   onChange: this.handleChange,
+                      //   type: "text"
+                      // }}
                       margin="normal"
                       fullWidth
                     />
@@ -265,12 +272,13 @@ class ProfilePage extends React.Component {
                     <TextField
                       id="zip"
                       label="Zip"
-                      className={classes.textField}
+                      //className={classes.textField}
                       value={this.state.profile.zip}
-                      inputProps={{
-                        onChange: this.handleChange,
-                        type: "text"
-                      }}
+                      onChange={this.handleChange}
+                      // inputProps={{
+                      //   onChange: this.handleChange,
+                      //   type: "text"
+                      // }}
                       margin="normal"
                       fullWidth
                     />
@@ -286,12 +294,13 @@ class ProfilePage extends React.Component {
                     <TextField
                       id="title"
                       label="Title"
-                      className={classes.textField}
+                      //className={classes.textField}
                       value={this.state.profile.title}
-                      inputProps={{
-                        onChange: this.handleChange,
-                        type: "text"
-                      }}
+                      onChange={this.handleChange}
+                      // inputProps={{
+                      //   onChange: this.handleChange,
+                      //   type: "text"
+                      // }}
                       margin="normal"
                       fullWidth
                     />
@@ -299,12 +308,13 @@ class ProfilePage extends React.Component {
                     <TextField
                       id="potrait_url"
                       label="Portrait URL"
-                      className={classes.textField}
+                      //className={classes.textField}
                       value={this.state.profile.potrait_url}
-                      inputProps={{
-                        onChange: this.handleChange,
-                        type: "text"
-                      }}
+                      onChange={this.handleChange}
+                      // inputProps={{
+                      //   onChange: this.handleChange,
+                      //   type: "text"
+                      // }}
                       margin="normal"
                       fullWidth
                     />
@@ -312,12 +322,13 @@ class ProfilePage extends React.Component {
                     <TextField
                       id="aboutMe"
                       label="About me"
-                      className={classes.textField}
+                      //className={classes.textField}
                       value={this.state.profile.aboutMe}
-                      inputProps={{
-                        onChange: this.handleChange,
-                        type: "text"
-                      }}
+                      onChange={this.handleChange}
+                      // inputProps={{
+                      //   onChange: this.handleChange,
+                      //   type: "text"
+                      // }}
                       margin="normal"
                       fullWidth
                     />
@@ -560,7 +571,6 @@ class ProfilePage extends React.Component {
             {this.state.editable == 0 ? editButton : ""}
           </div>
         </div>
-        
       </div>
     );
   }

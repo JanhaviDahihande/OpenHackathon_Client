@@ -132,7 +132,7 @@ class CreateHackathon extends React.Component {
   }
 
   cancelAction() {
-    window.location.href = "http://localhost:3000/index";
+    window.location.href = "http://openhackathon.online:3000/index";
   }
   handleChangeMultiple = event => {
     const { options } = event.target;
@@ -213,7 +213,7 @@ class CreateHackathon extends React.Component {
       .then(json => {
         if (json.status != "BadRequest") {
           window.location.href =
-            "http://localhost:3000/hackathon_details/" + json.id;
+            "http://openhackathon.online:3000/hackathon_details/" + json.id;
         } else alert("Request failed with error: " + json.message);
       })
       .catch(error => {
@@ -240,7 +240,7 @@ class CreateHackathon extends React.Component {
       .then(json => {
         if (json.status != "BadRequest") {
           window.location.href =
-            "http://localhost:3000/hackathon_details/" + json.id;
+            "http://openhackathon.online:3000/hackathon_details/" + json.id;
         } else alert("Request failed with error: " + json.message);
       })
       .catch(error => {
@@ -526,7 +526,6 @@ class CreateHackathon extends React.Component {
             </GridContainer>
           </div>
         </div>
-        
       </div>
     );
   }

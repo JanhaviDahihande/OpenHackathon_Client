@@ -127,7 +127,8 @@ class MyHackathon extends React.Component {
       .then(res => res.json())
       .then(json => {
         if (json.status != "BadRequest") {
-          window.location.href = "http://localhost:3000/my_hackathonlist";
+          window.location.href =
+            "http://openhackathon.online:3000/my_hackathonlist";
         } else alert("Request failed with error: " + json.message);
       })
       .catch(error => {

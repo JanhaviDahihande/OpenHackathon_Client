@@ -166,7 +166,7 @@ class TeamRegistration extends React.Component {
         .then(json => {
           if (json.status != "BadRequest") {
             window.location.href =
-              "http://localhost:3000/hackathon_details/" +
+              "http://openhackathon.online:3000/hackathon_details/" +
               this.state.hackathon_id;
           } else alert("Request failed with error: " + json.message);
         })
@@ -325,7 +325,6 @@ class TeamRegistration extends React.Component {
             </GridContainer>
           </div>
         </div>
-        
       </div>
     );
   }

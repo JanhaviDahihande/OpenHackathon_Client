@@ -79,12 +79,16 @@ class CreateOrganization extends React.Component {
   getOrganization() {
     const authHeader = localStorage.getItem("accessToken");
     axios
-      .get("http://openhackathon.us-east-1.elasticbeanstalk.com/organization/" + this.state.organization_id, {
-        params: {
-          userId: localStorage.getItem("userId")
-        },
-        headers: { Authorization: authHeader }
-      })
+      .get(
+        "http://openhackathon.us-east-1.elasticbeanstalk.com/organization/" +
+          this.state.organization_id,
+        {
+          params: {
+            userId: localStorage.getItem("userId")
+          },
+          headers: { Authorization: authHeader }
+        }
+      )
       .then(response => {
         console.log(response);
         console.log(response);
@@ -141,31 +145,34 @@ class CreateOrganization extends React.Component {
     // this.state.changedOrganization.address.zip = this.state.zip;
     this.state.changedOrganization.owner.id = localStorage.getItem("userId");
     const authHeader = localStorage.getItem("accessToken");
-    fetch("http://openhackathon.us-east-1.elasticbeanstalk.com/organization/create", {
-      method: "POST",
-      headers: {
-        Authorization: authHeader,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(
-        this.state.changedOrganization
-        // eventName: this.state.eventName,
-        // description: this.state.description,
-        // fees: this.state.fees,
-        // startDate: this.state.startDate,
-        // endDate: this.state.endDate,
-        // minTeamSize: this.state.minTeamSize,
-        // maxTeamSize: this.state.maxTeamSize,
-        // sponsors: this.state.sponsors,
-        // judges: this.state.judges
-      )
-    })
+    fetch(
+      "http://openhackathon.us-east-1.elasticbeanstalk.com/organization/create",
+      {
+        method: "POST",
+        headers: {
+          Authorization: authHeader,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(
+          this.state.changedOrganization
+          // eventName: this.state.eventName,
+          // description: this.state.description,
+          // fees: this.state.fees,
+          // startDate: this.state.startDate,
+          // endDate: this.state.endDate,
+          // minTeamSize: this.state.minTeamSize,
+          // maxTeamSize: this.state.maxTeamSize,
+          // sponsors: this.state.sponsors,
+          // judges: this.state.judges
+        )
+      }
+    )
       .then(res => res.json())
       .then(json => {
         if (json.status != "BadRequest") {
           console.log(json);
           window.location.href =
-            "http://localhost:3000/organization_details/" + json.id;
+            "http://openhackathon.online:3000/organization_details/" + json.id;
         } else alert("Request failed with error: " + json.message);
         // }
       })
@@ -310,7 +317,6 @@ class CreateOrganization extends React.Component {
             </GridContainer>
           </div>
         </div>
-        
       </div>
     );
   }
