@@ -87,7 +87,7 @@ class JudgeHackathon extends React.Component {
           team.submissionURL = response.data.submissionURL;
           team.teamLeadId = response.data.teamLeadId;
           team.status = response.data.status;
-          this.setState({ team: team });
+          this.setState({ team: team, hackathonId: response.data.hackathonId });
         } else {
           alert(response.data.message);
         }
@@ -109,7 +109,9 @@ class JudgeHackathon extends React.Component {
       "/hackathon/" +
       this.state.hackathonId +
       "?judgeScore=" +
-      judge_score;
+      judge_score +
+      "&teamId=" +
+      this.state.teamId;
     fetch(url, {
       method: "PATCH",
       headers: {
