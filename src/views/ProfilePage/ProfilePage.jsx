@@ -77,12 +77,9 @@ class ProfilePage extends React.Component {
         ? this.state.userId
         : this.state.profileUserId;
     axios
-      .get(
-        "http://openhackathon.us-east-1.elasticbeanstalk.com/user/" + userId,
-        {
-          headers: { Authorization: authHeader }
-        }
-      )
+      .get("http://openhackathon.us-east-1.elasticbeanstalk.com/user/" + userId, {
+        headers: { Authorization: authHeader }
+      })
       .then(response => {
         var user = {};
         user.aboutMe = response.data.aboutMe;
@@ -93,11 +90,12 @@ class ProfilePage extends React.Component {
         user.membershipStatus = response.data.membershipStatus;
         user.organizationName = response.data.organizationName;
         user.potrait_url = response.data.potraitURL;
-        user.screenName = response.data.screenName;
+        user.screenname = response.data.screenName;
         user.state = response.data.state;
         user.street = response.data.street;
         user.title = response.data.title;
         user.zip = response.data.zip;
+        user.screenName = response.data.screenName;
         this.setState({ profile: user, changedProfile: user });
       });
   }
@@ -105,27 +103,44 @@ class ProfilePage extends React.Component {
   updateProfile() {
     console.log("Sending:::", JSON.stringify(this.state.changedProfile));
     const authHeader = localStorage.getItem("accessToken");
-    fetch(
-      "http://openhackathon.us-east-1.elasticbeanstalk.com/user/" +
-        this.state.userId,
-      {
-        method: "PUT",
-        headers: {
-          Authorization: authHeader,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(this.state.changedProfile)
-      }
-    )
+    console.log(this.state.changedProfile);
+    fetch("http://openhackathon.us-east-1.elasticbeanstalk.com/user/" + this.state.userId, {
+      method: "PUT",
+      headers: {
+        Authorization: authHeader,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(this.state.changedProfile)
+    })
       .then(res => res.json())
       .then(json => {
+        console.log(json);
         if (json.status != "BadRequest") {
-          this.setState({
-            editable: 0,
-            profile: this.state.changedProfile
-          });
+          var user = {};
+          user.aboutMe = json.aboutMe;
+          user.city = json.city;
+          user.email = json.email;
+          user.firstname = json.firstname;
+          user.lastname = json.lastname;
+          user.membershipStatus = json.membershipStatus;
+          user.organizationName = json.organizationName;
+          user.potrait_url = json.potraitURL;
+          user.screenname = json.screenName;
+          user.state = json.state;
+          user.street = json.street;
+          user.title = json.title;
+          user.zip = json.zip;
+          user.screenName = json.screenName;
+          console.log("User : ");
+          console.log(user);
+          this.setState({ editable: 0, changedProfile: user, profile: user });
+
+          // this.setState({
+          //   profile: this.state.changedProfile,
+          //   editable: 0
+          // });
         } else {
-          console.log("Error occured in update");
+          alert(json.message);
         }
       });
   }
@@ -190,12 +205,12 @@ class ProfilePage extends React.Component {
                       xs={6}
                       sm={6}
                       md={6}
-                      id="screenName"
+                      id="screenname"
                       label="Screen Name"
                       //className={classes.textField}
                       disabled
-                      value={this.state.profile.screenName}
-                      onChange={this.handleChange}
+                      value={this.state.profile.screenname}
+                      // onChange={this.handleChange}
                       // inputProps={{
                       //   onChange: this.handleChange,
                       //   type: "text"
@@ -210,7 +225,7 @@ class ProfilePage extends React.Component {
                       disabled
                       //className={classes.textField}
                       value={this.state.profile.email}
-                      onChange={this.handleChange}
+                      // onChange={this.handleChange}
                       // inputProps={{
                       //   onChange: this.handleChange,
                       //   type: "text"
@@ -341,6 +356,7 @@ class ProfilePage extends React.Component {
               </Card>
             </GridItem>
             <Button
+              variant="contained"
               style={{ align: "right", left: "450px" }}
               color="primary"
               size="md"
@@ -350,6 +366,7 @@ class ProfilePage extends React.Component {
             </Button>
             <br />
             <Button
+              variant="contained"
               color="primary"
               size="md"
               onClick={this.cancelUpdateProfile}
@@ -395,7 +412,7 @@ class ProfilePage extends React.Component {
                       </Avatar>
                       <ListItemText
                         primary="Screen name"
-                        secondary={this.state.profile.screenName}
+                        secondary={this.state.profile.screenname}
                       />
                     </ListItem>
                     <ListItem>
@@ -464,7 +481,7 @@ class ProfilePage extends React.Component {
               <form>
                 <CardHeader
                   title="Profile info"
-                  // style={{ backgroundColor: "#9c27b0" }}
+                  // style={{ backgroundColor: "#3f51b5" }}
                 />
                 <CardBody>
                   <List>
@@ -518,6 +535,7 @@ class ProfilePage extends React.Component {
     var editButton =
       this.state.profileUserId == 0 ? (
         <Button
+          variant="contained"
           color="primary"
           size="md"
           style={{ left: "500px" }}

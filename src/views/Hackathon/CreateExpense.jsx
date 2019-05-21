@@ -74,9 +74,7 @@ class CreateExpense extends React.Component {
   postExpense() {
     const authHeader = localStorage.getItem("accessToken");
     const url =
-      "http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" +
-      this.state.hackathon_id +
-      "/expense";
+      "http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" + this.state.hackathon_id + "/expense";
     fetch(url, {
       method: "POST",
       headers: {
@@ -89,9 +87,7 @@ class CreateExpense extends React.Component {
       .then(json => {
         if (json.status != "BadRequest") {
           window.location.href =
-            "http://openhackathon.online:3000/hackathon/" +
-            this.state.hackathon_id +
-            "/expense";
+            "/hackathon/" + this.state.hackathon_id + "/expense";
         } else alert("Request failed with error: " + json.message);
       })
       .catch(error => {

@@ -37,7 +37,7 @@ function Footer({ ...props }) {
             </ListItem> */}
             <ListItem className={classes.inlineBlock}>
               <a
-                href="http://openhackathon.online:3000/"
+                href="/"
                 className={classes.block}
                 // target="_blank"
               >
@@ -46,7 +46,7 @@ function Footer({ ...props }) {
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <a
-                href="http://openhackathon.online:3000/"
+                href="/"
                 className={classes.block}
                 // target="_blank"
               >
@@ -55,7 +55,7 @@ function Footer({ ...props }) {
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <a
-                href="http://openhackathon.online:3000/"
+                href="/"
                 className={classes.block}
                 // target="_blank"
               >

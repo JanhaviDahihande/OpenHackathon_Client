@@ -77,8 +77,8 @@ class AllHackathonsList extends React.Component {
           if (new Date(hackathon[i].startDate) > currentDate) {
             upcomingHackathon.push(hackathon[i]);
           } else if (
-            (new Date(hackathon[i].startDate) < currentDate) &
-            (new Date(hackathon[i].endDate) > currentDate)
+            (new Date(hackathon[i].startDate) <= currentDate) &
+            (new Date(hackathon[i].endDate) >= currentDate)
           ) {
             ongoingHackathon.push(hackathon[i]);
           } else if (new Date(hackathon[i].endDate) < currentDate) {
@@ -237,8 +237,10 @@ class AllHackathonsList extends React.Component {
                             </TableCell>
 
                             <TableCell align="left">
-                              {row.status == 1
-                                ? "Open"
+                              {row.status == 0
+                                ? "Open for registrations"
+                                : row.status == 1
+                                ? "Started"
                                 : row.status == 2
                                 ? "Closed"
                                 : row.status == 3
@@ -360,8 +362,10 @@ class AllHackathonsList extends React.Component {
                             </TableCell>
 
                             <TableCell align="left">
-                              {row.status == 1
-                                ? "Open"
+                              {row.status == 0
+                                ? "Open for registrations"
+                                : row.status == 1
+                                ? "Started"
                                 : row.status == 2
                                 ? "Closed"
                                 : row.status == 3
@@ -480,8 +484,10 @@ class AllHackathonsList extends React.Component {
                             </TableCell>
 
                             <TableCell align="left">
-                              {row.status == 1
-                                ? "Open"
+                              {row.status == 0
+                                ? "Open for registrations"
+                                : row.status == 1
+                                ? "Started"
                                 : row.status == 2
                                 ? "Closed"
                                 : row.status == 3

@@ -15,22 +15,14 @@ function HeaderLinks({ ...props }) {
   const { classes } = props;
   const signup = (
     <ListItem className={classes.listItem}>
-      <Button
-        href="http://openhackathon.online:3000/register"
-        color="transparent"
-        className={classes.navLink}
-      >
+      <Button href="/register" color="transparent" className={classes.navLink}>
         Sign Up
       </Button>
     </ListItem>
   );
   const signin = (
     <ListItem className={classes.listItem}>
-      <Button
-        href="http://openhackathon.online:3000/login"
-        color="transparent"
-        className={classes.navLink}
-      >
+      <Button href="/login" color="transparent" className={classes.navLink}>
         Sign In
       </Button>
     </ListItem>
@@ -38,11 +30,7 @@ function HeaderLinks({ ...props }) {
 
   const welcome = (
     <ListItem className={classes.listItem}>
-      <Button
-        href="http://openhackathon.online:3000/profile"
-        color="transparent"
-        className={classes.navLink}
-      >
+      <Button href="/profile" color="transparent" className={classes.navLink}>
         Welcome {localStorage.getItem("username")}
       </Button>
     </ListItem>
@@ -54,7 +42,7 @@ function HeaderLinks({ ...props }) {
         onClick={() => {
           localStorage.clear();
         }}
-        href="http://openhackathon.online:3000/logout"
+        href="l/logout"
         color="transparent"
         className={classes.navLink}
       >

@@ -90,10 +90,7 @@ class TeamRegistration extends React.Component {
   getTeamMembers() {
     try {
       const authHeader = localStorage.getItem("accessToken");
-      var url =
-        "http://openhackathon.us-east-1.elasticbeanstalk.com/" +
-        this.state.hackathon_id +
-        "/users";
+      var url = "http://openhackathon.us-east-1.elasticbeanstalk.com/" + this.state.hackathon_id + "/users";
       fetch(url, { headers: { Authorization: authHeader } })
         .then(res => res.json())
         .then(json => {
@@ -166,8 +163,7 @@ class TeamRegistration extends React.Component {
         .then(json => {
           if (json.status != "BadRequest") {
             window.location.href =
-              "http://openhackathon.online:3000/hackathon_details/" +
-              this.state.hackathon_id;
+              "/hackathon_details/" + this.state.hackathon_id;
           } else alert("Request failed with error: " + json.message);
         })
         .catch(error => {

@@ -108,8 +108,7 @@ class CreateHackathon extends React.Component {
   getSponsors() {
     try {
       const authHeader = localStorage.getItem("accessToken");
-      var url =
-        "http://openhackathon.us-east-1.elasticbeanstalk.com/organization";
+      var url = "http://openhackathon.us-east-1.elasticbeanstalk.com/organization";
       fetch(url, { headers: { Authorization: authHeader } })
         .then(res => res.json())
         .then(json => {
@@ -132,7 +131,7 @@ class CreateHackathon extends React.Component {
   }
 
   cancelAction() {
-    window.location.href = "http://openhackathon.online:3000/index";
+    window.location.href = "/index";
   }
   handleChangeMultiple = event => {
     const { options } = event.target;
@@ -158,16 +157,12 @@ class CreateHackathon extends React.Component {
   getHackathon() {
     const authHeader = localStorage.getItem("accessToken");
     axios
-      .get(
-        "http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" +
-          this.state.hackathon_id,
-        {
-          params: {
-            userId: localStorage.getItem("userId")
-          },
-          headers: { Authorization: authHeader }
-        }
-      )
+      .get("http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" + this.state.hackathon_id, {
+        params: {
+          userId: localStorage.getItem("userId")
+        },
+        headers: { Authorization: authHeader }
+      })
       .then(response => {
         console.log("GET RESPONSE:::: ", response);
         var hackathon = {};
@@ -212,8 +207,7 @@ class CreateHackathon extends React.Component {
       .then(res => res.json())
       .then(json => {
         if (json.status != "BadRequest") {
-          window.location.href =
-            "http://openhackathon.online:3000/hackathon_details/" + json.id;
+          window.location.href = "/hackathon_details/" + json.id;
         } else alert("Request failed with error: " + json.message);
       })
       .catch(error => {
@@ -224,23 +218,18 @@ class CreateHackathon extends React.Component {
   updateHackathon() {
     const authHeader = localStorage.getItem("accessToken");
     console.log("Updating: ", this.state.changedHackathon);
-    fetch(
-      "http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" +
-        this.state.hackathon_id,
-      {
-        method: "PUT",
-        headers: {
-          Authorization: authHeader,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(this.state.changedHackathon)
-      }
-    )
+    fetch("http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" + this.state.hackathon_id, {
+      method: "PUT",
+      headers: {
+        Authorization: authHeader,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(this.state.changedHackathon)
+    })
       .then(res => res.json())
       .then(json => {
         if (json.status != "BadRequest") {
-          window.location.href =
-            "http://openhackathon.online:3000/hackathon_details/" + json.id;
+          window.location.href = "/hackathon_details/" + json.id;
         } else alert("Request failed with error: " + json.message);
       })
       .catch(error => {

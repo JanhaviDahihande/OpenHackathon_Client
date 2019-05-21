@@ -2,14 +2,18 @@ import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import Code from "@material-ui/icons/Code";
+import Computer from "@material-ui/icons/Computer";
 import Score from "@material-ui/icons/Score";
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
-import Button from "components/CustomButtons/Button.jsx";
+import Button from "@material-ui/core/Button";
 import image from "assets/img/bg7.jpg";
+import Paper from "@material-ui/core/Paper";
+
 // core components
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { Link } from "react-router-dom";
 import InfoArea from "components/InfoArea/InfoArea.jsx";
 import axios from "axios";
@@ -33,7 +37,8 @@ class HackathonDetails extends React.Component {
       cardAnimaton: "cardHidden",
       hackathonId: 0,
       userId: 1,
-      hackathon: {}
+      hackathon: {},
+      isLoading: true
     };
     this.updateHackathonStatus = this.updateHackathonStatus.bind(this);
     this.finaliseStatus = this.finaliseStatus.bind(this);
@@ -49,8 +54,10 @@ class HackathonDetails extends React.Component {
     );
   }
 
-  updateHackathonStatus() {
-    const status = 2;
+  updateHackathonStatus(value) {
+    const status = value;
+    this.setState({ isLoading: true });
+    var hackathon = this.state.hackathon;
     const authHeader = localStorage.getItem("accessToken");
     fetch(
       "http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" +
@@ -68,22 +75,39 @@ class HackathonDetails extends React.Component {
       .then(res => res.json())
       .then(json => {
         if (json.status != "BadRequest") {
+          console.log(json);
+          // var hackathon = this.state.hackathon;
+          this.getMyHackathons();
+          // hackathon.status = status;
+          // this.setState({ hackathon: hackathon, isLoading: false });
+          // var hackathon = {};
+          // hackathon.hackathonId = json.id;
+          // hackathon.hackathonName = json.eventName;
+          // hackathon.startDate = json.startDate.substring(0, 10);
+          // hackathon.endDate = json.endDate.substring(0, 10);
+          // hackathon.description = json.description;
+          // hackathon.fees = json.fees;
+          // hackathon.minTeamSize = json.minTeamSize;
+          // hackathon.maxTeamSize = json.maxTeamSize;
+          // hackathon.judges = json.judges;
+          // hackathon.sponsors = json.sponsors;
+          // hackathon.discount = json.discount;
+          // hackathon.status = status;
+          // hackathon.userRole = json.role;
+          // this.setState({ hackathon: hackathon, isLoading: false });
           alert("Hackathon status changed successfully");
-          var hackathon = this.state.hackathon;
-          hackathon.status = status;
-          this.setState({ hackathon: hackathon });
-          // window.location.href =
-          //   "http://localhost:3000/hackathon_details/" + json.id;
-        } else alert("Request failed with error: " + json.message);
-      })
-      .catch(error => {
-        alert("Invalid Request");
+          // window.location.href = "/hackathon_details/" + json.id;
+        } else {
+          alert("Request failed with error: " + json.message);
+          this.setState({ isLoading: false });
+        }
       });
   }
 
   finaliseStatus() {
     const status = 3;
     const authHeader = localStorage.getItem("accessToken");
+    this.setState({ isLoading: true });
     fetch(
       "http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" +
         this.state.hackathonId +
@@ -101,14 +125,29 @@ class HackathonDetails extends React.Component {
       .then(json => {
         if (json.status != "BadRequest") {
           alert("Hackathon status changed successfully");
-          var hackathon = this.state.hackathon;
+          // var hackathon = this.state.hackathon;
+          // hackathon.status = status;
+          var hackathon = {};
+          hackathon.hackathonId = json.id;
+          hackathon.hackathonName = json.eventName;
+          hackathon.startDate = json.startDate.substring(0, 10);
+          hackathon.endDate = json.endDate.substring(0, 10);
+          hackathon.description = json.description;
+          hackathon.fees = json.fees;
+          hackathon.minTeamSize = json.minTeamSize;
+          hackathon.maxTeamSize = json.maxTeamSize;
+          hackathon.judges = json.judges;
+          hackathon.sponsors = json.sponsors;
+          hackathon.discount = json.discount;
           hackathon.status = status;
-          this.setState({ hackathon: hackathon });
+          hackathon.userRole = json.role;
+          this.setState({ hackathon: hackathon, isLoading: false });
           // window.location.href =
-          //   "http://localhost:3000/hackathon_details/" + json.id;
+          //   "http://openhackathon.online:3000/hackathon_details/" + json.id;
         } else alert("Request failed with error: " + json.message);
       })
       .catch(error => {
+        this.setState({ isLoading: false });
         alert("Invalid Request");
       });
   }
@@ -116,17 +155,14 @@ class HackathonDetails extends React.Component {
   getMyHackathons() {
     console.log("State:::", this.state);
     const authHeader = localStorage.getItem("accessToken");
+    this.setState({ isLoading: true });
     axios
-      .get(
-        "http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" +
-          this.state.hackathonId,
-        {
-          headers: { Authorization: authHeader },
-          params: {
-            userId: this.state.userId
-          }
+      .get("http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" + this.state.hackathonId, {
+        headers: { Authorization: authHeader },
+        params: {
+          userId: this.state.userId
         }
-      )
+      })
       .then(response => {
         console.log(response);
         var hackathon = {};
@@ -143,7 +179,11 @@ class HackathonDetails extends React.Component {
         hackathon.discount = response.data.discount;
         hackathon.status = response.data.status;
         hackathon.userRole = response.data.role;
-        this.setState({ hackathon: hackathon });
+        this.setState({ hackathon: hackathon, isLoading: false });
+      })
+      .catch(() => {
+        alert("Error occured while fetching hackathon details");
+        this.setState({ isLoading: false });
       });
   }
   render() {
@@ -155,6 +195,7 @@ class HackathonDetails extends React.Component {
         </h4>
       ) : this.state.hackathon.userRole == 0 ? (
         <Button
+          variant="contained"
           color="primary"
           component={Link}
           to={
@@ -172,6 +213,8 @@ class HackathonDetails extends React.Component {
         <h4 color="primary" style={{ marginTop: "5px", color: "black" }}>
           You have already registered for this hackathon.
           <Button
+            variant="contained"
+            variant="contained"
             component={Link}
             color="primary"
             to={"/my_hackathon/" + this.state.hackathonId}
@@ -197,6 +240,7 @@ class HackathonDetails extends React.Component {
         this.state.hackathon.status == 1 ? (
           <div>
             <Button
+              variant="contained"
               color="primary"
               component={Link}
               to={"/create_hackathon/" + this.state.hackathonId}
@@ -205,13 +249,15 @@ class HackathonDetails extends React.Component {
               Edit
             </Button>
             <Button
+              variant="contained"
               color="primary"
-              onClick={this.updateHackathonStatus}
+              onClick={() => this.updateHackathonStatus(2)}
               style={{ margin: "10px" }}
             >
               Close Hackathon
             </Button>
             <Button
+              variant="contained"
               color="primary"
               onClick={this.finaliseStatus}
               style={{ margin: "10px" }}
@@ -219,6 +265,7 @@ class HackathonDetails extends React.Component {
               Finalise Hackathon
             </Button>
             <Button
+              variant="contained"
               color="primary"
               component={Link}
               to={"/hackathon/" + this.state.hackathonId + "/earningreport"}
@@ -227,6 +274,7 @@ class HackathonDetails extends React.Component {
               Earning Report
             </Button>
             <Button
+              variant="contained"
               color="primary"
               component={Link}
               to={"/hackathon/paymentreport/" + this.state.hackathonId}
@@ -235,6 +283,7 @@ class HackathonDetails extends React.Component {
               Payment Report
             </Button>
             <Button
+              variant="contained"
               color="primary"
               component={Link}
               to={"/hackathon/" + this.state.hackathonId + "/expense"}
@@ -246,6 +295,7 @@ class HackathonDetails extends React.Component {
         ) : this.state.hackathon.status == 2 ? (
           <div>
             <Button
+              variant="contained"
               color="primary"
               component={Link}
               to={"/create_hackathon/" + this.state.hackathonId}
@@ -254,6 +304,7 @@ class HackathonDetails extends React.Component {
               Edit
             </Button>
             <Button
+              variant="contained"
               id="finalise"
               color="primary"
               onClick={this.finaliseStatus}
@@ -262,6 +313,7 @@ class HackathonDetails extends React.Component {
               Finalise Hackathon
             </Button>
             <Button
+              variant="contained"
               color="primary"
               component={Link}
               to={"/hackathon/" + this.state.hackathonId + "/earningreport"}
@@ -270,6 +322,7 @@ class HackathonDetails extends React.Component {
               Earning Report
             </Button>
             <Button
+              variant="contained"
               color="primary"
               component={Link}
               to={"/hackathon/paymentreport/" + this.state.hackathonId}
@@ -278,6 +331,7 @@ class HackathonDetails extends React.Component {
               Payment Report
             </Button>
             <Button
+              variant="contained"
               color="primary"
               component={Link}
               to={"/hackathon/" + this.state.hackathonId + "/expense"}
@@ -296,6 +350,7 @@ class HackathonDetails extends React.Component {
               Hackathon is finalised
             </h4>
             <Button
+              variant="contained"
               color="primary"
               component={Link}
               to={"/hackathon/" + this.state.hackathonId + "/earningreport"}
@@ -304,6 +359,7 @@ class HackathonDetails extends React.Component {
               Earning Report
             </Button>
             <Button
+              variant="contained"
               color="primary"
               component={Link}
               to={"/hackathon/paymentreport/" + this.state.hackathonId}
@@ -312,6 +368,7 @@ class HackathonDetails extends React.Component {
               Payment Report
             </Button>
             <Button
+              variant="contained"
               color="primary"
               component={Link}
               to={"/hackathon/" + this.state.hackathonId + "/expense"}
@@ -362,23 +419,215 @@ class HackathonDetails extends React.Component {
             style={{ backgroundSize: 100, paddingTop: 100 }}
           >
             <GridContainer style={{ backgroundColor: "white" }}>
-              <GridItem xs={12} sm={12} md={12}>
-                <InfoArea
-                  title={this.state.hackathon.hackathonName}
-                  description={this.state.hackathon.description}
-                  icon={Code}
-                  iconColor="rose"
-                />
+              <GridItem
+                xs={12}
+                sm={12}
+                md={12}
+                style={{
+                  backgroundColor: "white",
+                  // width: "50px",
+                  textAlign: "center",
+                  display: this.state.isLoading == true ? "block" : "none"
+                }}
+              >
+                <div>
+                  <CircularProgress className={classes.progress} />
+                </div>
               </GridItem>
 
+              <GridItem
+                xs={12}
+                sm={12}
+                md={12}
+                style={{
+                  backgroundColor: "white",
+                  textAlign: "center",
+                  padding: "20px",
+                  display: this.state.isLoading == false ? "block" : "none"
+                }}
+              >
+                <h2 style={{ color: "black", textTransform: "uppercase" }}>
+                  {this.state.hackathon.hackathonName}
+                </h2>
+              </GridItem>
+            </GridContainer>
+
+            <GridContainer
+              style={{
+                backgroundColor: "white",
+                textAlign: "center",
+                fontSize: "20px",
+                color: "black"
+              }}
+            >
+              <GridItem
+                xs={4}
+                sm={4}
+                md={4}
+                style={{ display: "flex", alignItems: "center" }}
+              />
+
+              <GridItem
+                xs={5}
+                sm={5}
+                md={5}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  display: this.state.hackathon.userRole == 2 ? "" : "none"
+                }}
+              >
+                <b>You are Judging this event</b>
+              </GridItem>
+
+              <GridItem
+                xs={4}
+                sm={4}
+                md={4}
+                style={{ display: "flex", alignItems: "center" }}
+              />
+            </GridContainer>
+
+            <GridContainer
+              style={{
+                backgroundColor: "white",
+                display: localStorage.getItem("role") == "Admin" ? "" : "none"
+              }}
+            >
+              <GridItem
+                xs={2}
+                sm={2}
+                md={2}
+                style={{
+                  alignItems: "center"
+                }}
+              />
+              <GridItem
+                xs={2}
+                sm={2}
+                md={2}
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  variant="contained"
+                  component={Link}
+                  to={"/create_hackathon/" + this.state.hackathonId}
+                  disabled={this.state.hackathon.status == 3 ? true : false}
+                  style={{
+                    display: "flex",
+                    width: "150px",
+                    color: "white"
+                  }}
+                >
+                  Edit
+                </Button>
+              </GridItem>
+              <GridItem
+                xs={2}
+                sm={2}
+                md={2}
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  variant="contained"
+                  onClick={() => this.updateHackathonStatus(1)}
+                  disabled={this.state.hackathon.status != 0 ? true : false}
+                  style={{
+                    display: "flex",
+                    width: "150px",
+                    color: "white"
+                  }}
+                >
+                  Open
+                </Button>
+              </GridItem>
+              <GridItem
+                xs={2}
+                sm={2}
+                md={2}
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  variant="contained"
+                  onClick={() => this.updateHackathonStatus(2)}
+                  disabled={this.state.hackathon.status != 1 ? true : false}
+                  style={{
+                    width: "150px",
+                    color: "white"
+                  }}
+                >
+                  Close
+                </Button>
+              </GridItem>
+              <GridItem
+                xs={2}
+                sm={2}
+                md={2}
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  variant="contained"
+                  disabled={
+                    this.state.hackathon.status == 1 ||
+                    this.state.hackathon.status == 2
+                      ? false
+                      : true
+                  }
+                  onClick={this.finaliseStatus}
+                  style={{
+                    width: "150px",
+                    color: "white"
+                  }}
+                >
+                  Finalize
+                </Button>
+              </GridItem>
               {/* <GridItem xs={12} sm={12} md={2} />
 
               <GridItem xs={12} sm={12} md={12}>
                 <hr />
               </GridItem> */}
+            </GridContainer>
 
-              <GridItem xs={12} sm={12} md={12}>
-                <Table className={classes.table} style={{ marginBottom: 30 }}>
+            <GridContainer
+              style={{
+                backgroundColor: "white"
+              }}
+            >
+              <GridItem
+                xs={12}
+                sm={12}
+                md={12}
+                style={{
+                  backgroundColor: "white",
+                  textAlign: "center",
+                  padding: "20px",
+                  display: this.state.isLoading == true ? "block" : "none"
+                }}
+              >
+                <div>
+                  <CircularProgress className={classes.progress} />
+                </div>
+              </GridItem>
+
+              <GridItem
+                xs={12}
+                sm={12}
+                md={12}
+                style={{
+                  padding: 30,
+                  display: this.state.isLoading == false ? "block" : "none"
+                }}
+              >
+                <Table className={classes.table} style={{}}>
                   <TableBody>
                     <TableRow className={classes.row}>
                       <CustomTableCell>Start Date</CustomTableCell>
@@ -443,70 +692,250 @@ class HackathonDetails extends React.Component {
                   </TableBody>
                 </Table>
               </GridItem>
-              {/* <GridContainer
-                className="row"
+            </GridContainer>
+            <GridContainer
+              style={{
+                backgroundColor: "white",
+                display: this.state.hackathon.userRole == 1 ? "" : "none",
+                padding: "20px"
+              }}
+            >
+              <GridItem
+                xs={6}
+                sm={6}
+                md={6}
+                style={{ display: "flex", alignItems: "center" }}
+              />
+              <GridItem
+                xs={4}
+                sm={4}
+                md={4}
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <h4
+                  style={{
+                    color: "black"
+                  }}
+                >
+                  Already registered for this hackathon
+                </h4>
+              </GridItem>
+              <GridItem
+                xs={2}
+                sm={2}
+                md={2}
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  variant="contained"
+                  component={Link}
+                  to={"/create_hackathon/" + this.state.hackathonId}
+                  style={{
+                    display: this.state.hackathon.status != 3 ? "flex" : "none",
+                    width: "150px",
+                    color: "white"
+                  }}
+                >
+                  Team Info
+                </Button>
+              </GridItem>
+            </GridContainer>
+            <GridContainer
+              style={{
+                backgroundColor: "white",
+                padding: "20px",
+                display:
+                  (this.state.hackathon.userRole == 0) &
+                  (localStorage.getItem("role") != "Admin") &
+                  (this.state.hackathon.status == 0)
+                    ? ""
+                    : "none"
+              }}
+            >
+              <GridItem
+                xs={10}
+                sm={10}
+                md={10}
+                style={{ display: "flex", alignItems: "center" }}
+              />
+              <GridItem
+                xs={2}
+                sm={2}
+                md={2}
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  variant="contained"
+                  component={Link}
+                  to={"/create_hackathon/" + this.state.hackathonId}
+                  style={{
+                    width: "150px",
+                    color: "white"
+                  }}
+                >
+                  Register
+                </Button>
+              </GridItem>
+            </GridContainer>
+            <GridContainer
+              style={{
+                backgroundColor: "white",
+                padding: "20px",
+                display:
+                  (this.state.hackathon.userRole == 0) &
+                  (localStorage.getItem("role") != "Admin") &
+                  (this.state.hackathon.status != 0)
+                    ? ""
+                    : "none"
+              }}
+            >
+              <GridItem
+                xs={9}
+                sm={9}
+                md={9}
+                style={{ display: "flex", alignItems: "center" }}
+              />
+              <GridItem
+                xs={3}
+                sm={3}
+                md={3}
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <h4
+                  style={{
+                    color: "black"
+                  }}
+                >
+                  Registration closed!
+                </h4>
+              </GridItem>
+            </GridContainer>
+
+            <GridContainer
+              style={{
+                backgroundColor: "white",
+                display: localStorage.getItem("role") == "Admin" ? "" : "none",
+                padding: "10px"
+              }}
+            >
+              <GridItem
+                xs={2}
+                sm={2}
+                md={2}
+                style={{ display: "flex", alignItems: "center" }}
+              />
+
+              <GridItem
+                xs={3}
+                sm={3}
+                md={3}
                 style={{
-                  display:
-                    localStorage.getItem("role") == "Admin" ? "block" : "none"
+                  display: "flex",
+                  alignItems: "center",
+                  color: "white"
                 }}
               >
-                <GridItem className="col-md-3">
-                  <Button
-                    color="primary"
-                    component={Link}
-                    to={"/create_hackathon/" + this.state.hackathonId}
-                    style={{
-                      display:
-                        this.state.hackathon.status != 3 ? "block" : "none",
-                      width: "100px"
-                    }}
-                  >
-                    Edit
-                  </Button>
-                </GridItem>
-                <GridItem className="col-md-3">
-                  <Button
-                    color="primary"
-                    onClick={this.updateHackathonStatus}
-                    style={{
-                      display:
-                        this.state.hackathon.status == 1 ? "block" : "none"
-                    }}
-                  >
-                    Close Hackathon
-                  </Button>
-                </GridItem>
-                <GridItem className="col-md-3">
-                  <Button
-                    color="primary"
-                    onClick={this.finaliseStatus}
-                    style={{
-                      display:
-                        this.state.hackathon.status != 3 ? "block" : "none"
-                    }}
-                  >
-                    Finalise Hackathon
-                  </Button>
-                </GridItem>
-                <GridItem className="col-md-3">
-                  <div>
-                    <h4
-                      style={{
-                        color: "black",
-                        display:
-                          this.state.hackathon.status == 3 ? "block" : "none"
-                      }}
-                    >
-                      Hackathon is finalised
-                    </h4>
-                  </div>
-                </GridItem>
-              </GridContainer> */}
-
-              <div className="row" xs={12} sm={12} md={12}>
-                <div>{comp}</div>
-              </div>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  component={Link}
+                  variant="contained"
+                  to={"/hackathon/" + this.state.hackathonId + "/expense"}
+                  style={{
+                    // display: this.state.hackathon.status != 3 ? "flex" : "none",
+                    width: "200px",
+                    color: "white"
+                  }}
+                >
+                  Manage Expences
+                </Button>
+              </GridItem>
+              <GridItem
+                xs={3}
+                sm={3}
+                md={3}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  color: "white"
+                }}
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  component={Link}
+                  variant="contained"
+                  to={"/hackathon/paymentreport/" + this.state.hackathonId}
+                  style={{
+                    // display: this.state.hackathon.status != 3 ? "flex" : "none",
+                    width: "200px",
+                    color: "white"
+                  }}
+                >
+                  Payment Report
+                </Button>
+              </GridItem>
+              <GridItem
+                xs={3}
+                sm={3}
+                md={3}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  color: "white"
+                }}
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  component={Link}
+                  variant="contained"
+                  to={"/hackathon/" + this.state.hackathonId + "/earningreport"}
+                  style={{
+                    // display: this.state.hackathon.status != 3 ? "flex" : "none",
+                    width: "200px",
+                    color: "white"
+                  }}
+                >
+                  Earning Report
+                </Button>
+              </GridItem>
             </GridContainer>
+            <GridContainer
+              style={{
+                backgroundColor: "white",
+                // padding: "20px",
+                display: this.state.hackathon.status == 3 ? "" : "none"
+              }}
+            >
+              <GridItem
+                xs={9}
+                sm={9}
+                md={9}
+                style={{ display: "flex", alignItems: "center" }}
+              />
+              <GridItem
+                xs={3}
+                sm={3}
+                md={3}
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <h3
+                  style={{
+                    color: "black"
+                  }}
+                >
+                  Hackathon is Finalized!
+                </h3>
+              </GridItem>
+            </GridContainer>
+            <div className="row" xs={12} sm={12} md={12}>
+              {/* <div>{comp}</div> */}
+            </div>
           </div>
         </div>
       </div>
