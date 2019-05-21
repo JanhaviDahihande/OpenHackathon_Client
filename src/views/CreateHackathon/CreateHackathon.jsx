@@ -526,7 +526,7 @@ class CreateHackathon extends React.Component {
             </GridContainer>
           </div>
         </div>
-        <Footer />
+        
       </div>
     );
   }

@@ -211,7 +211,7 @@ class OrganizationDetails extends React.Component {
             </GridContainer>
           </div>
         </div>
-        <Footer />
+        
       </div>
     );
   }

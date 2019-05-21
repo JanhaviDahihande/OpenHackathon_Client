@@ -207,7 +207,7 @@ class JudgeHackathon_Teams extends React.Component {
             </GridContainer>
           </div>
         </div>
-        <Footer />
+        
       </div>
     );
   }

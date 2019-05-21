@@ -82,7 +82,7 @@ class Components extends React.Component {
           <SectionExamples />
           <SectionDownload />
         </div>
-        <Footer />
+        
       </div>
     );
   }

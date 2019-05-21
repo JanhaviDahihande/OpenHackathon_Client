@@ -21,6 +21,7 @@ import axios from "axios";
 import HeaderLinks from "components/Header/HeaderLinks.jsx";
 import Header from "components/Header/Header.jsx";
 import Footer from "components/Footer/Footer.jsx";
+import { black } from "material-ui/styles/colors";
 const dashboardRoutes = [];
 class MyHackathonsList extends React.Component {
   constructor(props) {
@@ -42,7 +43,10 @@ class MyHackathonsList extends React.Component {
     const authHeader = localStorage.getItem("accessToken");
     axios
       .get(
-        "http://openhackathon.us-east-1.elasticbeanstalk.com/participant/" + this.state.userId + "/hackathon",{headers:{Authorization:authHeader}}
+        "http://openhackathon.us-east-1.elasticbeanstalk.com/participant/" +
+          this.state.userId +
+          "/hackathon",
+        { headers: { Authorization: authHeader } }
       )
       .then(response => {
         console.log(response);
@@ -96,11 +100,29 @@ class MyHackathonsList extends React.Component {
                 <h2 style={{ color: "black" }}>Hackathons</h2>
               </GridItem>
               <GridItem xs={12} sm={12} md={12}>
-                <h2 style={{ color: "black" }}>Participating</h2>
-              </GridItem>
-              <GridItem xs={12} sm={12} md={12}>
                 <Paper className={classes.root}>
-                  <Table className={classes.table} style={{ marginBottom: 30 }}>
+                  <h3 style={{ color: "black", padding: "20px" }}>
+                    Participating
+                  </h3>
+                </Paper>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={12} style={{ textAlign: "center" }}>
+                <h5
+                  style={{
+                    color: "black",
+                    display: participatingList.length <= 0 ? "block" : "none"
+                  }}
+                >
+                  Not participated in any hackathons
+                </h5>
+                <Paper className={classes.root}>
+                  <Table
+                    className={classes.table}
+                    style={{ marginBottom: 30 }}
+                    style={{
+                      display: participatingList.length <= 0 ? "none" : ""
+                    }}
+                  >
                     <TableHead>
                       <TableRow>
                         <TableCell>EventName</TableCell>
@@ -114,6 +136,7 @@ class MyHackathonsList extends React.Component {
                           <TableCell
                             component="a"
                             href={"/my_hackathon/" + row.id}
+                            style={{ color: "#9c27b0" }}
                           >
                             {row.eventName}
                           </TableCell>
@@ -128,11 +151,27 @@ class MyHackathonsList extends React.Component {
               </GridItem>
 
               <GridItem xs={12} sm={12} md={12}>
-                <h2 style={{ color: "black" }}>Judging</h2>
-              </GridItem>
-              <GridItem xs={12} sm={12} md={12}>
                 <Paper className={classes.root}>
-                  <Table className={classes.table} style={{ marginBottom: 30 }}>
+                  <h3 style={{ color: "black", padding: "20px" }}>Judging</h3>
+                </Paper>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={12} style={{ textAlign: "center" }}>
+                <h5
+                  style={{
+                    color: "black",
+                    display: judgingList.length <= 0 ? "block" : "none"
+                  }}
+                >
+                  Not Judging any hackathons
+                </h5>
+                <Paper className={classes.root}>
+                  <Table
+                    className={classes.table}
+                    style={{
+                      marginBottom: 30,
+                      display: judgingList.length <= 0 ? "none" : ""
+                    }}
+                  >
                     <TableHead>
                       <TableRow>
                         <TableCell>EventName</TableCell>
@@ -146,6 +185,7 @@ class MyHackathonsList extends React.Component {
                           <TableCell
                             component="a"
                             href={"/judge_hackathon_teams/" + row.id}
+                            style={{ color: "#9c27b0" }}
                           >
                             {row.eventName}
                           </TableCell>
@@ -161,7 +201,6 @@ class MyHackathonsList extends React.Component {
             </GridContainer>
           </div>
         </div>
-        <Footer />
       </div>
     );
   }

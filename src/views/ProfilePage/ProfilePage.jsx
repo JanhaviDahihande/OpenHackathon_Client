@@ -560,7 +560,7 @@ class ProfilePage extends React.Component {
             {this.state.editable == 0 ? editButton : ""}
           </div>
         </div>
-        <Footer />
+        
       </div>
     );
   }

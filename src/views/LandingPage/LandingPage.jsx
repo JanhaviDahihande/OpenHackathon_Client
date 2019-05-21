@@ -76,7 +76,7 @@ class LandingPage extends React.Component {
         <div className={classNames(classes.main)}>
           <div className={classes.container}>{viewType}</div>
         </div>
-        <Footer />
+        
       </div>
     );
   }

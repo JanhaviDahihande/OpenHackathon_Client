@@ -206,7 +206,7 @@ class AllOrganizationsList extends React.Component {
               </GridContainer>
             </div>
           </div>
-          {/* <Footer /> */}
+          {/*  */}
         </div>
       );
     }

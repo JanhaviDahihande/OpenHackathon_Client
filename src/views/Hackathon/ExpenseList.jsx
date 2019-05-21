@@ -50,7 +50,9 @@ class ExpenseList extends React.Component {
     const authHeader = localStorage.getItem("accessToken");
     this.setState({ isLoading: true });
     const url =
-      "http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" + this.state.hackathonId + "/expense";
+      "http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" +
+      this.state.hackathonId +
+      "/expense";
     axios
       .get(url, {
         headers: { Authorization: authHeader }
@@ -194,8 +196,6 @@ class ExpenseList extends React.Component {
             </GridContainer>
           </div>
         </div>
-
-        <Footer />
       </div>
     );
   }

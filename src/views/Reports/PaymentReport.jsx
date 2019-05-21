@@ -248,7 +248,7 @@ class PaymentReport extends React.Component {
               </div>
             </div>
           </div>
-          {/* <Footer /> */}
+          {/*  */}
         </div>
       );
     }

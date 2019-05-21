@@ -443,7 +443,7 @@ class UserOrganization extends React.Component {
             </div>
           </div>
         </div>
-        <Footer />
+        
       </div>
     );
     // }

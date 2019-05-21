@@ -247,7 +247,7 @@ class AllPendingRequestList extends React.Component {
                 </GridContainer>
               </div>
             </div>
-            {/* <Footer /> */}
+            {/*  */}
           </div>
         );
       }

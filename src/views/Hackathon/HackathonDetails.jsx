@@ -117,12 +117,16 @@ class HackathonDetails extends React.Component {
     console.log("State:::", this.state);
     const authHeader = localStorage.getItem("accessToken");
     axios
-      .get("http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" + this.state.hackathonId, {
-        headers: { Authorization: authHeader },
-        params: {
-          userId: this.state.userId
+      .get(
+        "http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" +
+          this.state.hackathonId,
+        {
+          headers: { Authorization: authHeader },
+          params: {
+            userId: this.state.userId
+          }
         }
-      })
+      )
       .then(response => {
         console.log(response);
         var hackathon = {};
@@ -505,7 +509,6 @@ class HackathonDetails extends React.Component {
             </GridContainer>
           </div>
         </div>
-        <Footer />
       </div>
     );
   }
