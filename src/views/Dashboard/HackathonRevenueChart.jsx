@@ -49,7 +49,7 @@ class HackathonRevenueChart extends React.Component {
         }
       )
       .then(response => {
-        if (response.data.status != "BadRequest") {
+        if (response.status != "BadRequest") {
           var result = [];
           response.data.reduce(function(res, value) {
             if (!res[value.id]) {

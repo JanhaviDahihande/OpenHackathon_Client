@@ -84,7 +84,7 @@ class ProfilePage extends React.Component {
         }
       )
       .then(response => {
-        if (response.data.status != "BadRequest") {
+        if (response.status != "BadRequest") {
           var user = {};
           user.aboutMe = response.data.aboutMe;
           user.city = response.data.city;

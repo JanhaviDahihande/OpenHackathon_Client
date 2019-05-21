@@ -168,7 +168,7 @@ class HackathonDetails extends React.Component {
         }
       )
       .then(response => {
-        if (response.data.status != "BadRequest") {
+        if (response.status != "BadRequest") {
           console.log(response);
           var hackathon = {};
           hackathon.hackathonId = response.data.id;
@@ -739,7 +739,7 @@ class HackathonDetails extends React.Component {
                   color="primary"
                   variant="contained"
                   component={Link}
-                  to={"/create_hackathon/" + this.state.hackathonId}
+                  to={"/my_hackathon/" + this.state.hackathonId}
                   style={{
                     display: this.state.hackathon.status != 3 ? "flex" : "none",
                     width: "150px",
@@ -779,7 +779,14 @@ class HackathonDetails extends React.Component {
                   color="primary"
                   variant="contained"
                   component={Link}
-                  to={"/create_hackathon/" + this.state.hackathonId}
+                  to={
+                    "/team_registration/" +
+                    this.state.hackathonId +
+                    "/" +
+                    this.state.hackathon.minTeamSize +
+                    "/" +
+                    this.state.hackathon.maxTeamSize
+                  }
                   style={{
                     width: "150px",
                     color: "white"

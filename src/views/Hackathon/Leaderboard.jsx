@@ -59,7 +59,7 @@ class Leaderboard extends React.Component {
         }
       )
       .then(response => {
-        if (response.data.status != "BadRequest") {
+        if (response.status != "BadRequest") {
           console.log("LEADERBOARD RESPONSE");
           console.log(response);
           var teamListResponse = [];

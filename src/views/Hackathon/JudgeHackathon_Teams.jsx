@@ -81,7 +81,7 @@ class JudgeHackathon_Teams extends React.Component {
         { headers: { Authorization: this.state.authHeader } }
       )
       .then(response => {
-        if (response.data.status != "BadRequest") {
+        if (response.status != "BadRequest") {
           console.log(response);
           var teams = [];
           for (let i = 0; i < response.data.length; i++) {

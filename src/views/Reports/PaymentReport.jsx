@@ -81,7 +81,7 @@ class PaymentReport extends React.Component {
         }
       )
       .then(response => {
-        if (response.data.status != "BadRequest") {
+        if (response.status != "BadRequest") {
           console.log("Payment RESPONSE");
           console.log(response);
 

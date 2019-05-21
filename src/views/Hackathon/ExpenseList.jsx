@@ -58,7 +58,7 @@ class ExpenseList extends React.Component {
         headers: { Authorization: authHeader }
       })
       .then(response => {
-        if (response.data.status != "BadRequest") {
+        if (response.status != "BadRequest") {
           console.log(response);
           var expenses = [];
           if (response.data.expenses) {

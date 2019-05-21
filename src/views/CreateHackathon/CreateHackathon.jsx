@@ -177,7 +177,7 @@ class CreateHackathon extends React.Component {
         }
       )
       .then(response => {
-        if (response.data.status != "BadRequest") {
+        if (response.status != "BadRequest") {
           console.log("GET RESPONSE:::: ", response);
           var hackathon = {};
           var changedHackathon = {};

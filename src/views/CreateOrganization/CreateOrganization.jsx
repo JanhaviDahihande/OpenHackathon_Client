@@ -91,7 +91,7 @@ class CreateOrganization extends React.Component {
       )
       .then(response => {
         // console.log(response);
-        if (response.data.status != "BadRequest") {
+        if (response.status != "BadRequest") {
           var organization = {};
           var changedOrganization = {};
           organization.id = response.data.id;

@@ -71,7 +71,7 @@ class FinanceReport extends React.Component {
     axios
       .get(url, { headers: { Authorization: authHeader } })
       .then(response => {
-        if (response.data.status != "BadRequest") {
+        if (response.status != "BadRequest") {
           console.log(response);
           var hackathon = {};
           hackathon.eventName = response.data.eventName;

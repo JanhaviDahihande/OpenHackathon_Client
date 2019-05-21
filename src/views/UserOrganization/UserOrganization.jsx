@@ -105,7 +105,7 @@ class UserOrganization extends React.Component {
         }
       )
       .then(response => {
-        if (response.data.status != "BadRequest") {
+        if (response.status != "BadRequest") {
           var user = {};
           user.id = response.data.id;
           user.aboutMe = response.data.aboutMe;

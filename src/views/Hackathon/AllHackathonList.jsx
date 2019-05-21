@@ -51,7 +51,7 @@ class AllHackathonsList extends React.Component {
         headers: { Authorization: authHeader }
       })
       .then(response => {
-        if (response.data.status != "BadRequest") {
+        if (response.status != "BadRequest") {
           console.log(response);
 
           for (let i = 0; i < response.data.length; i++) {

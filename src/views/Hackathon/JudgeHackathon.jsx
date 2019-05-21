@@ -74,7 +74,7 @@ class JudgeHackathon extends React.Component {
         { headers: { Authorization: authHeader } }
       )
       .then(response => {
-        if (response.data.status != "BadRequest") {
+        if (response.status != "BadRequest") {
           console.log(response);
           var team = {};
           team.hackathonId = response.data.hackathonId;
