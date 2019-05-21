@@ -191,7 +191,12 @@ class FinanceReport extends React.Component {
                     <h3 className={classes.cardTitle}>
                       <b>Average Fees Paid</b>
                     </h3>
-                    <h1>${this.state.hackathon.avgFeesPaid.toFixed(2)}</h1>
+                    <h1>
+                      $
+                      {this.state.hackathon.avgFeesPaid != "NaN"
+                        ? this.state.hackathon.avgFeesPaid.toFixed(2)
+                        : 0}
+                    </h1>
                   </CardBody>
                 </Card>
               </GridItem>
