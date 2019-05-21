@@ -150,7 +150,7 @@ class JudgeHackathon extends React.Component {
                 <TableCell>Name</TableCell>
                 <TableCell align="left">Role</TableCell>
                 <TableCell align="left">Payment Status</TableCell>
-                <TableCell align="left">Amount</TableCell>
+                {/* <TableCell align="left">Amount</TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -163,7 +163,7 @@ class JudgeHackathon extends React.Component {
                   <TableCell align="left">
                     {row.paymentDone ? "Done" : "Pending"}
                   </TableCell>
-                  <TableCell align="left">{0}</TableCell>
+                  {/* <TableCell align="left">{row.fees}</TableCell> */}
                 </TableRow>
               ))}
             </TableBody>
@@ -262,7 +262,11 @@ class JudgeHackathon extends React.Component {
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={4}>
-                <Button color="primary" onClick={this.updateScore}>
+                <Button
+                  disabled={this.state.team.status != 2}
+                  color="primary"
+                  onClick={this.updateScore}
+                >
                   Submit Score
                 </Button>
               </GridItem>
