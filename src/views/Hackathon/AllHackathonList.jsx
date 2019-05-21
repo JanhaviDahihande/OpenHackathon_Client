@@ -73,32 +73,28 @@ class AllHackathonsList extends React.Component {
         }
       })
       .then(response => {
-        if (response.data.status != "BadRequest") {
-          var upcomingHackathon = [];
-          var ongoingHackathon = [];
-          var pastHackathon = [];
-          var currentDate = new Date();
-          for (let i = 0; i < hackathon.length; i++) {
-            if (new Date(hackathon[i].startDate) > currentDate) {
-              upcomingHackathon.push(hackathon[i]);
-            } else if (
-              (new Date(hackathon[i].startDate) <= currentDate) &
-              (new Date(hackathon[i].endDate) >= currentDate)
-            ) {
-              ongoingHackathon.push(hackathon[i]);
-            } else if (new Date(hackathon[i].endDate) < currentDate) {
-              pastHackathon.push(hackathon[i]);
-            }
+        var upcomingHackathon = [];
+        var ongoingHackathon = [];
+        var pastHackathon = [];
+        var currentDate = new Date();
+        for (let i = 0; i < hackathon.length; i++) {
+          if (new Date(hackathon[i].startDate) > currentDate) {
+            upcomingHackathon.push(hackathon[i]);
+          } else if (
+            (new Date(hackathon[i].startDate) <= currentDate) &
+            (new Date(hackathon[i].endDate) >= currentDate)
+          ) {
+            ongoingHackathon.push(hackathon[i]);
+          } else if (new Date(hackathon[i].endDate) < currentDate) {
+            pastHackathon.push(hackathon[i]);
           }
-
-          this.setState({
-            pastHackathon: pastHackathon,
-            ongoingHackathon: ongoingHackathon,
-            upcomingHackathon: upcomingHackathon
-          });
-        } else {
-          alert(response.data.message);
         }
+
+        this.setState({
+          pastHackathon: pastHackathon,
+          ongoingHackathon: ongoingHackathon,
+          upcomingHackathon: upcomingHackathon
+        });
       });
   }
   render() {
