@@ -22,7 +22,8 @@ import HeaderLinks from "components/Header/HeaderLinks.jsx";
 import Header from "components/Header/Header.jsx";
 import Footer from "components/Footer/Footer.jsx";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Button from "components/CustomButtons/Button.jsx";
+// import Button from "components/CustomButtons/Button.jsx";
+import Button from "@material-ui/core/Button";
 const dashboardRoutes = [];
 class AllHackathonsList extends React.Component {
   constructor(props) {
@@ -31,7 +32,10 @@ class AllHackathonsList extends React.Component {
     this.state = {
       cardAnimaton: "cardHidden",
       hackathon: [],
-      isLoading: false
+      isLoading: false,
+      upcomingHackathon: [],
+      ongoingHackathon: [],
+      pastHackathon: []
     };
   }
   componentDidMount() {
@@ -41,13 +45,14 @@ class AllHackathonsList extends React.Component {
   getMyHackathons() {
     const authHeader = localStorage.getItem("accessToken");
     this.setState({ isLoading: true });
+    var hackathon = [];
     axios
       .get("http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon", {
         headers: { Authorization: authHeader }
       })
       .then(response => {
         console.log(response);
-        var hackathon = [];
+
         for (let i = 0; i < response.data.length; i++) {
           hackathon.push({
             id: response.data[i].id,
@@ -62,6 +67,30 @@ class AllHackathonsList extends React.Component {
           });
         }
         this.setState({ hackathon: hackathon, isLoading: false });
+      })
+      .then(response => {
+        var upcomingHackathon = [];
+        var ongoingHackathon = [];
+        var pastHackathon = [];
+        var currentDate = new Date();
+        for (let i = 0; i < hackathon.length; i++) {
+          if (new Date(hackathon[i].startDate) > currentDate) {
+            upcomingHackathon.push(hackathon[i]);
+          } else if (
+            (new Date(hackathon[i].startDate) < currentDate) &
+            (new Date(hackathon[i].endDate) > currentDate)
+          ) {
+            ongoingHackathon.push(hackathon[i]);
+          } else if (new Date(hackathon[i].endDate) < currentDate) {
+            pastHackathon.push(hackathon[i]);
+          }
+        }
+
+        this.setState({
+          pastHackathon: pastHackathon,
+          ongoingHackathon: ongoingHackathon,
+          upcomingHackathon: upcomingHackathon
+        });
       });
   }
   render() {
@@ -98,15 +127,418 @@ class AllHackathonsList extends React.Component {
         >
           <div className={classes.container} style={{}}>
             <GridContainer>
-              <GridItem
+              <GridContainer style={{ backgroundColor: "white" }}>
+                <GridItem
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  style={{
+                    backgroundColor: "white",
+                    textAlign: "center",
+                    padding: "20px"
+                  }}
+                >
+                  <h2 style={{ color: "black", textTransform: "uppercase" }}>
+                    List of Hackathons
+                  </h2>
+                </GridItem>
+
+                <GridItem
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  style={{
+                    backgroundColor: "white",
+                    // width: "50px",
+                    textAlign: "center",
+                    display: this.state.isLoading == true ? "block" : "none"
+                  }}
+                >
+                  <div>
+                    <CircularProgress className={classes.progress} />
+                  </div>
+                </GridItem>
+
+                <GridItem xs={12} sm={12} md={12}>
+                  <Paper className={classes.root}>
+                    <h3 style={{ color: "black", padding: "20px" }}>
+                      Upcoming hackathons
+                    </h3>
+                  </Paper>
+                </GridItem>
+                <GridItem
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  style={{ textAlign: "center" }}
+                >
+                  <h5
+                    style={{
+                      color: "black",
+                      display:
+                        this.state.upcomingHackathon.length <= 0
+                          ? "block"
+                          : "none"
+                    }}
+                  >
+                    Not upcoming hackathons
+                  </h5>
+                  <Paper className={classes.root}>
+                    <Table
+                      className={classes.table}
+                      style={{
+                        marginBottom: 30,
+                        display:
+                          this.state.upcomingHackathon.length <= 0 ? "none" : ""
+                      }}
+                    >
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>EventName</TableCell>
+                          <TableCell align="left">
+                            Start Date - End Date
+                          </TableCell>
+                          <TableCell align="left">Status</TableCell>
+                          <TableCell align="left">Team Size</TableCell>
+                          <TableCell align="left">Fees</TableCell>
+                          <TableCell align="left">Leaderboards</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {this.state.upcomingHackathon.map(row => (
+                          <TableRow
+                            key={row.id}
+                            // style={{
+                            //   display:
+                            //     new Date(row.startDate) > new Date()
+                            //       ? ""
+                            //       : "none"
+                            // }}
+                          >
+                            <TableCell
+                              component="a"
+                              href={"/hackathon_details/" + row.id}
+                              style={{ color: "#9c27b0" }}
+                            >
+                              {row.eventName}
+                            </TableCell>
+                            <TableCell
+                              align="left"
+                              // style={{
+                              //   color:
+                              //     new Date(row.startDate) > new Date()
+                              //       ? "blue"
+                              //       : "red"
+                              // }}
+                            >
+                              {row.startDate.substring(0, 10) +
+                                " - " +
+                                row.endDate.substring(0, 10)}
+                            </TableCell>
+
+                            <TableCell align="left">
+                              {row.status == 1
+                                ? "Open"
+                                : row.status == 2
+                                ? "Closed"
+                                : row.status == 3
+                                ? "Finalized"
+                                : "Default"}
+                            </TableCell>
+
+                            <TableCell align="left">
+                              {row.minTeamSize} - {row.maxTeamSize}
+                            </TableCell>
+
+                            <TableCell align="left">{row.fees}</TableCell>
+
+                            <TableCell align="left">
+                              <Button
+                                // color="inherit"
+                                component={Link}
+                                to={"/hackathon/leaderboard/" + row.id}
+                                // href={"/hackathon/leaderboard/" + row.id}
+                                // variant="outlined"
+                                disabled={row.status == 3 ? false : true}
+                                style={{
+                                  color: row.status == 3 ? "#9c27b0" : ""
+                                  // display: row.status == 3 ? "none" : "block"
+                                }}
+                              >
+                                Show
+                              </Button>
+                              {/* <h6
+                              style={{
+                                display: row.status != 3 ? "none" : "block"
+                              }}
+                            >
+                              Not yet finalized
+                            </h6> */}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </Paper>
+                </GridItem>
+
+                <GridItem xs={12} sm={12} md={12}>
+                  <Paper className={classes.root}>
+                    <h3 style={{ color: "black", padding: "20px" }}>
+                      Ongoing hackathons
+                    </h3>
+                  </Paper>
+                </GridItem>
+                <GridItem
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  style={{ textAlign: "center" }}
+                >
+                  <h5
+                    style={{
+                      color: "black",
+                      display:
+                        this.state.ongoingHackathon.length <= 0
+                          ? "block"
+                          : "none"
+                    }}
+                  >
+                    Not ongoing hackathons
+                  </h5>
+                  <Paper className={classes.root}>
+                    <Table
+                      className={classes.table}
+                      style={{
+                        marginBottom: 30,
+                        display:
+                          this.state.ongoingHackathon.length <= 0 ? "none" : ""
+                      }}
+                    >
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>EventName</TableCell>
+                          <TableCell align="left">
+                            Start Date - End Date
+                          </TableCell>
+                          <TableCell align="left">Status</TableCell>
+                          <TableCell align="left">Team Size</TableCell>
+                          <TableCell align="left">Fees</TableCell>
+                          <TableCell align="left">Leaderboards</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {this.state.ongoingHackathon.map(row => (
+                          <TableRow
+                            key={row.id}
+                            // style={{
+                            //   display:
+                            //     new Date(row.startDate) > new Date()
+                            //       ? "none"
+                            //       : ""
+                            // }}
+                          >
+                            <TableCell
+                              component="a"
+                              href={"/hackathon_details/" + row.id}
+                              style={{ color: "#9c27b0" }}
+                            >
+                              {row.eventName}
+                            </TableCell>
+                            <TableCell
+                              align="left"
+                              // style={{
+                              //   color:
+                              //     new Date(row.startDate) > new Date()
+                              //       ? "blue"
+                              //       : "red"
+                              // }}
+                            >
+                              {row.startDate.substring(0, 10) +
+                                " - " +
+                                row.endDate.substring(0, 10)}
+                            </TableCell>
+
+                            <TableCell align="left">
+                              {row.status == 1
+                                ? "Open"
+                                : row.status == 2
+                                ? "Closed"
+                                : row.status == 3
+                                ? "Finalized"
+                                : "Default"}
+                            </TableCell>
+
+                            <TableCell align="left">
+                              {row.minTeamSize} - {row.maxTeamSize}
+                            </TableCell>
+
+                            <TableCell align="left">{row.fees}</TableCell>
+
+                            <TableCell align="left">
+                              <Button
+                                // color="inherit"
+                                component={Link}
+                                to={"/hackathon/leaderboard/" + row.id}
+                                // href={"/hackathon/leaderboard/" + row.id}
+                                // variant="outlined"
+                                disabled={row.status == 3 ? false : true}
+                                style={{
+                                  color: row.status == 3 ? "#9c27b0" : ""
+                                  // display: row.status == 3 ? "none" : "block"
+                                }}
+                              >
+                                Show
+                              </Button>
+                              {/* <h6
+                              style={{
+                                display: row.status != 3 ? "none" : "block"
+                              }}
+                            >
+                              Not yet finalized
+                            </h6> */}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </Paper>
+                </GridItem>
+                <GridItem xs={12} sm={12} md={12}>
+                  <Paper className={classes.root}>
+                    <h3 style={{ color: "black", padding: "20px" }}>
+                      Past hackathons
+                    </h3>
+                  </Paper>
+                </GridItem>
+                <GridItem
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  style={{ textAlign: "center" }}
+                >
+                  <h5
+                    style={{
+                      color: "black",
+                      display:
+                        this.state.pastHackathon.length <= 0 ? "block" : "none"
+                    }}
+                  >
+                    Not past hackathons
+                  </h5>
+                  <Paper className={classes.root}>
+                    <Table
+                      className={classes.table}
+                      style={{
+                        marginBottom: 30,
+                        display:
+                          this.state.pastHackathon.length <= 0 ? "none" : ""
+                      }}
+                    >
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>EventName</TableCell>
+                          <TableCell align="left">
+                            Start Date - End Date
+                          </TableCell>
+                          <TableCell align="left">Status</TableCell>
+                          <TableCell align="left">Team Size</TableCell>
+                          <TableCell align="left">Fees</TableCell>
+                          <TableCell align="left">Leaderboards</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {this.state.pastHackathon.map(row => (
+                          <TableRow
+                            key={row.id}
+                            // style={{
+                            //   display:
+                            //     new Date(row.startDate) > new Date()
+                            //       ? "none"
+                            //       : ""
+                            // }}
+                          >
+                            <TableCell
+                              component="a"
+                              href={"/hackathon_details/" + row.id}
+                              style={{ color: "#9c27b0" }}
+                            >
+                              {row.eventName}
+                            </TableCell>
+                            <TableCell
+                              align="left"
+                              // style={{
+                              //   color:
+                              //     new Date(row.startDate) > new Date()
+                              //       ? "blue"
+                              //       : "red"
+                              // }}
+                            >
+                              {row.startDate.substring(0, 10) +
+                                " - " +
+                                row.endDate.substring(0, 10)}
+                            </TableCell>
+
+                            <TableCell align="left">
+                              {row.status == 1
+                                ? "Open"
+                                : row.status == 2
+                                ? "Closed"
+                                : row.status == 3
+                                ? "Finalized"
+                                : "Default"}
+                            </TableCell>
+
+                            <TableCell align="left">
+                              {row.minTeamSize} - {row.maxTeamSize}
+                            </TableCell>
+
+                            <TableCell align="left">{row.fees}</TableCell>
+
+                            <TableCell align="left">
+                              <Button
+                                // color="inherit"
+                                component={Link}
+                                to={"/hackathon/leaderboard/" + row.id}
+                                // href={"/hackathon/leaderboard/" + row.id}
+                                // variant="outlined"
+                                disabled={row.status == 3 ? false : true}
+                                style={{
+                                  color: row.status == 3 ? "#9c27b0" : ""
+                                  // display: row.status == 3 ? "none" : "block"
+                                }}
+                              >
+                                Show
+                              </Button>
+                              {/* <h6
+                              style={{
+                                display: row.status != 3 ? "none" : "block"
+                              }}
+                            >
+                              Not yet finalized
+                            </h6> */}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </Paper>
+                </GridItem>
+                {/* </GridContainer> */}
+
+                {/* <GridItem
                 xs={12}
                 sm={12}
                 md={12}
                 style={{
-                  backgroundColor: "white"
+                  backgroundColor: "white",
+                  textAlign: "center",
+                  padding: "20px"
                 }}
               >
-                <h2 style={{ color: "black" }}>Hackathons</h2>
+                <h2 style={{ color: "black", textTransform: "uppercase" }}>
+                  List of Hackathons
+                </h2>
               </GridItem>
               <GridItem
                 xs={12}
@@ -137,8 +569,10 @@ class AllHackathonsList extends React.Component {
                     <TableHead>
                       <TableRow>
                         <TableCell>EventName</TableCell>
-                        <TableCell align="left">Start Date</TableCell>
-                        <TableCell align="left">End Date</TableCell>
+                        <TableCell align="left">
+                          Start Date - End Date
+                        </TableCell>
+                        <TableCell align="left">Status</TableCell>
                         <TableCell align="left">Team Size</TableCell>
                         <TableCell align="left">Fees</TableCell>
                         <TableCell align="left">Leaderboards</TableCell>
@@ -150,15 +584,32 @@ class AllHackathonsList extends React.Component {
                           <TableCell
                             component="a"
                             href={"/hackathon_details/" + row.id}
+                            style={{ color: "#9c27b0" }}
                           >
                             {row.eventName}
                           </TableCell>
-                          <TableCell align="left">
-                            {row.startDate.substring(0, 10)}
+                          <TableCell
+                            align="left"
+                            // style={{
+                            //   color:
+                            //     new Date(row.startDate) > new Date()
+                            //       ? "blue"
+                            //       : "red"
+                            // }}
+                          >
+                            {row.startDate.substring(0, 10) +
+                              " - " +
+                              row.endDate.substring(0, 10)}
                           </TableCell>
 
                           <TableCell align="left">
-                            {row.endDate.substring(0, 10)}
+                            {row.status == 1
+                              ? "Open"
+                              : row.status == 2
+                              ? "Closed"
+                              : row.status == 3
+                              ? "Finalized"
+                              : "Default"}
                           </TableCell>
 
                           <TableCell align="left">
@@ -167,31 +618,30 @@ class AllHackathonsList extends React.Component {
 
                           <TableCell align="left">{row.fees}</TableCell>
 
-                          <TableCell component="a" align="center">
+                          <TableCell align="left">
                             <Button
-                              color="primary"
+                              // color="inherit"
                               component={Link}
                               to={"/hackathon/leaderboard/" + row.id}
+                              // href={"/hackathon/leaderboard/" + row.id}
+                              // variant="outlined"
+                              disabled={row.status == 3 ? false : true}
                               style={{
-                                display: row.status == 3 ? "none" : "block"
+                                color: row.status == 3 ? "#9c27b0" : ""
+                                // display: row.status == 3 ? "none" : "block"
                               }}
                             >
                               Show
                             </Button>
-                            <h6
-                              style={{
-                                display: row.status != 3 ? "none" : "block"
-                              }}
-                            >
-                              Not yet finalized
-                            </h6>
+                            
                           </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
                   </Table>
                 </Paper>
-              </GridItem>
+              </GridItem> */}
+              </GridContainer>
             </GridContainer>
           </div>
         </div>

@@ -120,7 +120,7 @@ class AdminMenu extends React.Component {
                 </CardBody>
               </Card>
             </GridItem>
-            {/* <GridItem xs={12} sm={12} md={4}>
+            <GridItem xs={12} sm={12} md={4}>
               <Card style={{ width: "20rem" }}>
                 <CardHeader color="warning">
                   <h5>
@@ -140,7 +140,7 @@ class AdminMenu extends React.Component {
                   </Button>
                 </CardBody>
               </Card>
-            </GridItem> */}
+            </GridItem>
           </GridContainer>
         </div>
       </div>
