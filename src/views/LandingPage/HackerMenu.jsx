@@ -39,7 +39,12 @@ class HackerMenu extends React.Component {
           <GridContainer>
             <GridItem xs={12} sm={12} md={4}>
               <Card style={{ width: "20rem" }}>
-                <CardHeader color="warning">
+                <CardHeader
+                  style={{
+                    color: "white",
+                    backgroundColor: "#9c27b0"
+                  }}
+                >
                   <h4>
                     <b>All Hackathons</b>
                   </h4>
@@ -55,7 +60,12 @@ class HackerMenu extends React.Component {
 
             <GridItem xs={12} sm={12} md={4}>
               <Card style={{ width: "20rem" }}>
-                <CardHeader color="warning">
+                <CardHeader
+                  style={{
+                    color: "white",
+                    backgroundColor: "#9c27b0"
+                  }}
+                >
                   <h4>
                     <b>My Hackathon</b>
                   </h4>
@@ -97,7 +107,12 @@ class HackerMenu extends React.Component {
             </GridItem> */}
             <GridItem xs={12} sm={12} md={4}>
               <Card style={{ width: "20rem" }}>
-                <CardHeader color="warning">
+                <CardHeader
+                  style={{
+                    color: "white",
+                    backgroundColor: "#9c27b0"
+                  }}
+                >
                   <h4>
                     <b>My Organization</b>
                   </h4>
@@ -118,7 +133,12 @@ class HackerMenu extends React.Component {
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
               <Card style={{ width: "20rem" }}>
-                <CardHeader color="warning">
+                <CardHeader
+                  style={{
+                    color: "white",
+                    backgroundColor: "#9c27b0"
+                  }}
+                >
                   <h4>
                     <b>My Profile</b>
                   </h4>

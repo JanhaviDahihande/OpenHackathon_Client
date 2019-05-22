@@ -8,7 +8,7 @@ import Edit from "@material-ui/icons/Edit";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
-
+import CircularProgress from "@material-ui/core/CircularProgress";
 import image from "assets/img/bg7.jpg";
 // core components
 import InfoArea from "components/InfoArea/InfoArea.jsx";
@@ -49,7 +49,8 @@ class JudgeHackathon_Teams extends React.Component {
       },
       teams: [],
       code_url: "",
-      score_toggle: true
+      score_toggle: true,
+      isLoading: true
     };
   }
   componentDidMount() {
@@ -72,7 +73,7 @@ class JudgeHackathon_Teams extends React.Component {
 
   getMyHackathons() {
     console.log("State:::", this.state);
-
+    this.setState({ isLoading: true });
     axios
       .get(
         "http://openhackathon.us-east-1.elasticbeanstalk.com/hackathon/" +
@@ -92,9 +93,10 @@ class JudgeHackathon_Teams extends React.Component {
               members: response.data[i].teamMembers
             });
           }
-          this.setState({ teams: teams });
+          this.setState({ teams: teams, isLoading: false });
         } else {
           alert(response.data.message);
+          this.setState({ isLoading: false });
         }
       });
   }
@@ -148,7 +150,12 @@ class JudgeHackathon_Teams extends React.Component {
       );
 
     var participant_team_list = this.state.teams ? (
-      <GridItem xs={12} sm={12} md={12}>
+      <GridItem
+        xs={12}
+        sm={12}
+        md={12}
+        style={{ display: this.state.isLoading == false ? "block" : "none" }}
+      >
         <Paper className={classes.root}>
           <Table className={classes.table} style={{ marginBottom: 30 }}>
             <TableHead>
@@ -205,6 +212,22 @@ class JudgeHackathon_Teams extends React.Component {
         >
           <div className={classes.container}>
             <GridContainer style={{ backgroundColor: "white" }}>
+              <GridItem
+                xs={12}
+                sm={12}
+                md={12}
+                style={{
+                  backgroundColor: "white",
+                  // width: "50px",
+                  textAlign: "center",
+                  display: this.state.isLoading == true ? "block" : "none"
+                }}
+              >
+                <div>
+                  <CircularProgress className={classes.progress} />
+                </div>
+              </GridItem>
+
               <GridItem xs={4} sm={2} md={3}>
                 <InfoArea
                   title={this.state.hackathon.hackathonName}
@@ -222,7 +245,15 @@ class JudgeHackathon_Teams extends React.Component {
               <GridItem xs={12} sm={12} md={12}>
                 <h2 style={{ color: "black" }}>Participating Teams</h2>
               </GridItem>
-              {participant_team_list}
+              {this.state.teams.length > 0 ? (
+                participant_team_list
+              ) : (
+                <GridItem xs={12} sm={12} md={12}>
+                  <h4 style={{ color: "black" }}>
+                    There are no participants for this hackathon
+                  </h4>
+                </GridItem>
+              )}
             </GridContainer>
           </div>
         </div>

@@ -93,7 +93,7 @@ class Leaderboard extends React.Component {
           <Header
             color="primary"
             routes={dashboardRoutes}
-            brand="Leaderboards"
+            brand="Leaderboard"
             rightLinks={<HeaderLinks />}
             fixed
             changeColorOnScroll={{
@@ -117,7 +117,7 @@ class Leaderboard extends React.Component {
                 }}
               >
                 <GridItem xs={12} sm={12} md={12}>
-                  <h3 style={{ color: "black" }}>Leaderboards</h3>
+                  <h3 style={{ color: "black" }}>Leaderboard</h3>
                 </GridItem>
 
                 <GridItem xs={12} sm={12} md={12}>

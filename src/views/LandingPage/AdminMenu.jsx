@@ -47,7 +47,12 @@ class AdminMenu extends React.Component {
             </GridItem> */}
             <GridItem xs={12} sm={12} md={4}>
               <Card style={{ width: "20rem" }}>
-                <CardHeader color="warning">
+                <CardHeader
+                  style={{
+                    color: "white",
+                    backgroundColor: "#9c27b0"
+                  }}
+                >
                   <h4>
                     <b>All Hackathons</b>
                   </h4>
@@ -84,7 +89,12 @@ class AdminMenu extends React.Component {
             </GridItem> */}
             <GridItem xs={12} sm={12} md={4}>
               <Card style={{ width: "20rem" }}>
-                <CardHeader color="warning">
+                <CardHeader
+                  style={{
+                    color: "white",
+                    backgroundColor: "#9c27b0"
+                  }}
+                >
                   <h5>
                     <b>My Organization</b>
                   </h5>
@@ -105,7 +115,12 @@ class AdminMenu extends React.Component {
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
               <Card style={{ width: "20rem" }}>
-                <CardHeader color="warning">
+                <CardHeader
+                  style={{
+                    color: "white",
+                    backgroundColor: "#9c27b0"
+                  }}
+                >
                   <h5>
                     <b>My Profile</b>
                   </h5>
@@ -122,7 +137,12 @@ class AdminMenu extends React.Component {
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
               <Card style={{ width: "20rem" }}>
-                <CardHeader color="warning">
+                <CardHeader
+                  style={{
+                    color: "white",
+                    backgroundColor: "#9c27b0"
+                  }}
+                >
                   <h5>
                     <b> Create Hackathon</b>
                   </h5>
