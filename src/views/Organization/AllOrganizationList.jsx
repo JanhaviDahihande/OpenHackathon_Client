@@ -23,6 +23,7 @@ import Header from "components/Header/Header.jsx";
 import Footer from "components/Footer/Footer.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import MUIDataTable from "mui-datatables";
 
 const dashboardRoutes = [];
 class AllOrganizationsList extends React.Component {
@@ -32,7 +33,8 @@ class AllOrganizationsList extends React.Component {
     this.state = {
       isLoading: true,
       cardAnimaton: "cardHidden",
-      organization: []
+      organization: [],
+      data : [],
     };
 
     this.joinOrganization = this.joinOrganization.bind(this);
@@ -64,6 +66,7 @@ class AllOrganizationsList extends React.Component {
         if (response.status != "BadRequest") {
           console.log(response);
           var organization = [];
+          var data = [];
           for (let i = 0; i < response.data.length; i++) {
             organization.push({
               id: response.data[i].id,
@@ -72,8 +75,11 @@ class AllOrganizationsList extends React.Component {
               owner: response.data[i].owner,
               address: response.data[i].address
             });
+            data.push([response.data[i].name, response.data[i].description, response.data[i].owner.name]);
+            
           }
           this.setState({ organization: organization });
+          this.setState({ data: data });
           this.props.reloadAfterJoin();
           this.props.handleModalClose();
         } else {
@@ -85,6 +91,8 @@ class AllOrganizationsList extends React.Component {
   getOrganizations() {
     const authHeader = localStorage.getItem("accessToken");
     var organization = [];
+    var data = [];
+    
     axios
       .get("http://openhackathon.us-east-1.elasticbeanstalk.com/organization", {
         headers: { Authorization: authHeader }
@@ -94,6 +102,17 @@ class AllOrganizationsList extends React.Component {
           console.log(response);
 
           for (let i = 0; i < response.data.length; i++) {
+            var button =  <Button
+    color="primary"
+    onClick={() => this.joinOrganization(response.data[i].name)}
+    disabled={
+      this.props.currentUserOrganization == response.data[i].name
+        ? true
+        : false
+    }
+  >
+    Join
+  </Button>;
             organization.push({
               id: response.data[i].id,
               name: response.data[i].name,
@@ -101,14 +120,24 @@ class AllOrganizationsList extends React.Component {
               owner: response.data[i].owner,
               address: response.data[i].address
             });
+            data.push([response.data[i].name, response.data[i].description, response.data[i].owner.name, button]);
           }
           this.setState({ organization: organization, isLoading: false });
+          this.setState({ data: data });
+
         } else {
           alert(response.data.message);
         }
       });
   }
   render() {
+    const columns = ["Organization Name", "Description", "Owner", "Join"];
+    const options = {
+      filterType: "dropdown",
+      responsive: "scroll"
+    };
+
+    console.log(this.state.data);
     const { classes, ...rest } = this.props;
 
     if (this.state.isLoading) {
@@ -147,71 +176,17 @@ class AllOrganizationsList extends React.Component {
                 }}
               >
                 <GridItem xs={12} sm={12} md={12}>
-                  <h3 style={{ color: "black" }}>List of Organizations</h3>
+                  {/* <h3 style={{ color: "black" }}>List of Organizations</h3> */}
                 </GridItem>
 
                 <GridItem xs={12} sm={12} md={12}>
                   <Paper className={classes.root}>
-                    <Table
-                      className={classes.table}
-                      style={{ marginBottom: 30 }}
-                    >
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>Organization Name</TableCell>
-                          <TableCell align="left">Description</TableCell>
-                          <TableCell align="left">Owner</TableCell>
-                          <TableCell align="left">Join</TableCell>
-                          {/* <TableCell align="left">Street</TableCell>
-                        <TableCell align="left">City</TableCell>
-                        <TableCell align="left">State</TableCell>
-                        <TableCell align="left">Zip</TableCell> */}
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {this.state.organization.map(row => (
-                          <TableRow key={row.id}>
-                            <TableCell
-                              component="a"
-                              href={"/organization_details/" + row.id}
-                            >
-                              {row.name}
-                            </TableCell>
-                            <TableCell align="left">
-                              {row.description}
-                            </TableCell>
-
-                            <TableCell align="left">{row.owner.name}</TableCell>
-                            <TableCell align="left">
-                              {" "}
-                              <Button
-                                color="primary"
-                                onClick={() => this.joinOrganization(row.name)}
-                                disabled={
-                                  this.props.currentUserOrganization == row.name
-                                    ? true
-                                    : false
-                                }
-                              >
-                                Join
-                              </Button>
-                            </TableCell>
-
-                            {/* <TableCell align="left">
-                            {row.address.street}
-                          </TableCell>
-
-                          <TableCell align="left">{row.address.city}</TableCell>
-
-                          <TableCell align="left">
-                            {row.address.state}
-                          </TableCell>
-
-                          <TableCell align="left">{row.address.zip}</TableCell> */}
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
+                  <MUIDataTable
+        title={"List of Organizations"}
+        data={this.state.data}
+        columns={columns}
+        options={options}
+      />
                   </Paper>
                 </GridItem>
               </GridContainer>
