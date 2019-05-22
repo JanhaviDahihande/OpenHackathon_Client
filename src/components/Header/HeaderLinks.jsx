@@ -53,14 +53,80 @@ function HeaderLinks({ ...props }) {
 
   return (
     <List className={classes.list}>
-      {/* <ListItem className={classes.listItem}>
-        <Button href="/" color="transparent" className={classes.navLink}>
-          About
-        </Button>
-      </ListItem> */}
-      <ListItem className={classes.listItem}>
+      <ListItem
+        className={classes.listItem}
+        style={{
+          display: localStorage.getItem("userId") != null ? "block" : "none"
+        }}
+      >
         <Button href="/index" color="transparent" className={classes.navLink}>
-          Actions
+          All Actions
+        </Button>
+      </ListItem>
+
+      <ListItem
+        className={classes.listItem}
+        style={{
+          display: localStorage.getItem("userId") != null ? "block" : "none"
+        }}
+      >
+        <Button
+          href="/all_hackathons"
+          color="transparent"
+          className={classes.navLink}
+        >
+          All Hackathons
+        </Button>
+      </ListItem>
+      <ListItem
+        className={classes.listItem}
+        style={{
+          display:
+            (localStorage.getItem("userId") != null) &
+            (localStorage.getItem("role") != "Admin")
+              ? "block"
+              : "none"
+        }}
+      >
+        <Button
+          href="/all_hackathons"
+          color="transparent"
+          className={classes.navLink}
+        >
+          My Hackathons
+        </Button>
+      </ListItem>
+
+      <ListItem
+        className={classes.listItem}
+        style={{
+          display:
+            (localStorage.getItem("userId") != null) &
+            (localStorage.getItem("role") == "Admin")
+              ? "block"
+              : "none"
+        }}
+      >
+        <Button
+          href="/create_hackathon"
+          color="transparent"
+          className={classes.navLink}
+        >
+          Create Hackathon
+        </Button>
+      </ListItem>
+      <ListItem
+        className={classes.listItem}
+        style={{
+          display: localStorage.getItem("userId") != null ? "block" : "none"
+        }}
+      >
+        <Button
+          href="/user_organization"
+          color="transparent"
+          className={classes.navLink}
+        >
+          My Organizations
         </Button>
       </ListItem>
       {localStorage.getItem("userId") != null ? welcome : signup}
