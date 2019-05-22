@@ -872,7 +872,7 @@ class HackathonDetails extends React.Component {
                     color: "white"
                   }}
                 >
-                  Manage Expences
+                  Manage Expenses
                 </Button>
               </GridItem>
               <GridItem
