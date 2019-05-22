@@ -89,7 +89,7 @@ function HeaderLinks({ ...props }) {
         }}
       >
         <Button
-          href="/all_hackathons"
+          href="/my_hackathonlist"
           color="transparent"
           className={classes.navLink}
         >
