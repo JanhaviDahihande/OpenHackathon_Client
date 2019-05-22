@@ -210,6 +210,7 @@ class ProfilePage extends React.Component {
                       // }}
                       margin="normal"
                       fullWidth
+                      style={{ display: "none" }}
                     />
                     <br />
                     <TextField
@@ -408,7 +409,7 @@ class ProfilePage extends React.Component {
                         secondary={this.state.profile.firstname}
                       />
                     </ListItem>
-                    <ListItem>
+                    <ListItem style={{ display: "none" }}>
                       <Avatar>
                         <WorkIcon />
                       </Avatar>

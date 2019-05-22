@@ -102,6 +102,9 @@ class HackathonDetails extends React.Component {
           alert("Request failed with error: " + json.message);
           this.setState({ isLoading: false });
         }
+      })
+      .then(() => {
+        window.location.reload();
       });
   }
 

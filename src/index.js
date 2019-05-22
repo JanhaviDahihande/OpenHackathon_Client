@@ -14,6 +14,7 @@ import RegisterPage from "views/RegisterPage/RegisterPage.jsx";
 import ConfirmPage from "views/ConfirmPage/ConfirmPage.jsx";
 import CreateOrganization from "views/CreateOrganization/CreateOrganization.jsx";
 import UserOrganization from "views/UserOrganization/UserOrganization.jsx";
+import OrganizationDetails from "views/Organization/OrganizationDetails.jsx";
 import AllHackathonList from "./views/Hackathon/AllHackathonList";
 import ExpenseList from "./views/Hackathon/ExpenseList";
 import CreateExpense from "./views/Hackathon/CreateExpense";
@@ -97,6 +98,13 @@ ReactDOM.render(
           path="/dashboard"
           component={Dashboard}
         />
+
+        <ProtectedRoute
+          authed={loggedIn()}
+          path="/organization_details/:id"
+          component={OrganizationDetails}
+        />
+
         <ProtectedRoute
           authed={loggedIn()}
           path="/create_organization"

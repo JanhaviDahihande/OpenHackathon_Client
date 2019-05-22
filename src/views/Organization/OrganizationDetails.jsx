@@ -199,7 +199,7 @@ class OrganizationDetails extends React.Component {
                     <TableRow className={classes.row}>
                       <CustomTableCell>Zip</CustomTableCell>
                       <CustomTableCell>
-                        {this.state.organization.zip}
+                        {this.state.organization.address.zip}
                       </CustomTableCell>
                     </TableRow>
                   </TableBody>

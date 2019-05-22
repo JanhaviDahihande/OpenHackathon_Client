@@ -154,7 +154,7 @@ class JudgeHackathon_Teams extends React.Component {
         xs={12}
         sm={12}
         md={12}
-        style={{ display: this.state.isLoading == false ? "block" : "none" }}
+        // style={{ display: this.state.isLoading == false ? "block" : "none" }}
       >
         <Paper className={classes.root}>
           <Table className={classes.table} style={{ marginBottom: 30 }}>
@@ -212,7 +212,7 @@ class JudgeHackathon_Teams extends React.Component {
         >
           <div className={classes.container}>
             <GridContainer style={{ backgroundColor: "white" }}>
-              <GridItem
+              {/* <GridItem
                 xs={12}
                 sm={12}
                 md={12}
@@ -226,7 +226,7 @@ class JudgeHackathon_Teams extends React.Component {
                 <div>
                   <CircularProgress className={classes.progress} />
                 </div>
-              </GridItem>
+              </GridItem> */}
 
               <GridItem xs={4} sm={2} md={3}>
                 <InfoArea
@@ -245,15 +245,17 @@ class JudgeHackathon_Teams extends React.Component {
               <GridItem xs={12} sm={12} md={12}>
                 <h2 style={{ color: "black" }}>Participating Teams</h2>
               </GridItem>
-              {this.state.teams.length > 0 ? (
+              {
+                // this.state.teams.length > 0 ? (
                 participant_team_list
-              ) : (
-                <GridItem xs={12} sm={12} md={12}>
-                  <h4 style={{ color: "black" }}>
-                    There are no participants for this hackathon
-                  </h4>
-                </GridItem>
-              )}
+                // ) : (
+                //   <GridItem xs={12} sm={12} md={12}>
+                //     <h4 style={{ color: "black" }}>
+                //       There are no participants for this hackathon
+                //     </h4>
+                // </GridItem>
+                // )
+              }
             </GridContainer>
           </div>
         </div>
