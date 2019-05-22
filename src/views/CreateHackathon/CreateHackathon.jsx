@@ -29,6 +29,9 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Input from "@material-ui/core/Input";
 import axios from "axios";
+
+import MenuItem from "@material-ui/core/MenuItem";
+
 const dashboardRoutes = [];
 
 class CreateHackathon extends React.Component {
@@ -50,11 +53,14 @@ class CreateHackathon extends React.Component {
         minTeamSize: 0,
         maxTeamSize: 0,
         discount: 0,
-        sponsors: []
+        sponsors: [],
+        status: "0"
       },
-
+      judgeList: [],
+      sponsorList: [],
       judges_list: [],
-
+      judgeName: [],
+      sponsorName: [],
       hackathon_id: 0
     };
     this.handleChange = this.handleChange.bind(this);
@@ -62,6 +68,7 @@ class CreateHackathon extends React.Component {
     this.postHackathon = this.postHackathon.bind(this);
     this.updateHackathon = this.updateHackathon.bind(this);
     this.handleChangeMultiple = this.handleChangeMultiple.bind(this);
+    this.getStyles = this.getStyles.bind(this);
   }
   componentDidMount() {
     const id = this.props.match.params.id;
@@ -252,9 +259,65 @@ class CreateHackathon extends React.Component {
       });
   }
 
+  handleJudgesSelectChange = event => {
+    var changedHackathon = this.state.changedHackathon;
+    // this.setState({  });
+    changedHackathon["judges"] = event.target.value;
+    this.setState({
+      judgeName: event.target.value,
+      changedHackathon: changedHackathon
+    });
+  };
+
+  handleSponsorSelectChange = event => {
+    var changedHackathon = this.state.changedHackathon;
+    // this.setState({});
+    changedHackathon["sponsors"] = event.target.value;
+    this.setState({
+      sponsorName: event.target.value,
+      changedHackathon: changedHackathon
+    });
+  };
+
+  getStyles(name, that) {
+    return {
+      fontWeight: that.state.judgeName.indexOf(name) === -1 ? "1.2" : "1"
+    };
+  }
   render() {
+    const styles = theme => ({
+      root: {
+        display: "flex",
+        flexWrap: "wrap"
+      },
+      formControl: {
+        margin: theme.spacing.unit,
+        minWidth: 120,
+        maxWidth: 300
+      },
+      chips: {
+        display: "flex",
+        flexWrap: "wrap"
+      },
+      chip: {
+        margin: theme.spacing.unit / 4
+      },
+      noLabel: {
+        marginTop: theme.spacing.unit * 3
+      }
+    });
+    const ITEM_HEIGHT = 48;
+    const ITEM_PADDING_TOP = 8;
+    const MenuProps = {
+      PaperProps: {
+        style: {
+          maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+          width: 250
+        }
+      }
+    };
     const { classes, ...rest } = this.props;
-    console.log("STATE::", this.state);
+    // console.log("STATE::", this.state);
     var comp =
       this.state.hackathon_id == 0 ? (
         // <CardFooter className={classes.cardFooter}>
@@ -331,7 +394,7 @@ class CreateHackathon extends React.Component {
         );
       }
     }
-    console.log("Judges: ", this.state.judges_list);
+    // console.log("Judges: ", this.state.judges_list);
 
     return (
       <div>
@@ -356,57 +419,104 @@ class CreateHackathon extends React.Component {
           }}
         >
           <div className={classes.container} style={{ paddingTop: 100 }}>
-            <GridContainer justify="center">
-              <GridItem xs={12} sm={12} md={8}>
-                <h2>{title}</h2>
-                <Card className={classes[this.state.cardAnimaton]}>
+            <h2>{title}</h2>
+            <GridContainer xs={12} sm={12} md={12} justify="center">
+              <GridItem xs={6} sm={6} md={6}>
+                <Card
+                  xs={6}
+                  sm={6}
+                  md={6}
+                  className={classes[this.state.cardAnimaton]}
+                >
                   <form className={classes.form}>
-                    <CardBody>
+                    <CardBody style={{ height: "400px" }}>
                       <TextField
-                        style={{ marginLeft: 10 }}
+                        style={{ paddingLeft: 20, width: "300px" }}
+                        // placeholder="Name"
                         id="eventName"
                         label="Hackathon Name"
                         value={this.state.changedHackathon.eventName}
                         type="text"
                         className={classes.textField}
-                        inputProps={{
-                          onChange: this.handleChange
-                        }}
+                        // inputProps={{
+                        //   onChange: this.handleChange
+                        // }}
+                        onChange={this.handleChange}
                         InputLabelProps={{
                           shrink: true
                         }}
                         margin="normal"
-                        variant="outlined"
+                        // variant="outlined"
                       />
                       <br />
+                      {/* <InputLabel htmlFor="description">Description</InputLabel> */}
                       <TextField
-                        style={{ marginLeft: 10 }}
+                        style={{ paddingLeft: 20, width: "300px" }}
                         id="description"
                         label="Description"
                         value={this.state.changedHackathon.description}
                         type="text"
                         className={classes.textField}
-                        inputProps={{
-                          onChange: this.handleChange
-                        }}
+                        // inputProps={{
+                        //   onChange: this.handleChange
+                        // }}
+                        onChange={this.handleChange}
                         InputLabelProps={{
                           shrink: true
                         }}
                         margin="normal"
-                        variant="outlined"
+                        // variant="outlined"
                       />
                       <br />
+                      {/* <InputLabel htmlFor="judges">Judges</InputLabel>
                       <Select
+                        style={{ padding: "10px" }}
+                        label="Judges Multiple select"
+                        id="judges"
                         multiple
                         native
                         onChange={this.handleChangeMultiple}
                         inputProps={{
+                          name: "Judges",
                           id: "judges"
                         }}
                       >
                         {judges}
-                      </Select>
-                      <Select
+                      </Select> */}
+                      <FormControl
+                        className={classes.formControl}
+                        style={{ padding: "20px" }}
+                      >
+                        <InputLabel htmlFor="select-multiple">
+                          Judges
+                        </InputLabel>
+                        <Select
+                          multiple
+                          autoWidth="true"
+                          style={{
+                            width: "300px"
+                          }}
+                          value={this.state.judgeName}
+                          onChange={this.handleJudgesSelectChange}
+                          input={<Input id="select-multiple" />}
+                          MenuProps={MenuProps}
+                        >
+                          <MenuItem disabled value="">
+                            <em>Multiple select</em>
+                          </MenuItem>
+                          {this.state.judges_list.map(judge => (
+                            <MenuItem
+                              key={judge.id}
+                              value={judge.id}
+                              style={this.getStyles(judge.firstname, this)}
+                            >
+                              {judge.firstname}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+
+                      {/* <Select
                         multiple
                         native
                         onChange={this.handleChangeMultiple}
@@ -415,22 +525,70 @@ class CreateHackathon extends React.Component {
                         }}
                       >
                         {sponsors}
-                      </Select>
+                      </Select> */}
                       <br />
+                      <FormControl
+                        className={classes.formControl}
+                        style={{ padding: "20px" }}
+                      >
+                        <InputLabel htmlFor="select-multiple">
+                          Sponsors
+                        </InputLabel>
+                        <Select
+                          multiple
+                          value={this.state.sponsorName}
+                          style={{
+                            width: "300px"
+                          }}
+                          onChange={this.handleSponsorSelectChange}
+                          input={<Input id="select-multiple" />}
+                          MenuProps={MenuProps}
+                        >
+                          <MenuItem disabled value="">
+                            <em>Multiple select</em>
+                          </MenuItem>
+                          {this.state.sponsors_list.map(sponsor => (
+                            <MenuItem
+                              key={sponsor.id}
+                              value={sponsor.id}
+                              style={this.getStyles(sponsor.name, this)}
+                            >
+                              {sponsor.name}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+
+                      <br />
+                    </CardBody>
+                  </form>
+                </Card>
+              </GridItem>
+              <GridItem xs={6} sm={6} md={6}>
+                <Card
+                  xs={6}
+                  sm={6}
+                  md={6}
+                  className={classes[this.state.cardAnimaton]}
+                  style={{ height: "400px" }}
+                >
+                  <form className={classes.form}>
+                    <CardBody>
                       <TextField
                         id="fees"
-                        label="Fees"
+                        label="Fees ($)"
                         type="number"
                         value={this.state.changedHackathon.fees}
                         className={classes.textField}
-                        inputProps={{
-                          onChange: this.handleChange
-                        }}
+                        // inputProps={{
+                        //   onChange: this.handleChange
+                        // }}
+                        onChange={this.handleChange}
                         InputLabelProps={{
                           shrink: true
                         }}
                         margin="normal"
-                        variant="outlined"
+                        // variant="outlined"
                       />
                       <TextField
                         style={{ marginLeft: 10 }}
@@ -439,14 +597,15 @@ class CreateHackathon extends React.Component {
                         type="number"
                         value={this.state.changedHackathon.discount}
                         className={classes.textField}
-                        inputProps={{
-                          onChange: this.handleChange
-                        }}
+                        onChange={this.handleChange}
+                        // inputProps={{
+                        //   onChange: this.handleChange
+                        // }}
                         InputLabelProps={{
                           shrink: true
                         }}
                         margin="normal"
-                        variant="outlined"
+                        // variant="outlined"
                       />
                       <br />
                       <TextField
@@ -455,11 +614,12 @@ class CreateHackathon extends React.Component {
                         value={this.state.changedHackathon.startDate}
                         className={classes.textField}
                         margin="normal"
-                        variant="outlined"
+                        // variant="outlined"
                         type="date"
-                        inputProps={{
-                          onChange: this.handleChange
-                        }}
+                        // inputProps={{
+                        //   onChange: this.handleChange
+                        // }}
+                        onChange={this.handleChange}
                         InputLabelProps={{
                           shrink: true
                         }}
@@ -471,11 +631,12 @@ class CreateHackathon extends React.Component {
                         value={this.state.changedHackathon.endDate}
                         className={classes.textField}
                         margin="normal"
-                        variant="outlined"
+                        // variant="outlined"
                         type="date"
-                        inputProps={{
-                          onChange: this.handleChange
-                        }}
+                        // inputProps={{
+                        //   onChange: this.handleChange
+                        // }}
+                        onChange={this.handleChange}
                         InputLabelProps={{
                           shrink: true
                         }}
@@ -487,14 +648,15 @@ class CreateHackathon extends React.Component {
                         value={this.state.changedHackathon.minTeamSize}
                         type="number"
                         className={classes.textField}
-                        inputProps={{
-                          onChange: this.handleChange
-                        }}
+                        // inputProps={{
+                        //   onChange: this.handleChange
+                        // }}
                         InputLabelProps={{
                           shrink: true
                         }}
                         margin="normal"
-                        variant="outlined"
+                        onChange={this.handleChange}
+                        // variant="outlined"
                       />
                       <TextField
                         style={{ marginLeft: 10 }}
@@ -503,14 +665,15 @@ class CreateHackathon extends React.Component {
                         value={this.state.changedHackathon.maxTeamSize}
                         type="number"
                         className={classes.textField}
-                        inputProps={{
-                          onChange: this.handleChange
-                        }}
+                        // inputProps={{
+                        //   onChange: this.handleChange
+                        // }}
+                        onChange={this.handleChange}
                         InputLabelProps={{
                           shrink: true
                         }}
                         margin="normal"
-                        variant="outlined"
+                        // variant="outlined"
                       />
                     </CardBody>
                     {comp}
@@ -528,6 +691,50 @@ class CreateHackathon extends React.Component {
                 </Card>
               </GridItem>
             </GridContainer>
+            {/* <GridContainer xs={12} sm={12} md={12} justify="center">
+              <GridItem xs={6} sm={6} md={6}>
+                <Card
+                  xs={6}
+                  sm={6}
+                  md={6}
+                  className={classes[this.state.cardAnimaton]}
+                >
+                  <CardBody>
+                    <h3>Judges selected</h3>
+                    {this.state.judgeName.map(judge => (
+                      <h5
+                        key={judge}
+                        // value={sponsor.name}
+                        // style={this.getStyles(sponsor.name, this)}
+                      >
+                        {judge}
+                      </h5>
+                    ))}
+                  </CardBody>
+                </Card>
+              </GridItem>
+              <GridItem xs={6} sm={6} md={6}>
+                <Card
+                  xs={6}
+                  sm={6}
+                  md={6}
+                  className={classes[this.state.cardAnimaton]}
+                >
+                  <CardBody>
+                    <h3>Sponsors selected</h3>
+                    {this.state.sponsorName.map(sponsor => (
+                      <h5
+                        key={sponsor}
+                        // value={sponsor.name}
+                        // style={this.getStyles(sponsor.name, this)}
+                      >
+                        {sponsor}
+                      </h5>
+                    ))}
+                  </CardBody>
+                </Card>
+              </GridItem>
+            </GridContainer> */}
           </div>
         </div>
       </div>
